@@ -1,10 +1,10 @@
 import { makeGraph, runGraph } from "./util/DependencyGraph";
 import { ReactiveFramework } from "./util/ReactiveFramework";
-import { TestConfig } from "./util/PerfConfigurations";
-import { TestWithFramework } from "./util/AllPerfTests";
+import { TestWithFramework } from "./util/FrameworkTypes";
 import { reactivelyFramework } from "./frameworks/ReactivelyFramework";
 import { solidFramework } from "./frameworks/SolidFramework";
 import { expect, test } from "vitest";
+import { TestConfig } from "./util/FrameworkTypes";
 
 // const frameworks = [solidFramework, reactivelyFramework];
 const frameworks = [reactivelyFramework];
@@ -72,7 +72,6 @@ function baseTestConfig(framework: ReactiveFramework): TestWithFramework {
   const frameworkTest: TestWithFramework = {
     config,
     perfFramework: {
-      makeGraph,
       framework,
       testPullCounts: false,
     },

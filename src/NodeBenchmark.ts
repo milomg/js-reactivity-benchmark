@@ -1,10 +1,10 @@
 import v8 from "v8-natives";
-import { TestWithFramework } from "./util/AllPerfTests";
-import { runGraph } from "./util/DependencyGraph";
+import { makeGraph, runGraph } from "./util/DependencyGraph";
 import { logPerfResult } from "./util/PerfLogging";
 import { runTimed } from "./util/PerfUtil";
-import { TestResult, TimingResult, verifyBenchResult } from "./util/PerfTests";
+import { TimingResult, verifyBenchResult } from "./util/PerfTests";
 import { GarbageTrack } from "./GarbageTracking";
+import { TestWithFramework } from "./util/FrameworkTypes";
 
 /** benchmark a single test under single framework.
  * The test is run multiple times and the fastest result is logged to the console.
@@ -17,7 +17,7 @@ export async function benchmarkTest(
   const { framework } = perfFramework;
   const { iterations, readFraction } = config;
 
-  const { graph, counter } = perfFramework.makeGraph(frameworkTest);
+  const { graph, counter } = makeGraph(frameworkTest);
 
   function runOnce(): number {
     return runGraph(graph, iterations, readFraction, framework);

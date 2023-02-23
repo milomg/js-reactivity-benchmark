@@ -1,6 +1,5 @@
 // The following is an implementation of the cellx benchmark https://github.com/Riim/cellx/blob/master/perf/perf.html
 import { Computed, ReactiveFramework } from "./util/ReactiveFramework";
-import { reactivelyFramework } from './frameworks/ReactivelyFramework';
 
 const cellx = (framework: ReactiveFramework, layers: number) => {
   const start = {
@@ -85,7 +84,7 @@ type BenchmarkResults = [
   readonly [number, number, number, number]
 ];
 
-const benchmark = (framework: ReactiveFramework) => {
+export const cellxbench = (framework: ReactiveFramework) => {
   let total = 0;
 
   const expected: Record<number, BenchmarkResults> = {
@@ -160,5 +159,3 @@ const benchmark = (framework: ReactiveFramework) => {
     }
   }
 };
-
-benchmark(reactivelyFramework);

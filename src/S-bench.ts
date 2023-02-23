@@ -1,14 +1,11 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
 import v8 from "v8-natives";
 import { Computed, Signal, ReactiveFramework } from "./util/ReactiveFramework";
-import { reactivelyFramework } from "./frameworks/ReactivelyFramework";
 
 const COUNT = 1e5;
 
-main(reactivelyFramework);
-
 type Reader = () => number;
-function main(framework: ReactiveFramework) {
+export function sbench(framework: ReactiveFramework) {
   let createTotal = 0;
   createTotal += bench(createDataSignals, COUNT, COUNT);
   createTotal += bench(createComputations0to1, COUNT, 0);

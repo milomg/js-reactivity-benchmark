@@ -1,5 +1,4 @@
-import { TestWithFramework } from "./AllPerfTests";
-import { TestConfig } from "./PerfConfigurations";
+import { TestConfig, TestWithFramework } from "./FrameworkTypes";
 import { TestResult, TimingResult } from "./PerfTests";
 
 export function logPerfResult(
@@ -19,10 +18,6 @@ export function logPerfResultHeaders(): void {
 
 export interface PerfRowStrings {
   framework: string;
-  size: string;
-  nSources: string;
-  "read%": string;
-  "static%": string;
   nTimes: string;
   test: string;
   time: string;
@@ -33,10 +28,6 @@ export interface PerfRowStrings {
 
 const columnWidth = {
   framework: 20,
-  size: 8,
-  nSources: 8,
-  "read%": 5,
-  "static%": 7,
   nTimes: 6,
   test: 20,
   time: 8,
@@ -57,16 +48,11 @@ function perfRowStrings(
   timed: TimingResult<TestResult>
 ): PerfRowStrings {
   const { config, perfFramework } = test;
-  // prettier-ignore
-  const { width, totalLayers, staticFraction, nSources, readFraction, iterations } = config;
+  const { iterations } = config;
   const { timing } = timed;
 
   const untrimmed = {
     framework: perfFramework.framework.name,
-    size: `${width}x${totalLayers}`,
-    nSources: `${nSources}`,
-    "read%": `${readFraction}`,
-    "static%": `${staticFraction}`,
     nTimes: `${iterations}`,
     test: test.config.name || "",
     time: timing.time.toFixed(2),

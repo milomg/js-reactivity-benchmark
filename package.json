@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
-    "bench1": "esbuild src/Benchmarks.ts --external:v8-natives --bundle --format=cjs --platform=node | node --allow-natives-syntax",
-    "bench2": "esbuild src/S-bench.ts --external:v8-natives --bundle --format=cjs --platform=node | node --allow-natives-syntax",
-    "bench3": "esbuild src/Cellx-bench.ts --external:v8-natives --bundle --format=cjs --platform=node | node --allow-natives-syntax"
+    "bench": "esbuild src/index.ts --external:v8-natives --bundle --format=cjs --platform=node | node --allow-natives-syntax"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +13,9 @@
   "dependencies": {
     "@angular/core": "16.0.0-next.0",
     "@preact/signals": "^1.1.3",
-    "@reactively/core": "*",
-    "@reactively/decorate": "*",
-    "mol_wire_lib": "^1.0.488",
+    "@reactively/core": "^0.0.6",
+    "@solidjs/reactivity": "^0.0.8",
+    "mol_wire_lib": "^1.0.489",
     "preact": "^10.12.1",
     "solid-js": "^1.6.11",
     "usignal": "^0.8.14"
