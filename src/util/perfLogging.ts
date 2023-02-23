@@ -1,11 +1,12 @@
-import { TestConfig, TestWithFramework } from "./frameworkTypes";
+import { FrameworkInfo, TestConfig } from "./frameworkTypes";
 import { TestResult, TimingResult } from "./perfTests";
 
 export function logPerfResult(
-  test: TestWithFramework,
+  perfFramework: FrameworkInfo,
+  config: TestConfig,
   timedResult: TimingResult<TestResult>
 ): void {
-  const row = perfRowStrings(test, timedResult);
+  const row = perfRowStrings(perfFramework, config, timedResult);
   const line = Object.values(row).join(" , ");
   console.log(line);
 }
@@ -44,17 +45,17 @@ function perfReportHeaders(): PerfRowStrings {
 }
 
 function perfRowStrings(
-  test: TestWithFramework,
+  perfFramework: FrameworkInfo,
+  config: TestConfig,
   timed: TimingResult<TestResult>
 ): PerfRowStrings {
-  const { config, perfFramework } = test;
   const { iterations } = config;
   const { timing } = timed;
 
   const untrimmed = {
     framework: perfFramework.framework.name,
     nTimes: `${iterations}`,
-    test: test.config.name || "",
+    test: config.name || "",
     time: timing.time.toFixed(2),
     gcTime: (timing.gcTime || 0).toFixed(2),
     updateRate: (timed.result.count! / timed.timing.time).toFixed(0),

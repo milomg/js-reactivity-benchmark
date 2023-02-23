@@ -1,20 +1,13 @@
-import { benchmarkTest } from "./dynamicBench";
+import { dynamicBench } from "./dynamicBench";
 import { cellxbench } from "./cellxBench";
 import { sbench } from "./sBench";
 import { frameworkInfo, perfTests } from "./config";
 import { logPerfResultHeaders } from "./util/perfLogging";
 
 async function main() {
-  const tests = frameworkInfo.flatMap((perfFramework) =>
-    perfTests.map((config) => ({
-      config,
-      perfFramework,
-    }))
-  );
-
   logPerfResultHeaders();
-  for (const t of tests) {
-    await benchmarkTest(t);
+  for (const frameworkTest of frameworkInfo) {
+    await dynamicBench(frameworkTest);
   }
 
   for (const { framework } of frameworkInfo) {

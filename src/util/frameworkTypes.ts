@@ -51,8 +51,3 @@ export interface FrameworkInfo {
   /** verify the number of nodes executed matches the expected number */
   testPullCounts?: boolean;
 }
-
-export interface TestWithFramework {
-  config: TestConfig;
-  perfFramework: FrameworkInfo;
-}

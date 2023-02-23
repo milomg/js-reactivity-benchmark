@@ -1,4 +1,4 @@
-import { TestWithFramework } from "./frameworkTypes";
+import { TestConfig } from "./frameworkTypes";
 import { pseudoRandom } from "./pseudoRandom";
 import { Computed, ReactiveFramework, Signal } from "./reactiveFramework";
 
@@ -22,10 +22,9 @@ export interface GraphAndCounter {
  * @returns the graph
  */
 export function makeGraph(
-  testWithFramework: TestWithFramework
+  framework: ReactiveFramework,
+  config: TestConfig
 ): GraphAndCounter {
-  const { perfFramework, config } = testWithFramework;
-  const { framework } = perfFramework;
   const { width, totalLayers, staticFraction, nSources } = config;
 
   return framework.withBuild(() => {

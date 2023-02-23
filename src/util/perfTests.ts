@@ -1,4 +1,4 @@
-import { TestWithFramework } from "./frameworkTypes";
+import { FrameworkInfo, TestConfig } from "./frameworkTypes";
 
 export interface TestResult {
   sum: number;
@@ -16,12 +16,11 @@ export interface TestTiming {
 }
 
 export function verifyBenchResult(
-  frameworkTest: TestWithFramework,
+  perfFramework: FrameworkInfo,
+  config: TestConfig,
   timedResult: TimingResult<TestResult>
 ): void {
-  const { perfFramework } = frameworkTest;
   const { testPullCounts, framework } = perfFramework;
-  const { config } = frameworkTest;
   const { expected } = config;
   const { result } = timedResult;
 

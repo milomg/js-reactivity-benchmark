@@ -4,37 +4,39 @@ import { logPerfResult } from "./util/perfLogging";
 import { runTimed } from "./util/perfUtil";
 import { TimingResult, verifyBenchResult } from "./util/perfTests";
 import { GarbageTrack } from "./util/garbageTracking";
-import { TestWithFramework } from "./util/frameworkTypes";
+import { FrameworkInfo } from "./util/frameworkTypes";
+import { perfTests } from "./config";
 
 /** benchmark a single test under single framework.
  * The test is run multiple times and the fastest result is logged to the console.
  */
-export async function benchmarkTest(
-  frameworkTest: TestWithFramework,
+export async function dynamicBench(
+  frameworkTest: FrameworkInfo,
   testRepeats = 5
 ): Promise<void> {
-  const { config, perfFramework } = frameworkTest;
-  const { framework } = perfFramework;
-  const { iterations, readFraction } = config;
+  const { framework } = frameworkTest;
+  for (const config of perfTests) {
+    const { iterations, readFraction } = config;
 
-  const { graph, counter } = makeGraph(frameworkTest);
+    const { graph, counter } = makeGraph(framework, config);
 
-  function runOnce(): number {
-    return runGraph(graph, iterations, readFraction, framework);
+    function runOnce(): number {
+      return runGraph(graph, iterations, readFraction, framework);
+    }
+
+    // warm up
+    v8.optimizeFunctionOnNextCall(runOnce);
+    runOnce();
+
+    const timedResult = await fastestTest(testRepeats, () => {
+      counter.count = 0;
+      const sum = runOnce();
+      return { sum, count: counter.count };
+    });
+
+    logPerfResult(frameworkTest, config, timedResult);
+    verifyBenchResult(frameworkTest, config, timedResult);
   }
-
-  // warm up
-  v8.optimizeFunctionOnNextCall(runOnce);
-  runOnce();
-
-  const timedResult = await fastestTest(testRepeats, () => {
-    counter.count = 0;
-    const sum = runOnce();
-    return { sum, count: counter.count };
-  });
-
-  logPerfResult(frameworkTest, timedResult);
-  verifyBenchResult(frameworkTest, timedResult);
 }
 
 /** benchmark a function n times, returning the fastest result and associated timing */
