@@ -1,4 +1,4 @@
-import { ReactiveFramework } from "../util/ReactiveFramework";
+import { ReactiveFramework } from "../util/reactiveFramework";
 import { signal, computed, effect, runWatchQueue } from "@angular/core";
 
 export const angularFramework: ReactiveFramework = {

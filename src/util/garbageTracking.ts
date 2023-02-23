@@ -1,5 +1,5 @@
 import { performance, PerformanceEntry, PerformanceObserver } from "perf_hooks";
-import { promiseDelay } from "./util/AsyncUtil";
+import { promiseDelay } from "./asyncUtil";
 
 /** Track garbage collection via the PerformanceObserver api.
  * Watch user provided benchmark functions, and report

@@ -1,5 +1,5 @@
-import { TestConfig, TestWithFramework } from "./FrameworkTypes";
-import { TestResult, TimingResult } from "./PerfTests";
+import { TestConfig, TestWithFramework } from "./frameworkTypes";
+import { TestResult, TimingResult } from "./perfTests";
 
 export function logPerfResult(
   test: TestWithFramework,

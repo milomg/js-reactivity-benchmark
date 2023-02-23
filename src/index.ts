@@ -1,8 +1,8 @@
-import { benchmarkTest } from "./NodeBenchmark";
-import { cellxbench } from "./Cellx-bench";
-import { sbench } from "./S-bench";
-import { frameworkInfo, perfTests } from "./perfConfigs";
-import { logPerfResultHeaders } from "./util/PerfLogging";
+import { benchmarkTest } from "./dynamicBench";
+import { cellxbench } from "./cellxBench";
+import { sbench } from "./sBench";
+import { frameworkInfo, perfTests } from "./config";
+import { logPerfResultHeaders } from "./util/perfLogging";
 
 async function main() {
   const tests = frameworkInfo.flatMap((perfFramework) =>

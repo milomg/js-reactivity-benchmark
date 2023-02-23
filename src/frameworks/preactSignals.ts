@@ -1,4 +1,4 @@
-import { ReactiveFramework } from "../util/ReactiveFramework";
+import { ReactiveFramework } from "../util/reactiveFramework";
 import { batch, computed, effect, signal } from "@preact/signals";
 
 export const preactSignalFramework: ReactiveFramework = {

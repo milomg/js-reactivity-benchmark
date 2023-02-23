@@ -1,5 +1,5 @@
-import { TestResult } from "./PerfTests";
-import { ReactiveFramework } from "./ReactiveFramework";
+import { TestResult } from "./perfTests";
+import { ReactiveFramework } from "./reactiveFramework";
 
 /** Parameters for a running a performance benchmark test
  *

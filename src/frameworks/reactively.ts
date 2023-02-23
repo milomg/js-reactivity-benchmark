@@ -1,5 +1,5 @@
 import { Reactive, stabilize } from "@reactively/core";
-import { ReactiveFramework, Signal } from "../util/ReactiveFramework";
+import { ReactiveFramework, Signal } from "../util/reactiveFramework";
 
 export const reactivelyFramework: ReactiveFramework = {
   name: "@reactively",

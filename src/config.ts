@@ -1,12 +1,12 @@
-import { TestConfig, FrameworkInfo } from "./util/FrameworkTypes";
+import { TestConfig, FrameworkInfo } from "./util/frameworkTypes";
 
-import { angularFramework } from "./frameworks/AngularSignalsFramework";
-import { solidFramework } from "./frameworks/SolidFramework";
-import { reactivelyFramework } from "./frameworks/ReactivelyFramework";
-import { preactSignalFramework } from "./frameworks/PreactSignalFramework";
-import { molWireFramework } from "./frameworks/MolWireFramework";
-import { usignalFramework } from "./frameworks/UsignalFramework";
-import { xReactivityFramework } from "./frameworks/XReactivityFramework";
+import { angularFramework } from "./frameworks/angularSignals";
+import { solidFramework } from "./frameworks/solidFramework";
+import { reactivelyFramework } from "./frameworks/reactively";
+import { preactSignalFramework } from "./frameworks/preactSignals";
+import { molWireFramework } from "./frameworks/molWire";
+import { usignalFramework } from "./frameworks/uSignal";
+import { xReactivityFramework } from "./frameworks/xReactivity";
 
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework, testPullCounts: true },

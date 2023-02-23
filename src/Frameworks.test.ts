@@ -1,15 +1,12 @@
-import { makeGraph, runGraph } from "./util/DependencyGraph";
-import { ReactiveFramework } from "./util/ReactiveFramework";
-import { TestWithFramework } from "./util/FrameworkTypes";
-import { reactivelyFramework } from "./frameworks/ReactivelyFramework";
-import { solidFramework } from "./frameworks/SolidFramework";
+import { makeGraph, runGraph } from "./util/dependencyGraph";
+import { ReactiveFramework } from "./util/reactiveFramework";
+import { TestWithFramework } from "./util/frameworkTypes";
+import { solidFramework } from "./frameworks/solidFramework";
 import { expect, test } from "vitest";
-import { TestConfig } from "./util/FrameworkTypes";
+import { TestConfig } from "./util/frameworkTypes";
+import { frameworkInfo } from "./config";
 
-// const frameworks = [solidFramework, reactivelyFramework];
-const frameworks = [reactivelyFramework];
-
-frameworks.forEach(frameworkTests);
+frameworkInfo.forEach(({ framework }) => frameworkTests(framework));
 
 /** some basic tests to validate the reactive framework
  * wrapper works and can run performance tests.

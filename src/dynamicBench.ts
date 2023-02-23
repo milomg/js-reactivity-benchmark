@@ -1,10 +1,10 @@
 import v8 from "v8-natives";
-import { makeGraph, runGraph } from "./util/DependencyGraph";
-import { logPerfResult } from "./util/PerfLogging";
-import { runTimed } from "./util/PerfUtil";
-import { TimingResult, verifyBenchResult } from "./util/PerfTests";
-import { GarbageTrack } from "./GarbageTracking";
-import { TestWithFramework } from "./util/FrameworkTypes";
+import { makeGraph, runGraph } from "./util/dependencyGraph";
+import { logPerfResult } from "./util/perfLogging";
+import { runTimed } from "./util/perfUtil";
+import { TimingResult, verifyBenchResult } from "./util/perfTests";
+import { GarbageTrack } from "./util/garbageTracking";
+import { TestWithFramework } from "./util/frameworkTypes";
 
 /** benchmark a single test under single framework.
  * The test is run multiple times and the fastest result is logged to the console.

@@ -1,5 +1,5 @@
 // The following is an implementation of the cellx benchmark https://github.com/Riim/cellx/blob/master/perf/perf.html
-import { Computed, ReactiveFramework } from "./util/ReactiveFramework";
+import { Computed, ReactiveFramework } from "./util/reactiveFramework";
 
 const cellx = (framework: ReactiveFramework, layers: number) => {
   const start = {

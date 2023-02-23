@@ -1,4 +1,4 @@
-import { Computed, ReactiveFramework, Signal } from "../util/ReactiveFramework";
+import { Computed, ReactiveFramework, Signal } from "../util/reactiveFramework";
 import { $mol_wire_atom as Atom } from "mol_wire_lib";
 
 export const molWireFramework: ReactiveFramework = {

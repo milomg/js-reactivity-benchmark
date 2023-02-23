@@ -1,6 +1,6 @@
-import { TestWithFramework } from "./FrameworkTypes";
-import { pseudoRandom } from "./PseudoRandom";
-import { Computed, ReactiveFramework, Signal } from "./ReactiveFramework";
+import { TestWithFramework } from "./frameworkTypes";
+import { pseudoRandom } from "./pseudoRandom";
+import { Computed, ReactiveFramework, Signal } from "./reactiveFramework";
 
 export interface Graph {
   sources: Signal<number>[];

@@ -1,6 +1,6 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
 import v8 from "v8-natives";
-import { Computed, Signal, ReactiveFramework } from "./util/ReactiveFramework";
+import { Computed, Signal, ReactiveFramework } from "./util/reactiveFramework";
 
 const COUNT = 1e5;
 

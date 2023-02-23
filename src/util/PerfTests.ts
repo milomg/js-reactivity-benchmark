@@ -1,4 +1,4 @@
-import { TestWithFramework } from "./FrameworkTypes";
+import { TestWithFramework } from "./frameworkTypes";
 
 export interface TestResult {
   sum: number;
