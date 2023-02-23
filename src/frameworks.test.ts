@@ -1,7 +1,7 @@
 import { makeGraph, runGraph } from "./util/dependencyGraph";
 import { ReactiveFramework } from "./util/reactiveFramework";
 import { TestWithFramework } from "./util/frameworkTypes";
-import { solidFramework } from "./frameworks/solidFramework";
+import { solidFramework } from "./frameworks/solid";
 import { expect, test } from "vitest";
 import { TestConfig } from "./util/frameworkTypes";
 import { frameworkInfo } from "./config";

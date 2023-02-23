@@ -1,7 +1,7 @@
 import { TestConfig, FrameworkInfo } from "./util/frameworkTypes";
 
 import { angularFramework } from "./frameworks/angularSignals";
-import { solidFramework } from "./frameworks/solidFramework";
+import { solidFramework } from "./frameworks/solid";
 import { reactivelyFramework } from "./frameworks/reactively";
 import { preactSignalFramework } from "./frameworks/preactSignals";
 import { molWireFramework } from "./frameworks/molWire";
