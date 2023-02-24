@@ -14,12 +14,16 @@ export function mux(bridge: ReactiveFramework) {
   });
   return () => {
     for (let i = 0; i < 10; i++) {
-      heads[i].write(i);
-      console.assert(splited[i].read() === i + 1);
+      bridge.withBatch(() => {
+        heads[i].write(i);
+        console.assert(splited[i].read() === i + 1);
+      });
     }
     for (let i = 0; i < 10; i++) {
-      heads[i].write(i * 2);
-      console.assert(splited[i].read() === i * 2 + 1);
+      bridge.withBatch(() => {
+        heads[i].write(i * 2);
+        console.assert(splited[i].read() === i * 2 + 1);
+      });
     }
   };
 }

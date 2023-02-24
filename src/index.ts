@@ -10,11 +10,11 @@ async function main() {
   logPerfResult(perfReportHeaders());
 
   for (const { framework } of frameworkInfo) {
-    kairoBench(framework);
+    await kairoBench(framework);
   }
 
   for (const { framework } of frameworkInfo) {
-    molBench(framework);
+    await molBench(framework);
   }
 
   for (const { framework } of frameworkInfo) {

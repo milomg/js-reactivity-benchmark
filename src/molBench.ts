@@ -1,3 +1,5 @@
+import v8 from "v8-natives";
+import { fastestTest } from "./util/benchRepeat";
 import { logPerfResult } from "./util/perfLogging";
 import { ReactiveFramework } from "./util/reactiveFramework";
 
@@ -12,7 +14,7 @@ function hard(n: number, log: string) {
 
 const numbers = Array.from({ length: 5 }, (_, i) => i);
 
-export function molBench(framework: ReactiveFramework) {
+export async function molBench(framework: ReactiveFramework) {
   let res = [];
   const A = framework.signal(0);
   const B = framework.signal(0);
@@ -31,8 +33,7 @@ export function molBench(framework: ReactiveFramework) {
   const I = framework.effect(() => res.push(G.read()));
   const J = framework.effect(() => res.push(hard(F.read(), "J")));
 
-  let start = performance.now();
-  for (let i = 0; i < 1e4; i++) {
+  function iter(i: number) {
     res.length = 0;
     framework.withBatch(() => {
       B.write(1);
@@ -43,10 +44,20 @@ export function molBench(framework: ReactiveFramework) {
       B.write(2);
     });
   }
-  let end = performance.now();
+
+  v8.optimizeFunctionOnNextCall(iter);
+  iter(1);
+
+  const { timing } = await fastestTest(10, () => {
+    for (let i = 0; i < 1e4; i++) {
+      iter(i);
+    }
+  });
+
   logPerfResult({
     framework: framework.name,
     test: "molBench",
-    time: (end - start).toFixed(2),
+    time: timing.time.toFixed(2),
+    gcTime: timing.gcTime?.toFixed(2),
   });
 }

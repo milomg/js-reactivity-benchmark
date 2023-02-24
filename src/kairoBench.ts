@@ -1,3 +1,4 @@
+import v8 from "v8-natives";
 import { avoidablePropagation } from "./kairo/avoidable";
 import { broadPropagation } from "./kairo/broad";
 import { deepPropagation } from "./kairo/deep";
@@ -6,6 +7,7 @@ import { mux } from "./kairo/mux";
 import { repeatedObservers } from "./kairo/repeated";
 import { triangle } from "./kairo/triangle";
 import { unstable } from "./kairo/unstable";
+import { fastestTest } from "./util/benchRepeat";
 import { logPerfResult } from "./util/perfLogging";
 import { ReactiveFramework } from "./util/reactiveFramework";
 
@@ -20,22 +22,27 @@ const cases = [
   unstable,
 ];
 
-export function kairoBench(framework: ReactiveFramework) {
+export async function kairoBench(framework: ReactiveFramework) {
   for (const c of cases) {
     const iter = framework.withBuild(() => {
       const iter = c(framework);
       return iter;
     });
 
-    const start = performance.now();
-    for (let i = 0; i < 1000; i++) {
-      iter();
-    }
-    const end = performance.now();
+    v8.optimizeFunctionOnNextCall(iter);
+    iter();
+
+    const { timing } = await fastestTest(10, () => {
+      for (let i = 0; i < 1000; i++) {
+        iter();
+      }
+    });
+
     logPerfResult({
       framework: framework.name,
       test: c.name,
-      time: (end - start).toFixed(2),
+      time: timing.time.toFixed(2),
+      gcTime: timing.gcTime?.toFixed(2),
     });
   }
 }

@@ -15,8 +15,10 @@ export function avoidablePropagation(bridge: ReactiveFramework) {
   });
 
   return () => {
-    head.write(1);
-    console.assert(computed5.read() === 6);
+    bridge.withBatch(() => {
+      head.write(1);
+      console.assert(computed5.read() === 6);
+    });
     for (let i = 0; i < 1000; i++) {
       bridge.withBatch(() => {
         head.write(i);

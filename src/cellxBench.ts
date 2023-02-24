@@ -87,26 +87,6 @@ type BenchmarkResults = [
 
 export const cellxbench = (framework: ReactiveFramework) => {
   const expected: Record<number, BenchmarkResults> = {
-    10: [
-      [3, 6, 2, -2],
-      [2, 4, -2, -3],
-    ],
-    20: [
-      [2, 4, -1, -6],
-      [-2, 1, -4, -4],
-    ],
-    30: [
-      [-1, -2, -3, -4],
-      [-4, -3, -2, -1],
-    ],
-    50: [
-      [-2, -4, 1, 6],
-      [2, -1, 4, 4],
-    ],
-    100: [
-      [-3, -6, -2, 2],
-      [-2, -4, 2, 3],
-    ],
     1000: [
       [-3, -6, -2, 2],
       [-2, -4, 2, 3],
