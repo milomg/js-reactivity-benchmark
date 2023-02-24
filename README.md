@@ -19,7 +19,7 @@ Current reactivity benchmarks ([S.js](https://github.com/adamhaile/S/blob/master
 
 We're also working on enabling consistent logging and efficient tracking of GC time accross all benchmarks.
 
-The frameworks are all plenty fast for typical applications. The charts report the run time of the test in milliseconds on an M1 laptop. Typical applications will do much more work than a framework benchmark, and at these speeds the frameworks are unlikely to bottleneck overall performance.
+The frameworks are all plenty fast for typical applications. The charts report the run time of the test in milliseconds on an M1 laptop, and are made using [Tableau](https://public.tableau.com/). Typical applications will do much more work than a framework benchmark, and at these speeds the frameworks are unlikely to bottleneck overall performance.
 
 That said, there's learning here to improve performance of all the frameworks.
 
