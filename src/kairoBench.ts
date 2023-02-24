@@ -6,6 +6,7 @@ import { mux } from "./kairo/mux";
 import { repeatedObservers } from "./kairo/repeated";
 import { triangle } from "./kairo/triangle";
 import { unstable } from "./kairo/unstable";
+import { logPerfResult } from "./util/perfLogging";
 import { ReactiveFramework } from "./util/reactiveFramework";
 
 const cases = [
@@ -31,6 +32,10 @@ export function kairoBench(framework: ReactiveFramework) {
       iter();
     }
     const end = performance.now();
-    console.log(`kairo ${c.name}`, end - start);
+    logPerfResult({
+      framework: framework.name,
+      test: c.name,
+      time: (end - start).toFixed(2),
+    });
   }
 }

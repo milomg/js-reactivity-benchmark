@@ -1,6 +1,6 @@
 import v8 from "v8-natives";
 import { makeGraph, runGraph } from "./util/dependencyGraph";
-import { logPerfResult } from "./util/perfLogging";
+import { logPerfResult, perfRowStrings } from "./util/perfLogging";
 import { runTimed } from "./util/perfUtil";
 import { TimingResult, verifyBenchResult } from "./util/perfTests";
 import { GarbageTrack } from "./util/garbageTracking";
@@ -34,7 +34,7 @@ export async function dynamicBench(
       return { sum, count: counter.count };
     });
 
-    logPerfResult(frameworkTest, config, timedResult);
+    logPerfResult(perfRowStrings(framework.name, config, timedResult));
     verifyBenchResult(frameworkTest, config, timedResult);
   }
 }

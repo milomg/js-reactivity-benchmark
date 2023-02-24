@@ -1,3 +1,4 @@
+import { logPerfResult } from "./util/perfLogging";
 import { ReactiveFramework } from "./util/reactiveFramework";
 
 function fib(n: number): number {
@@ -43,5 +44,9 @@ export function molBench(framework: ReactiveFramework) {
     });
   }
   let end = performance.now();
-  console.log("molBench", end - start);
+  logPerfResult({
+    framework: framework.name,
+    test: "molBench",
+    time: (end - start).toFixed(2),
+  });
 }

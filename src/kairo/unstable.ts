@@ -1,6 +1,5 @@
 import { Counter } from "../util/dependencyGraph";
 import { ReactiveFramework } from "../util/reactiveFramework";
-import { assert } from "./util";
 
 /** worst case. */
 export function unstable(bridge: ReactiveFramework) {
@@ -23,16 +22,16 @@ export function unstable(bridge: ReactiveFramework) {
   return () => {
     bridge.withBatch(() => {
       head.write(1);
-      assert(current.read(), 40);
+      console.assert(current.read() === 40);
     });
     const atleast = 100;
     callCounter.count = 0;
     for (let i = 0; i < 100; i++) {
       bridge.withBatch(() => {
         head.write(i);
-        // assert(current.read(), i % 2 ? i * 2 * 10 : i * -10);
+        // console.assert(current.read() === i % 2 ? i * 2 * 10 : i * -10);
       });
     }
-    assert(callCounter.count, atleast);
+    console.assert(callCounter.count === atleast);
   };
 }

@@ -1,6 +1,5 @@
 import { Counter } from "../util/dependencyGraph";
 import { ReactiveFramework } from "../util/reactiveFramework";
-import { assert } from "./util";
 
 let size = 30;
 
@@ -25,16 +24,16 @@ export function repeatedObservers(bridge: ReactiveFramework) {
   return () => {
     bridge.withBatch(() => {
       head.write(1);
-      assert(current.read(), size);
+      console.assert(current.read() === size);
     });
     const atleast = 100;
     callCounter.count = 0;
     for (let i = 0; i < 100; i++) {
       bridge.withBatch(() => {
         head.write(i);
-        assert(current.read(), i * size);
+        console.assert(current.read() === i * size);
       });
     }
-    assert(callCounter.count, atleast);
+    console.assert(callCounter.count === atleast);
   };
 }

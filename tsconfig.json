@@ -8,6 +8,8 @@
     "noEmit": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   }
 }

@@ -4,7 +4,3 @@ export function busy() {
     a++;
   }
 }
-
-export function assert(exp: any, value: any) {
-  if (exp !== value) throw Error(`Assertation failed ${exp} !== ${value}`);
-}

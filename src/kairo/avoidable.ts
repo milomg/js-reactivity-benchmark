@@ -1,5 +1,5 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
-import { busy, assert } from "./util";
+import { busy } from "./util";
 
 /** avoidable change propagation  */
 export function avoidablePropagation(bridge: ReactiveFramework) {
@@ -16,11 +16,11 @@ export function avoidablePropagation(bridge: ReactiveFramework) {
 
   return () => {
     head.write(1);
-    assert(computed5.read(), 6);
+    console.assert(computed5.read() === 6);
     for (let i = 0; i < 1000; i++) {
       bridge.withBatch(() => {
         head.write(i);
-        assert(computed5.read(), 6);
+        console.assert(computed5.read() === 6);
       });
     }
   };

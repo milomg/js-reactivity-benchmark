@@ -1,5 +1,4 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
-import { assert } from "./util";
 
 export function mux(bridge: ReactiveFramework) {
   let heads = new Array(100).fill(null).map((_) => bridge.signal(0));
@@ -16,11 +15,11 @@ export function mux(bridge: ReactiveFramework) {
   return () => {
     for (let i = 0; i < 10; i++) {
       heads[i].write(i);
-      assert(splited[i].read(), i + 1);
+      console.assert(splited[i].read() === i + 1);
     }
     for (let i = 0; i < 10; i++) {
       heads[i].write(i * 2);
-      assert(splited[i].read(), i * 2 + 1);
+      console.assert(splited[i].read() === i * 2 + 1);
     }
   };
 }

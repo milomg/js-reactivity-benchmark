@@ -11,9 +11,9 @@ importers:
     specifiers:
       '@angular/core': 16.0.0-next.0
       '@preact/signals': ^1.1.3
-      '@reactively/core': ^0.0.6
+      '@reactively/core': ^0.0.7
       '@solidjs/reactivity': ^0.0.8
-      '@types/node': ^18.14.0
+      '@types/node': ^18.14.1
       esbuild: ^0.17.10
       mol_wire_lib: ^1.0.489
       preact: ^10.12.1
@@ -25,14 +25,14 @@ importers:
     dependencies:
       '@angular/core': 16.0.0-next.0_imgmwdc5iuzp5vrjy7dqeeid6i_rxjs@7.8.0
       '@preact/signals': 1.1.3_preact@10.12.1
-      '@reactively/core': 0.0.6
+      '@reactively/core': 0.0.7
       '@solidjs/reactivity': 0.0.8
       mol_wire_lib: 1.0.489
       preact: 10.12.1
       solid-js: 1.6.11
       usignal: 0.8.14
     devDependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.14.1
       esbuild: 0.17.10
       rxjs: 7.8.0
       v8-natives: 1.2.5
@@ -481,8 +481,8 @@ packages:
       preact: 10.12.1
     dev: false
 
-  /@reactively/core/0.0.6:
-    resolution: {integrity: sha512-jOfk7XDJgf3+aH038SMOtR1xdGLhn+FzGVMg8Q81DOSZhIr9I0mNsg8ZHdZkb+6zcOnDnHPfvPk/Iu2P6PIrPQ==}
+  /@reactively/core/0.0.7:
+    resolution: {integrity: sha512-dN6rhpoCrRr5In5dSclmzwmevCqMNyWi9t7U3OQA1l3rnFGAntKe+1aUEvRnWPVwv8Cj6fkz+6hF1Vn3Ked4Qg==}
     dev: false
 
   /@solidjs/reactivity/0.0.8:
@@ -501,6 +501,10 @@ packages:
 
   /@types/node/18.14.0:
     resolution: {integrity: sha512-5EWrvLmglK+imbCJY0+INViFWUHg1AHel1sq4ZVSfdcNqGy9Edv3UB9IIzzg+xPaUcAgZYcfVs2fBcwDeZzU0A==}
+    dev: true
+
+  /@types/node/18.14.1:
+    resolution: {integrity: sha512-QH+37Qds3E0eDlReeboBxfHbX9omAcBCXEzswCu6jySP642jiM3cYSIkU/REqwhCUqXdonHFuBfJDiAJxMNhaQ==}
     dev: true
 
   /@vitest/expect/0.28.5:
@@ -1201,7 +1205,7 @@ packages:
     engines: {node: '>= 0.6.0'}
     dev: true
 
-  /vite-node/0.28.5_@types+node@18.14.0:
+  /vite-node/0.28.5_@types+node@18.14.1:
     resolution: {integrity: sha512-LmXb9saMGlrMZbXTvOveJKwMTBTNUH66c8rJnQ0ZPNX+myPEol64+szRzXtV5ORb0Hb/91yq+/D3oERoyAt6LA==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -1213,7 +1217,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 4.1.4_@types+node@18.14.0
+      vite: 4.1.4_@types+node@18.14.1
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -1224,7 +1228,7 @@ packages:
       - terser
     dev: true
 
-  /vite/4.1.4_@types+node@18.14.0:
+  /vite/4.1.4_@types+node@18.14.1:
     resolution: {integrity: sha512-3knk/HsbSTKEin43zHu7jTwYWv81f8kgAL99G5NWBcA1LKvtvcVAC4JjBH1arBunO9kQka+1oGbrMKOjk4ZrBg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1249,7 +1253,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.14.0
+      '@types/node': 18.14.1
       esbuild: 0.16.17
       postcss: 8.4.21
       resolve: 1.22.1
@@ -1282,7 +1286,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.4
       '@types/chai-subset': 1.3.3
-      '@types/node': 18.14.0
+      '@types/node': 18.14.1
       '@vitest/expect': 0.28.5
       '@vitest/runner': 0.28.5
       '@vitest/spy': 0.28.5
@@ -1301,8 +1305,8 @@ packages:
       tinybench: 2.3.1
       tinypool: 0.3.1
       tinyspy: 1.1.1
-      vite: 4.1.4_@types+node@18.14.0
-      vite-node: 0.28.5_@types+node@18.14.0
+      vite: 4.1.4_@types+node@18.14.1
+      vite-node: 0.28.5_@types+node@18.14.1
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less

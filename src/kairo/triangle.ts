@@ -1,6 +1,5 @@
 import { Counter } from "./../util/dependencyGraph";
 import { Computed, ReactiveFramework } from "../util/reactiveFramework";
-import { assert } from "./util";
 
 let width = 10;
 
@@ -29,17 +28,17 @@ export function triangle(bridge: ReactiveFramework) {
     const constant = count(width);
     bridge.withBatch(() => {
       head.write(1);
-      assert(sum.read(), constant);
+      console.assert(sum.read() === constant);
     });
     const atleast = 100;
     callCounter.count = 0;
     for (let i = 0; i < 100; i++) {
       bridge.withBatch(() => {
         head.write(i);
-        assert(sum.read(), constant - width + i * width);
+        console.assert(sum.read() === constant - width + i * width);
       });
     }
-    assert(callCounter.count, atleast);
+    console.assert(callCounter.count === atleast);
   };
 }
 

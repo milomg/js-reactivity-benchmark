@@ -85,8 +85,6 @@ type BenchmarkResults = [
 ];
 
 export const cellxbench = (framework: ReactiveFramework) => {
-  let total = 0;
-
   const expected: Record<number, BenchmarkResults> = {
     10: [
       [3, 6, 2, -2],
@@ -124,38 +122,30 @@ export const cellxbench = (framework: ReactiveFramework) => {
 
   const results: Record<number, BenchmarkResults> = {};
 
-  const runs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
   for (const layers in expected) {
-    console.log("----");
 
-    for (const run of runs) {
+    for (let i = 0; i < 10; i++) {
       const [elapsed, before, after] = cellx(framework, Number(layers));
 
       results[layers] = [before, after];
 
-      console.log(`Layers ${layers}: ${elapsed}`);
-
-      total += elapsed;
+      console.log(`${framework.name},cellx${layers},${elapsed}`);
     }
   }
 
-  console.log("----");
-  console.log(`Total: ${total}`);
 
   for (const layers in expected) {
     const [before, after] = results[layers];
     const [expectedBefore, expectedAfter] = expected[layers];
 
-    if (!arraysEqual(before, expectedBefore)) {
-      throw new Error(
-        `Expected first layer ${expectedBefore}, found first layer ${before}`
-      );
-    }
-    if (!arraysEqual(after, expectedAfter)) {
-      throw new Error(
-        `Expected last layer ${expectedAfter}, found last layer ${after}`
-      );
-    }
+    console.assert(
+      arraysEqual(before, expectedBefore),
+      `Expected first layer ${expectedBefore}, found first layer ${before}`
+    );
+
+    console.assert(
+      arraysEqual(after, expectedAfter),
+      `Expected last layer ${expectedAfter}, found last layer ${after}`
+    );
   }
 };

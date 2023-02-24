@@ -1,35 +1,30 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
 import v8 from "v8-natives";
+import { logPerfResult } from "./util/perfLogging";
 import { Computed, Signal, ReactiveFramework } from "./util/reactiveFramework";
 
 const COUNT = 1e5;
 
 type Reader = () => number;
 export function sbench(framework: ReactiveFramework) {
-  let createTotal = 0;
-  createTotal += bench(createDataSignals, COUNT, COUNT);
-  createTotal += bench(createComputations0to1, COUNT, 0);
-  createTotal += bench(createComputations1to1, COUNT, COUNT);
-  createTotal += bench(createComputations2to1, COUNT / 2, COUNT);
-  createTotal += bench(createComputations4to1, COUNT / 4, COUNT);
-  createTotal += bench(createComputations1000to1, COUNT / 1000, COUNT);
-  //total += bench1(createComputations8to1, COUNT, 8 * COUNT);
-  createTotal += bench(createComputations1to2, COUNT, COUNT / 2);
-  createTotal += bench(createComputations1to4, COUNT, COUNT / 4);
-  createTotal += bench(createComputations1to8, COUNT, COUNT / 8);
-  createTotal += bench(createComputations1to1000, COUNT, COUNT / 1000);
-  console.log(`create total: ${createTotal.toFixed(0)}`);
-  console.log("---");
-  let updateTotal = 0;
-  updateTotal += bench(updateComputations1to1, COUNT * 4, 1);
-  updateTotal += bench(updateComputations2to1, COUNT * 2, 2);
-  updateTotal += bench(updateComputations4to1, COUNT, 4);
-  updateTotal += bench(updateComputations1000to1, COUNT / 100, 1000);
-  updateTotal += bench(updateComputations1to2, COUNT * 4, 1);
-  updateTotal += bench(updateComputations1to4, COUNT * 4, 1);
-  updateTotal += bench(updateComputations1to1000, COUNT * 4, 1);
-  console.log(`update total: ${updateTotal.toFixed(0)}`);
-  console.log(`total: ${(createTotal + updateTotal).toFixed(0)}`);
+  bench(createDataSignals, COUNT, COUNT);
+  bench(createComputations0to1, COUNT, 0);
+  bench(createComputations1to1, COUNT, COUNT);
+  bench(createComputations2to1, COUNT / 2, COUNT);
+  bench(createComputations4to1, COUNT / 4, COUNT);
+  bench(createComputations1000to1, COUNT / 1000, COUNT);
+  // createTotal += bench(createComputations8to1, COUNT, 8 * COUNT);
+  bench(createComputations1to2, COUNT, COUNT / 2);
+  bench(createComputations1to4, COUNT, COUNT / 4);
+  bench(createComputations1to8, COUNT, COUNT / 8);
+  bench(createComputations1to1000, COUNT, COUNT / 1000);
+  bench(updateComputations1to1, COUNT * 4, 1);
+  bench(updateComputations2to1, COUNT * 2, 2);
+  bench(updateComputations4to1, COUNT, 4);
+  bench(updateComputations1000to1, COUNT / 100, 1000);
+  bench(updateComputations1to2, COUNT * 4, 1);
+  bench(updateComputations1to4, COUNT * 4, 1);
+  bench(updateComputations1to1000, COUNT * 4, 1);
 
   function bench(
     fn: (n: number, sources: any[]) => void,
@@ -37,8 +32,11 @@ export function sbench(framework: ReactiveFramework) {
     scount: number
   ) {
     const time = run(fn, count, scount);
-    console.log(`${fn.name}: ${time.toFixed(0)}`);
-    return time;
+    logPerfResult({
+      framework: framework.name,
+      test: fn.name,
+      time: time.toFixed(2),
+    });
   }
 
   function run(
@@ -61,7 +59,6 @@ export function sbench(framework: ReactiveFramework) {
     for (let i = 0; i < scount; i++) {
       sources[i].read();
       sources[i].read();
-      //v8.optimizeFunctionOnNextCall(sources[i]);
       sources[i].read();
     }
 
