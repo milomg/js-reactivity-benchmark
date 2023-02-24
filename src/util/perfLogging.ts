@@ -1,9 +1,7 @@
 import { TestConfig } from "./frameworkTypes";
 import { TestResult, TimingResult } from "./perfTests";
 
-export function logPerfResult(
-  row: PerfRowStrings,
-): void {
+export function logPerfResult(row: PerfRowStrings): void {
   const line = Object.values(trimColumns(row)).join(" , ");
   console.log(line);
 }

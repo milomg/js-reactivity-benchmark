@@ -7,7 +7,7 @@ import { molBench } from "./molBench";
 import { kairoBench } from "./kairoBench";
 
 async function main() {
-  logPerfResult(perfReportHeaders())
+  logPerfResult(perfReportHeaders());
 
   for (const { framework } of frameworkInfo) {
     kairoBench(framework);

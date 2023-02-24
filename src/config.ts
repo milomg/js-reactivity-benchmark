@@ -10,7 +10,7 @@ import { xReactivityFramework } from "./frameworks/xReactivity";
 
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework, testPullCounts: true },
-  // { framework: reactivelyFramework, testPullCounts: true },
+  { framework: reactivelyFramework, testPullCounts: true },
   // { framework: molWireFramework, testPullCounts: true },
   { framework: usignalFramework, testPullCounts: true },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
@@ -97,24 +97,4 @@ export const perfTests: TestConfig[] = [
       count: 1078000,
     },
   },
-  // {
-  //   name: "tiny",
-  //   width: 10,
-  //   totalLayers: 5,
-  //   staticFraction: 3 / 4,
-  //   nSources: 4,
-  //   readFraction: 1,
-  //   iterations: 100,
-  //   expected: {},
-  // },
-  // {
-  //   name: "verifying", // seems to take a very long time in preact..
-  //   width: 100,
-  //   totalLayers: 15,
-  //   staticFraction: 3/4,
-  //   nSources: 6,
-  //   readFraction: 1,
-  //   iterations: 20,
-  //   expected: {},
-  // },
 ];

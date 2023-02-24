@@ -18,7 +18,7 @@ const cases = [
   repeatedObservers,
   triangle,
   unstable,
-]
+];
 
 export function kairoBench(framework: ReactiveFramework) {
   for (const c of cases) {
