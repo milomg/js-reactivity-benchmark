@@ -11,7 +11,7 @@ import { xReactivityFramework } from "./frameworks/xReactivity";
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
-  // { framework: molWireFramework, testPullCounts: true },
+  { framework: molWireFramework, testPullCounts: true },
   { framework: usignalFramework, testPullCounts: true },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: preactSignalFramework, testPullCounts: true },
