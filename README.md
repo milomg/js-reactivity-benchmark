@@ -7,9 +7,9 @@ $ pnpm bench
 ## Features
 
 - Configurable dependency graph: graph shape, density, read rate are all adjustable.
+- Easily add new benchmarks and frameworks
 - Supports dynamic reactive nodes
 - Framework agnostic. Simple API to test new reactive frameworks.
-- Runs benchmarks under nodeJs for convenience and continuous integration.
 - Uses v8 intrinsics to warmup and cleanup
 - Tracks garbage collection overhead per test
 - Outputs a csv file for easy integration with other tools.
@@ -23,13 +23,5 @@ The frameworks are all plenty fast for typical applications. The charts report t
 
 That said, there's learning here to improve performance of all the frameworks.
 
-<table>
-  <tr>
-    <td> 
-      <img width="400" alt="Screen Shot 2022-11-16 at 10 34 09 AM" src="https://user-images.githubusercontent.com/63816/202264375-04f15400-bb36-424c-8bb3-ac149491d4ac.png">
-    </td>
-    <td>
-      <img width="400" alt="image" src="https://user-images.githubusercontent.com/63816/202264535-e181bf3b-4444-43d8-8d06-afd56a1297e7.png">
-    </td>
-  </tr>
-</table>
+
+![Performance Results](https://user-images.githubusercontent.com/14153763/221103584-dc99b6f2-ba65-49bc-9fa9-934d9d9ba1ba.png)
