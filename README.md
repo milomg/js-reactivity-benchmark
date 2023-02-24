@@ -23,5 +23,4 @@ The frameworks are all plenty fast for typical applications. The charts report t
 
 That said, there's learning here to improve performance of all the frameworks.
 
-
-![Performance Results](https://user-images.githubusercontent.com/14153763/221103584-dc99b6f2-ba65-49bc-9fa9-934d9d9ba1ba.png)
+![Performance Results](https://user-images.githubusercontent.com/14153763/221107379-51a93eab-95ac-4c89-9a74-7a1527fc4a03.png)
