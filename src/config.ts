@@ -4,9 +4,9 @@ import { angularFramework } from "./frameworks/angularSignals";
 import { solidFramework } from "./frameworks/solid";
 import { reactivelyFramework } from "./frameworks/reactively";
 import { preactSignalFramework } from "./frameworks/preactSignals";
-import { molWireFramework } from "./frameworks/molWire";
 import { usignalFramework } from "./frameworks/uSignal";
 import { xReactivityFramework } from "./frameworks/xReactivity";
+import { vueFramework } from "./frameworks/vue-reactivity";
 
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework, testPullCounts: true },
@@ -16,6 +16,7 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: preactSignalFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
+  { framework: vueFramework, testPullCounts: true },
 ];
 
 export const perfTests: TestConfig[] = [

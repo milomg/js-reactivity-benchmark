@@ -14,6 +14,7 @@ importers:
       '@reactively/core': ^0.0.7
       '@solidjs/reactivity': ^0.0.8
       '@types/node': ^18.14.1
+      '@vue/reactivity': ^3.2.47
       esbuild: ^0.17.10
       mol_wire_lib: ^1.0.489
       preact: ^10.12.1
@@ -27,6 +28,7 @@ importers:
       '@preact/signals': 1.1.3_preact@10.12.1
       '@reactively/core': 0.0.7
       '@solidjs/reactivity': 0.0.8
+      '@vue/reactivity': 3.2.47
       mol_wire_lib: 1.0.489
       preact: 10.12.1
       solid-js: 1.6.11
@@ -538,6 +540,16 @@ packages:
       picocolors: 1.0.0
       pretty-format: 27.5.1
     dev: true
+
+  /@vue/reactivity/3.2.47:
+    resolution: {integrity: sha512-7khqQ/75oyyg+N/e+iwV6lpy1f5wq759NdlS1fpAhFXa8VeAIKGgk2E/C4VF59lx5b+Ezs5fpp/5WsRYXQiKxQ==}
+    dependencies:
+      '@vue/shared': 3.2.47
+    dev: false
+
+  /@vue/shared/3.2.47:
+    resolution: {integrity: sha512-BHGyyGN3Q97EZx0taMQ+OLNuZcW3d37ZEVmEAyeoA9ERdGvm9Irc/0Fua8SNyOtV1w6BS4q25wbMzJujO9HIfQ==}
+    dev: false
 
   /acorn-walk/8.2.0:
     resolution: {integrity: sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==}
