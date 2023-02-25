@@ -22,7 +22,6 @@ export const xReactivityFramework: ReactiveFramework = {
       read: memo,
     };
   },
-  run: () => {},
   effect: createEffect,
   withBatch: (fn) => {
     fn();

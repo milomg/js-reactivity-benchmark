@@ -45,35 +45,37 @@ export function sbench(framework: ReactiveFramework) {
     scount: number
   ) {
     // prep n * arity sources
-    let start, end;
+    let start = 0;
+    let end = 0;
 
-    // run 3 times to warm up
-    let sources = createDataSignals(scount, []) as Computed<number>[] | null;
-    fn(n / 100, sources!);
-    sources = createDataSignals(scount, []);
-    fn(n / 100, sources);
-    sources = createDataSignals(scount, []);
-    v8.optimizeFunctionOnNextCall(fn);
-    fn(n / 100, sources);
-    sources = createDataSignals(scount, []);
-    for (let i = 0; i < scount; i++) {
-      sources[i].read();
-      sources[i].read();
-      sources[i].read();
-    }
+    framework.withBuild(() => {
+      // run 3 times to warm up
+      let sources = createDataSignals(scount, []) as Computed<number>[] | null;
+      fn(n / 100, sources!);
+      sources = createDataSignals(scount, []);
+      fn(n / 100, sources);
+      sources = createDataSignals(scount, []);
+      v8.optimizeFunctionOnNextCall(fn);
+      fn(n / 100, sources);
+      sources = createDataSignals(scount, []);
+      for (let i = 0; i < scount; i++) {
+        sources[i].read();
+        sources[i].read();
+        sources[i].read();
+      }
 
-    // start GC clean
-    v8.collectGarbage();
+      // start GC clean
+      v8.collectGarbage();
 
-    start = performance.now();
+      start = performance.now();
 
-    fn(n, sources);
+      fn(n, sources);
 
-    // end GC clean
-    sources = null;
-    v8.collectGarbage();
-
-    end = performance.now();
+      // end GC clean
+      sources = null;
+      v8.collectGarbage();
+      end = performance.now();
+    });
 
     return end - start;
   }

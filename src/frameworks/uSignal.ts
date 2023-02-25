@@ -16,7 +16,6 @@ export const usignalFramework: ReactiveFramework = {
       read: () => c.value,
     };
   },
-  run: () => {},
   effect,
   withBatch: batch,
   withBuild: (fn) => fn(),

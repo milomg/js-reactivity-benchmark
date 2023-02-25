@@ -14,10 +14,15 @@ importers:
       '@reactively/core': ^0.0.7
       '@solidjs/reactivity': ^0.0.8
       '@types/node': ^18.14.1
+      '@vue/reactivity': ^3.2.47
+      compostate: ^0.5.0
       esbuild: ^0.17.10
+      kairo: 0.6.0-rc.0
+      mobx: ^6.8.0
       mol_wire_lib: ^1.0.489
       preact: ^10.12.1
       rxjs: ^7.8.0
+      s-js: ^0.4.9
       solid-js: ^1.6.11
       usignal: ^0.8.14
       v8-natives: ^1.2.5
@@ -27,8 +32,13 @@ importers:
       '@preact/signals': 1.1.3_preact@10.12.1
       '@reactively/core': 0.0.7
       '@solidjs/reactivity': 0.0.8
+      '@vue/reactivity': 3.2.47
+      compostate: 0.5.0
+      kairo: 0.6.0-rc.0
+      mobx: 6.8.0
       mol_wire_lib: 1.0.489
       preact: 10.12.1
+      s-js: 0.4.9
       solid-js: 1.6.11
       usignal: 0.8.14
     devDependencies:
@@ -539,6 +549,16 @@ packages:
       pretty-format: 27.5.1
     dev: true
 
+  /@vue/reactivity/3.2.47:
+    resolution: {integrity: sha512-7khqQ/75oyyg+N/e+iwV6lpy1f5wq759NdlS1fpAhFXa8VeAIKGgk2E/C4VF59lx5b+Ezs5fpp/5WsRYXQiKxQ==}
+    dependencies:
+      '@vue/shared': 3.2.47
+    dev: false
+
+  /@vue/shared/3.2.47:
+    resolution: {integrity: sha512-BHGyyGN3Q97EZx0taMQ+OLNuZcW3d37ZEVmEAyeoA9ERdGvm9Irc/0Fua8SNyOtV1w6BS4q25wbMzJujO9HIfQ==}
+    dev: false
+
   /acorn-walk/8.2.0:
     resolution: {integrity: sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==}
     engines: {node: '>=0.4.0'}
@@ -688,6 +708,11 @@ packages:
   /color-name/1.1.3:
     resolution: {integrity: sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==}
     dev: true
+
+  /compostate/0.5.0:
+    resolution: {integrity: sha512-IQA6cauOZG0Runo4UMeWQVg/pmyK0nxFx/Sm5CxkJle24shu87rsjL8rUh5TdKbZIVb+8W9n5XziPlQaoSgSsA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
@@ -886,6 +911,10 @@ packages:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: true
 
+  /kairo/0.6.0-rc.0:
+    resolution: {integrity: sha512-8yWTOujaeU5a6FtFCQnRhljxo8KaxQVDV6xJFxEpkCKd2azlMBmc5ARazaQUb/KJ2PWzsVdiXRbvFmreP6pbFA==}
+    dev: false
+
   /local-pkg/0.4.3:
     resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
     engines: {node: '>=14'}
@@ -921,6 +950,10 @@ packages:
       pkg-types: 1.0.2
       ufo: 1.1.0
     dev: true
+
+  /mobx/6.8.0:
+    resolution: {integrity: sha512-+o/DrHa4zykFMSKfS8Z+CPSEg5LW9tSNGTuN8o6MF1GKxlfkSHSeJn5UtgxvPkGgaouplnrLXCF+duAsmm6FHQ==}
+    dev: false
 
   /mol_wire_lib/1.0.488:
     resolution: {integrity: sha512-AqGNHtM5HvxdYKXMt85ESXG+Owj/E6HEUM2a0SKoCpx+R4uHrqM3V8HABt13twXzMDDfjO713TRWQb7Qb4EQRA==}
@@ -1068,6 +1101,10 @@ packages:
     resolution: {integrity: sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==}
     dependencies:
       tslib: 2.5.0
+
+  /s-js/0.4.9:
+    resolution: {integrity: sha512-RtpOm+cM6O0sHg6IA70wH+UC3FZcND+rccBZpBAHzlUgNO2Bm5BN+FnM8+OBxzXdwpKWFwX11JGF0MFRkhSoIQ==}
+    dev: false
 
   /set-blocking/2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}

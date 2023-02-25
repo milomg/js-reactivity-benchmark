@@ -22,7 +22,6 @@ export const solidFramework: ReactiveFramework = {
       read: memo,
     };
   },
-  run: () => {},
   effect: createEffect,
   withBatch: batch,
   withBuild: createRoot,

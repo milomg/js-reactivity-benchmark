@@ -3,71 +3,73 @@ import { logPerfResult } from "./util/perfLogging";
 import { Computed, ReactiveFramework } from "./util/reactiveFramework";
 
 const cellx = (framework: ReactiveFramework, layers: number) => {
-  const start = {
-    prop1: framework.signal(1),
-    prop2: framework.signal(2),
-    prop3: framework.signal(3),
-    prop4: framework.signal(4),
-  };
-
-  let layer: {
-    prop1: Computed<number>;
-    prop2: Computed<number>;
-    prop3: Computed<number>;
-    prop4: Computed<number>;
-  } = start;
-
-  for (let i = layers; i > 0; i--) {
-    const m = layer;
-    const s = {
-      prop1: framework.computed(() => m.prop2.read()),
-      prop2: framework.computed(() => m.prop1.read() - m.prop3.read()),
-      prop3: framework.computed(() => m.prop2.read() + m.prop4.read()),
-      prop4: framework.computed(() => m.prop3.read()),
+  return framework.withBuild(() => {
+    const start = {
+      prop1: framework.signal(1),
+      prop2: framework.signal(2),
+      prop3: framework.signal(3),
+      prop4: framework.signal(4),
     };
 
-    framework.effect(() => s.prop1.read());
-    framework.effect(() => s.prop2.read());
-    framework.effect(() => s.prop3.read());
-    framework.effect(() => s.prop4.read());
+    let layer: {
+      prop1: Computed<number>;
+      prop2: Computed<number>;
+      prop3: Computed<number>;
+      prop4: Computed<number>;
+    } = start;
 
-    s.prop1.read();
-    s.prop2.read();
-    s.prop3.read();
-    s.prop4.read();
+    for (let i = layers; i > 0; i--) {
+      const m = layer;
+      const s = {
+        prop1: framework.computed(() => m.prop2.read()),
+        prop2: framework.computed(() => m.prop1.read() - m.prop3.read()),
+        prop3: framework.computed(() => m.prop2.read() + m.prop4.read()),
+        prop4: framework.computed(() => m.prop3.read()),
+      };
 
-    layer = s;
-  }
+      framework.effect(() => s.prop1.read());
+      framework.effect(() => s.prop2.read());
+      framework.effect(() => s.prop3.read());
+      framework.effect(() => s.prop4.read());
 
-  const end = layer;
+      s.prop1.read();
+      s.prop2.read();
+      s.prop3.read();
+      s.prop4.read();
 
-  const startTime = performance.now();
+      layer = s;
+    }
 
-  const before = [
-    end.prop1.read(),
-    end.prop2.read(),
-    end.prop3.read(),
-    end.prop4.read(),
-  ] as const;
+    const end = layer;
 
-  framework.withBatch(() => {
-    start.prop1.write(4);
-    start.prop2.write(3);
-    start.prop3.write(2);
-    start.prop4.write(1);
+    const startTime = performance.now();
+
+    const before = [
+      end.prop1.read(),
+      end.prop2.read(),
+      end.prop3.read(),
+      end.prop4.read(),
+    ] as const;
+
+    framework.withBatch(() => {
+      start.prop1.write(4);
+      start.prop2.write(3);
+      start.prop3.write(2);
+      start.prop4.write(1);
+    });
+
+    const after = [
+      end.prop1.read(),
+      end.prop2.read(),
+      end.prop3.read(),
+      end.prop4.read(),
+    ] as const;
+
+    const endTime = performance.now();
+    const elapsedTime = endTime - startTime;
+
+    return [elapsedTime, before, after] as const;
   });
-
-  const after = [
-    end.prop1.read(),
-    end.prop2.read(),
-    end.prop3.read(),
-    end.prop4.read(),
-  ] as const;
-
-  const endTime = performance.now();
-  const elapsedTime = endTime - startTime;
-
-  return [elapsedTime, before, after] as const;
 };
 
 const arraysEqual = (a: readonly number[], b: readonly number[]) => {

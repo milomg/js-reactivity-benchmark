@@ -16,7 +16,6 @@ export const angularFramework: ReactiveFramework = {
       read: () => c(),
     };
   },
-  run: () => {},
   effect,
   withBatch: (fn) => {
     fn();

@@ -24,15 +24,15 @@ export function repeatedObservers(bridge: ReactiveFramework) {
   return () => {
     bridge.withBatch(() => {
       head.write(1);
-      console.assert(current.read() === size);
     });
+    console.assert(current.read() === size);
     const atleast = 100;
     callCounter.count = 0;
     for (let i = 0; i < 100; i++) {
       bridge.withBatch(() => {
         head.write(i);
-        console.assert(current.read() === i * size);
       });
+      console.assert(current.read() === i * size);
     }
     console.assert(callCounter.count === atleast);
   };
