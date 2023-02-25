@@ -24,5 +24,4 @@ export const reactivelyFramework: ReactiveFramework = {
     stabilize();
   },
   withBuild: (fn) => fn(),
-  run: () => {},
 };

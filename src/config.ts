@@ -1,20 +1,30 @@
 import { TestConfig, FrameworkInfo } from "./util/frameworkTypes";
 
 import { angularFramework } from "./frameworks/angularSignals";
-import { solidFramework } from "./frameworks/solid";
-import { reactivelyFramework } from "./frameworks/reactively";
-import { preactSignalFramework } from "./frameworks/preactSignals";
+import { compostateFramework } from "./frameworks/compostate";
+import { kairoFramework } from "./frameworks/kairo";
+import { mobxFramework } from "./frameworks/mobx";
 import { molWireFramework } from "./frameworks/molWire";
+import { preactSignalFramework } from "./frameworks/preactSignals";
+import { reactivelyFramework } from "./frameworks/reactively";
+import { sFramework } from "./frameworks/s";
+import { solidFramework } from "./frameworks/solid";
 import { usignalFramework } from "./frameworks/uSignal";
+import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
 
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework, testPullCounts: true },
-  { framework: reactivelyFramework, testPullCounts: true },
+  { framework: compostateFramework, testPullCounts: true },
+  // { framework: kairoFramework, testPullCounts: true },
+  // { framework: mobxFramework, testPullCounts: true },
   { framework: molWireFramework, testPullCounts: true },
-  { framework: usignalFramework, testPullCounts: true },
-  { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: preactSignalFramework, testPullCounts: true },
+  { framework: reactivelyFramework, testPullCounts: true },
+  { framework: sFramework },
+  { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
+  { framework: usignalFramework, testPullCounts: true },
+  { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
 ];
 

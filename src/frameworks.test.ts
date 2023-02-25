@@ -1,11 +1,9 @@
 import { makeGraph, runGraph } from "./util/dependencyGraph";
-import { ReactiveFramework } from "./util/reactiveFramework";
-import { solidFramework } from "./frameworks/solid";
 import { expect, test } from "vitest";
-import { TestConfig } from "./util/frameworkTypes";
+import { FrameworkInfo, TestConfig } from "./util/frameworkTypes";
 import { frameworkInfo } from "./config";
 
-frameworkInfo.forEach(({ framework }) => frameworkTests(framework));
+frameworkInfo.forEach((frameworkInfo) => frameworkTests(frameworkInfo));
 
 function makeConfig(): TestConfig {
   return {
@@ -22,12 +20,11 @@ function makeConfig(): TestConfig {
 /** some basic tests to validate the reactive framework
  * wrapper works and can run performance tests.
  */
-function frameworkTests(framework: ReactiveFramework) {
+function frameworkTests({framework, testPullCounts}: FrameworkInfo) {
   const name = framework.name;
   test(`${name} | simple dependency executes`, () => {
     const s = framework.signal(2);
     const c = framework.computed(() => s.read() * 2);
-    framework.run();
 
     expect(c.read()).toEqual(4);
   });
@@ -48,7 +45,7 @@ function frameworkTests(framework: ReactiveFramework) {
     const sum = runGraph(graph, 10, 2 / 3, framework);
 
     expect(sum).toEqual(72);
-    if (framework !== solidFramework) {
+    if (testPullCounts) {
       expect(counter.count).toEqual(41);
     }
   });

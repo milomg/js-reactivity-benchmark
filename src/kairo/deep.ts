@@ -30,8 +30,8 @@ export function deepPropagation(bridge: ReactiveFramework) {
     for (let i = 0; i < iter; i++) {
       bridge.withBatch(() => {
         head.write(i);
-        console.assert(current.read() === len + i);
       });
+      console.assert(current.read() === len + i);
     }
 
     console.assert(callCounter.count === atleast);
