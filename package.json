@@ -16,21 +16,21 @@
     "@reactively/core": "^0.0.7",
     "@solidjs/reactivity": "^0.0.8",
     "@vue/reactivity": "^3.2.47",
-    "compostate": "^0.5.0",
+    "compostate": "^0.5.1",
     "kairo": "0.6.0-rc.0",
     "mobx": "^6.8.0",
-    "mol_wire_lib": "^1.0.492",
-    "preact": "^10.12.1",
+    "mol_wire_lib": "^1.0.493",
+    "preact": "^10.13.0",
     "s-js": "^0.4.9",
     "solid-js": "^1.6.11",
-    "usignal": "^0.8.14"
+    "usignal": "^0.9.0"
   },
   "devDependencies": {
     "@types/node": "^18.14.1",
     "esbuild": "^0.17.10",
     "rxjs": "^7.8.0",
     "v8-natives": "^1.2.5",
-    "vitest": "^0.28.5"
+    "vitest": "^0.29.1"
   },
   "pnpm": {
     "patchedDependencies": {

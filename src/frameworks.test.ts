@@ -20,7 +20,7 @@ function makeConfig(): TestConfig {
 /** some basic tests to validate the reactive framework
  * wrapper works and can run performance tests.
  */
-function frameworkTests({framework, testPullCounts}: FrameworkInfo) {
+function frameworkTests({ framework, testPullCounts }: FrameworkInfo) {
   const name = framework.name;
   test(`${name} | simple dependency executes`, () => {
     const s = framework.signal(2);

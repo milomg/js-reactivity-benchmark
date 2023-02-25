@@ -1,5 +1,7 @@
 import { Computed, ReactiveFramework, Signal } from "../util/reactiveFramework";
-import { $mol_wire_atom as Atom } from "mol_wire_lib";
+import $ from "mol_wire_lib";
+
+const Atom = $.$mol_wire_atom; // fix a bug in mol exports
 
 export const molWireFramework: ReactiveFramework = {
   name: "$mol_wire_atom",
@@ -17,6 +19,9 @@ export const molWireFramework: ReactiveFramework = {
     };
   },
   effect: <T>(fn: () => T) => new Atom("", fn).sync(),
-  withBatch: (fn) => { fn(); Atom.sync() },
+  withBatch: (fn) => {
+    fn();
+    Atom.sync();
+  },
   withBuild: (fn) => fn(),
 };

@@ -25,15 +25,12 @@ export const vueReactivityFramework: ReactiveFramework = {
     };
   },
   effect: function (fn) {
-    let t = effect(
-      () => fn(),
-      {
-        lazy: false,
-        scheduler: (x) => {
-          scheduled.push(t.effect);
-        },
-      }
-    );
+    let t = effect(() => fn(), {
+      lazy: false,
+      scheduler: (x) => {
+        scheduled.push(t.effect);
+      },
+    });
   },
   withBatch: function (fn) {
     if (isBatching) {
