@@ -15,7 +15,7 @@
     "@preact/signals": "^1.1.3",
     "@reactively/core": "^0.0.7",
     "@solidjs/reactivity": "^0.0.8",
-    "mol_wire_lib": "^1.0.489",
+    "mol_wire_lib": "^1.0.492",
     "preact": "^10.12.1",
     "solid-js": "^1.6.11",
     "usignal": "^0.8.14"
