@@ -19,7 +19,7 @@
     "compostate": "^0.5.0",
     "kairo": "0.6.0-rc.0",
     "mobx": "^6.8.0",
-    "mol_wire_lib": "^1.0.489",
+    "mol_wire_lib": "^1.0.492",
     "preact": "^10.12.1",
     "s-js": "^0.4.9",
     "solid-js": "^1.6.11",

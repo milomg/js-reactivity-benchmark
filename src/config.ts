@@ -18,7 +18,7 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: compostateFramework, testPullCounts: true },
   // { framework: kairoFramework, testPullCounts: true },
   // { framework: mobxFramework, testPullCounts: true },
-  // { framework: molWireFramework, testPullCounts: true },
+  { framework: molWireFramework, testPullCounts: true },
   { framework: preactSignalFramework, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: sFramework },
