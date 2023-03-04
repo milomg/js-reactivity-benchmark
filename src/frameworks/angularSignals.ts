@@ -7,13 +7,13 @@ export const angularFramework: ReactiveFramework = {
     const s = signal(initialValue);
     return {
       write: (v) => s.set(v),
-      read: () => s(),
+      read: s,
     };
   },
   computed: (fn) => {
     const c = computed(fn);
     return {
-      read: () => c(),
+      read: c,
     };
   },
   effect,
