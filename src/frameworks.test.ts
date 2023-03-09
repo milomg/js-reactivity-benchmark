@@ -23,8 +23,11 @@ function makeConfig(): TestConfig {
 function frameworkTests({ framework, testPullCounts }: FrameworkInfo) {
   const name = framework.name;
   test(`${name} | simple dependency executes`, () => {
-    const s = framework.signal(2);
-    const c = framework.computed(() => s.read() * 2);
+    const c = framework.withBuild(() => {
+      const s = framework.signal(2);
+      const c = framework.computed(() => s.read() * 2);
+      return c;
+    });
 
     expect(c.read()).toEqual(4);
   });
