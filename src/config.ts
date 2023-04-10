@@ -5,6 +5,7 @@ import { compostateFramework } from "./frameworks/compostate";
 import { kairoFramework } from "./frameworks/kairo";
 import { mobxFramework } from "./frameworks/mobx";
 import { molWireFramework } from "./frameworks/molWire";
+import { obyFramework } from "./frameworks/oby";
 import { preactSignalFramework } from "./frameworks/preactSignals";
 import { reactivelyFramework } from "./frameworks/reactively";
 import { sFramework } from "./frameworks/s";
@@ -19,6 +20,7 @@ export const frameworkInfo: FrameworkInfo[] = [
   // { framework: kairoFramework, testPullCounts: true },
   // { framework: mobxFramework, testPullCounts: true },
   { framework: molWireFramework, testPullCounts: true },
+  { framework: obyFramework, testPullCounts: true },
   { framework: preactSignalFramework, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: sFramework },
