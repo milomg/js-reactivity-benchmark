@@ -1,4 +1,4 @@
-import { Computed, ReactiveFramework, Signal } from "../util/reactiveFramework";
+import { ReactiveFramework, Signal } from "../util/reactiveFramework";
 import $ from "mol_wire_lib";
 
 const Atom = $.$mol_wire_atom; // fix a bug in mol exports
@@ -12,13 +12,13 @@ export const molWireFramework: ReactiveFramework = {
       read: () => atom.sync(),
     };
   },
-  computed: <T>(fn: () => T): Computed<T> => {
+  computed: (fn) => {
     const atom = new Atom("", fn);
     return {
       read: () => atom.sync(),
     };
   },
-  effect: <T>(fn: () => T) => new Atom("", fn).sync(),
+  effect: (fn) => new Atom("", fn).sync(),
   withBatch: (fn) => {
     fn();
     Atom.sync();

@@ -12,17 +12,17 @@ export const solidFramework: ReactiveFramework = {
   signal: (initialValue) => {
     const [getter, setter] = createSignal(initialValue);
     return {
-      write: setter,
-      read: getter,
+      write: (v) => setter(v as any),
+      read: () => getter(),
     };
   },
   computed: (fn) => {
     const memo = createMemo(fn);
     return {
-      read: memo,
+      read: () => memo(),
     };
   },
-  effect: createEffect,
-  withBatch: batch,
-  withBuild: createRoot,
+  effect: (fn) => createEffect(fn),
+  withBatch: (fn) => batch(fn),
+  withBuild: (fn) => createRoot(fn),
 };

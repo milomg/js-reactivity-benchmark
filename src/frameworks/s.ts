@@ -6,31 +6,17 @@ export const sFramework: ReactiveFramework = {
   signal: (initial) => {
     const data = S.value(initial);
     return {
-      read() {
-        return data();
-      },
-      write(v) {
-        data(v);
-      },
+      read: () => data(),
+      write: (v) => data(v),
     };
   },
   computed: (fn) => {
     const computed = S(fn);
     return {
-      read() {
-        return computed();
-      },
+      read: () => computed(),
     };
   },
-  effect: (fn) => {
-    S(() => {
-      fn();
-    });
-  },
-  withBatch: (fn) => {
-    S.freeze(fn);
-  },
-  withBuild: (fn) => {
-    return S.root(fn);
-  },
+  effect: (fn) => S(fn),
+  withBatch: (fn) => S.freeze(fn),
+  withBuild: (fn) => S.root(fn),
 };

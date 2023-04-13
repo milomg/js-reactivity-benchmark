@@ -16,7 +16,7 @@ export const preactSignalFramework: ReactiveFramework = {
       read: () => c.value,
     };
   },
-  effect,
-  withBatch: batch,
+  effect: (fn) => effect(fn),
+  withBatch: (fn) => batch(fn),
   withBuild: (fn) => fn(),
 };

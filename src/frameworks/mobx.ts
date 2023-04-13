@@ -7,7 +7,7 @@ export const mobxFramework: ReactiveFramework = {
     const s = observable.box(initial);
     return {
       read: () => s.get(),
-      write: (x) => action(() => s.set(x)),
+      write: action((x) => s.set(x)),
     };
   },
   computed: (fn) => {
@@ -16,16 +16,7 @@ export const mobxFramework: ReactiveFramework = {
       read: () => read.get(),
     };
   },
-  effect: (fn) => {
-    const disposer = autorun(fn);
-    return () => {
-      disposer();
-    };
-  },
-  withBatch: (fn) => {
-    transaction(fn);
-  },
-  withBuild: (fn) => {
-    return fn();
-  },
+  effect: (fn) => autorun(fn),
+  withBatch: (fn) => transaction(fn),
+  withBuild: (fn) => fn(),
 };

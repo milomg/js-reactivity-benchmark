@@ -12,20 +12,20 @@ export const xReactivityFramework: ReactiveFramework = {
   signal: (initialValue) => {
     const [getter, setter] = createSignal(initialValue);
     return {
-      write: setter,
-      read: getter,
+      write: (v) => setter(v),
+      read: () => getter(),
     };
   },
   computed: (fn) => {
     const memo = createMemo(fn);
     return {
-      read: memo,
+      read: () => memo(),
     };
   },
-  effect: createEffect,
+  effect: (fn) => createEffect(fn),
   withBatch: (fn) => {
     fn();
     flushSync();
   },
-  withBuild: createRoot,
+  withBuild: (fn) => createRoot(fn),
 };

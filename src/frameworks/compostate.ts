@@ -16,7 +16,7 @@ export const compostateFramework: ReactiveFramework = {
       read: () => get(),
     };
   },
-  effect: syncEffect,
-  withBatch: batch,
-  withBuild: createRoot,
+  effect: (fn) => syncEffect(fn),
+  withBatch: (fn) => batch(fn),
+  withBuild: (fn) => createRoot(fn),
 };

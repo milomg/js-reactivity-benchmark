@@ -8,20 +8,14 @@ export const vueReactivityFramework: ReactiveFramework = {
   signal: (initial) => {
     const data = ref(initial);
     return {
-      read() {
-        return data.value as any;
-      },
-      write(v) {
-        data.value = v as any;
-      },
+      read: () => data.value as any,
+      write: (v) => (data.value = v as any),
     };
   },
   computed: (fn) => {
     const c = computed(fn);
     return {
-      read() {
-        return c.value;
-      },
+      read: () => c.value,
     };
   },
   effect: function (fn) {

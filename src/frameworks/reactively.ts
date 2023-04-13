@@ -16,9 +16,7 @@ export const reactivelyFramework: ReactiveFramework = {
       read: () => r.get(),
     };
   },
-  effect: (fn) => {
-    new Reactive(fn, true);
-  },
+  effect: (fn) => new Reactive(fn, true),
   withBatch: (fn) => {
     fn();
     stabilize();
