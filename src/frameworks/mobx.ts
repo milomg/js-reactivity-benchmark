@@ -16,7 +16,16 @@ export const mobxFramework: ReactiveFramework = {
       read: () => read.get(),
     };
   },
-  effect: autorun,
-  withBatch: transaction,
-  withBuild: (fn) => fn(),
+  effect: (fn) => {
+    const disposer = autorun(fn);
+    return () => {
+      disposer();
+    };
+  },
+  withBatch: (fn) => {
+    transaction(fn);
+  },
+  withBuild: (fn) => {
+    return fn();
+  },
 };

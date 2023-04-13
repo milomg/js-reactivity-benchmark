@@ -6,14 +6,14 @@ export const compostateFramework: ReactiveFramework = {
   signal: (initialValue) => {
     const [get, set] = signal(initialValue);
     return {
-      write: set,
-      read: get,
+      write: (v) => set(v),
+      read: () => get(),
     };
   },
   computed: (fn) => {
     const get = computed(fn);
     return {
-      read: get,
+      read: () => get(),
     };
   },
   effect: syncEffect,
