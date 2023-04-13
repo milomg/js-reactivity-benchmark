@@ -1,5 +1,5 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
-import $ from 'oby';
+import $ from "oby";
 
 export const obyFramework: ReactiveFramework = {
   name: "Oby",
@@ -7,7 +7,7 @@ export const obyFramework: ReactiveFramework = {
     const observable = $(initialValue);
     return {
       write: observable,
-      read: observable
+      read: observable,
     };
   },
   computed: (fn) => {
@@ -18,8 +18,8 @@ export const obyFramework: ReactiveFramework = {
   },
   effect: $.effect,
   withBatch: (fn) => {
-    fn ();
-    $.tick ();
+    fn();
+    $.tick();
   },
   withBuild: $.root,
 };

@@ -13,25 +13,25 @@
   "dependencies": {
     "@angular/core": "16.0.0-next.0",
     "@preact/signals": "^1.1.3",
-    "@reactively/core": "^0.0.7",
-    "@solidjs/reactivity": "^0.0.8",
+    "@reactively/core": "^0.0.8",
+    "@solidjs/reactivity": "^0.0.9",
     "@vue/reactivity": "^3.2.47",
     "compostate": "^0.5.1",
     "kairo": "0.6.0-rc.0",
-    "mobx": "^6.8.0",
-    "mol_wire_lib": "^1.0.507",
+    "mobx": "^6.9.0",
+    "mol_wire_lib": "^1.0.553",
     "oby": "13.1.4",
-    "preact": "^10.13.0",
+    "preact": "^10.13.2",
     "s-js": "^0.4.9",
-    "solid-js": "^1.6.12",
+    "solid-js": "^1.7.3",
     "usignal": "^0.9.0"
   },
   "devDependencies": {
-    "@types/node": "^18.14.6",
-    "esbuild": "^0.17.11",
+    "@types/node": "^18.15.11",
+    "esbuild": "^0.17.16",
     "rxjs": "^7.8.0",
     "v8-natives": "^1.2.5",
-    "vitest": "^0.29.2"
+    "vitest": "^0.30.1"
   },
   "pnpm": {
     "patchedDependencies": {
