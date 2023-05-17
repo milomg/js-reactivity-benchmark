@@ -1,0 +1,26 @@
+diff --git a/fesm2022/core.mjs b/fesm2022/core.mjs
+index a8d04702fd194521ecc29926f1513ac938aeabed..b0e8c213870dfa8ebaa48189d24c9829d04190b3 100755
+--- a/fesm2022/core.mjs
++++ b/fesm2022/core.mjs
+@@ -12241,7 +12241,7 @@ function injectDestroyRef() {
+ /**
+  * Tracks all effects registered within a given application and runs them via `flush`.
+  */
+-class EffectManager {
++export class EffectManager {
+     constructor() {
+         this.all = new Set();
+         this.queue = new Map();
+diff --git a/index.d.ts b/index.d.ts
+index a1a096215212ac6f7f2578354b2f3119ed2d1953..6501b5e5f113475f032b19865da9ec42751e81df 100755
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -2985,7 +2985,7 @@ declare type EffectCleanupRegisterFn = (cleanupFn: EffectCleanupFn) => void;
+ /**
+  * Tracks all effects registered within a given application and runs them via `flush`.
+  */
+-declare class EffectManager {
++export declare class EffectManager {
+     private all;
+     private queue;
+     create(effectFn: (onCleanup: (cleanupFn: EffectCleanupFn) => void) => void, destroyRef: DestroyRef | null, allowSignalWrites: boolean): EffectRef;

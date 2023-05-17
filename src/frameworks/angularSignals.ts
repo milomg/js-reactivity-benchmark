@@ -1,5 +1,15 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
-import { signal, computed, effect, runWatchQueue } from "@angular/core";
+import { signal, computed, effect, Injector, EffectManager } from "@angular/core";
+
+const effectManager = new EffectManager();
+const injector = Injector.create({
+  providers: [
+    {
+      provide: EffectManager,
+      useValue: effectManager,
+    },
+  ],
+});
 
 export const angularFramework: ReactiveFramework = {
   name: "@angular/signals",
@@ -16,10 +26,10 @@ export const angularFramework: ReactiveFramework = {
       read: () => c(),
     };
   },
-  effect: (fn) => effect(fn),
+  effect: (fn) => effect(fn, { injector }),
   withBatch: (fn) => {
     fn();
-    runWatchQueue();
+    effectManager.flush();
   },
   withBuild: (fn) => fn(),
 };
