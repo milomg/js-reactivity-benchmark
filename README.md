@@ -14,7 +14,6 @@ $ pnpm bench
 - Tracks garbage collection overhead per test
 - Outputs a csv file for easy integration with other tools.
 
-
 Current reactivity benchmarks ([S.js](https://github.com/adamhaile/S/blob/master/bench/bench.js), [CellX](https://github.com/Riim/cellx/blob/master/perf/perf.html)) are focused on creation time, and update time for a static graph. Additionally, existing benchmarks aren't very configurable, and don't test for dynamic dependencies. We've created a new benchmark that allows library authors to compare their frameworks against each other, and against the existing benchmarks, as well as against a new configurable benchmark with dynamically changing sources.
 
 We're also working on enabling consistent logging and efficient tracking of GC time across all benchmarks.
@@ -26,3 +25,17 @@ That said, there's learning here to improve performance of all the frameworks.
 ![Performance Results](https://user-images.githubusercontent.com/14153763/221107379-51a93eab-95ac-4c89-9a74-7a1527fc4a03.png)
 
 ![Raw](https://user-images.githubusercontent.com/14153763/222212050-5b651e4d-6e71-4667-94e7-eb94b7030bc1.png)
+
+## Debugging
+
+There are VS Code launch options to run test or bench in debug mode. Running bench in debug requires building first (and after any code changes).
+
+```
+$ pnpm build
+```
+
+To run the build version of bench through command line use:
+
+```
+$ pnpm bench:build
+```

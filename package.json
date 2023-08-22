@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest",
+    "build": "esbuild src/index.ts --external:v8-natives --bundle --format=esm --sourcemap --platform=node --outfile=dist/out.js",
+    "bench:build": "node --allow-natives-syntax dist/out.js",
     "bench": "esbuild src/index.ts --external:v8-natives --bundle --format=cjs --platform=node | node --allow-natives-syntax"
   },
   "keywords": [],
