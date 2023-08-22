@@ -10,6 +10,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "dependencies": {
     "@angular/core": "16.2.1",
     "@preact/signals": "^1.2.1",

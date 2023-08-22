@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "target": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "lib": ["ESNext", "DOM"],
     "types": ["@types/node"],
     "noEmit": true,
