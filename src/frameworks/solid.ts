@@ -5,7 +5,7 @@ import {
   createMemo,
   createRoot,
   createSignal,
-} from "solid-js/dist/solid.cjs";
+} from "solid-js";
 
 export const solidFramework: ReactiveFramework = {
   name: "SolidJS",
