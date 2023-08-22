@@ -24,7 +24,9 @@ export async function fastestTest<T>(
 async function runTracked<T>(fn: () => T): Promise<TimingResult<T>> {
   v8.collectGarbage();
   const gcTrack = new GarbageTrack();
-  const { result: wrappedResult, trackId } = gcTrack.watch(() => runTimed(fn));
+  const { result: wrappedResult, trackId } = await gcTrack.watch(() =>
+    runTimed(fn)
+  );
   const gcTime = await gcTrack.gcDuration(trackId);
   const { result, time } = wrappedResult;
   gcTrack.destroy();
