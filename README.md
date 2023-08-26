@@ -28,14 +28,4 @@ That said, there's learning here to improve performance of all the frameworks.
 
 ## Debugging
 
-There are VS Code launch options to run test or bench in debug mode. Running bench in debug requires building first (and after any code changes).
-
-```
-$ pnpm build
-```
-
-To run the build version of bench through command line use:
-
-```
-$ pnpm bench:build
-```
+There are VS Code launch options to run test or bench in debug mode.

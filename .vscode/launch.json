@@ -16,7 +16,7 @@
     {
       "name": "Bench",
       "request": "launch",
-      "runtimeArgs": ["run", "bench:build"],
+      "runtimeArgs": ["run", "bench:debug"],
       "internalConsoleOptions": "openOnSessionStart",
       "runtimeExecutable": "pnpm",
       "skipFiles": ["<node_internals>/**"],
