@@ -29,10 +29,14 @@ export async function kairoBench(framework: ReactiveFramework) {
       return iter;
     });
 
+    iter();
+    iter();
+    iter();
+
     v8.optimizeFunctionOnNextCall(iter);
     iter();
 
-    const { timing } = await fastestTest(10, () => {
+    const { timing } = await fastestTest(5, () => {
       for (let i = 0; i < 1000; i++) {
         iter();
       }
@@ -42,7 +46,7 @@ export async function kairoBench(framework: ReactiveFramework) {
       framework: framework.name,
       test: c.name,
       time: timing.time.toFixed(2),
-      gcTime: timing.gcTime?.toFixed(2),
+      memory: timing.memory?.toFixed(2),
     });
   }
 }

@@ -47,10 +47,14 @@ export async function molBench(framework: ReactiveFramework) {
     };
   });
 
+  iter(0);
+  iter(1);
+  iter(2);
+
   v8.optimizeFunctionOnNextCall(iter);
   iter(1);
 
-  const { timing } = await fastestTest(10, () => {
+  const { timing } = await fastestTest(5, () => {
     for (let i = 0; i < 1e4; i++) {
       iter(i);
     }
@@ -60,6 +64,6 @@ export async function molBench(framework: ReactiveFramework) {
     framework: framework.name,
     test: "molBench",
     time: timing.time.toFixed(2),
-    gcTime: timing.gcTime?.toFixed(2),
+    memory: timing.memory?.toFixed(2),
   });
 }

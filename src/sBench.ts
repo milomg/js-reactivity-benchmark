@@ -50,8 +50,8 @@ export function sbench(framework: ReactiveFramework) {
 
     framework.withBuild(() => {
       // run 3 times to warm up
-      let sources = createDataSignals(scount, []) as Computed<number>[] | null;
-      fn(n / 100, sources!);
+      let sources: Computed<number>[] | null = createDataSignals(scount, []);
+      fn(n / 100, sources);
       sources = createDataSignals(scount, []);
       fn(n / 100, sources);
       sources = createDataSignals(scount, []);

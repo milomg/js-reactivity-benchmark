@@ -12,7 +12,7 @@ export interface TimingResult<T> {
 
 export interface TestTiming {
   time: number;
-  gcTime?: number;
+  memory?: number;
 }
 
 export function verifyBenchResult(

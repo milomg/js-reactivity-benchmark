@@ -10,14 +10,14 @@ export interface PerfRowStrings {
   framework: string;
   test: string;
   time: string;
-  gcTime?: string;
+  memory?: string;
 }
 
 const columnWidth = {
   framework: 16,
   test: 60,
   time: 8,
-  gcTime: 6,
+  memory: 8,
 };
 
 export function perfReportHeaders(): PerfRowStrings {
@@ -38,7 +38,7 @@ export function perfRowStrings(
     framework: frameworkName,
     test: `${makeTitle(config)} (${config.name || ""})`,
     time: timing.time.toFixed(2),
-    gcTime: (timing.gcTime || 0).toFixed(2),
+    memory: (timing.memory || 0).toFixed(2),
   };
 }
 

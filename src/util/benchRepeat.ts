@@ -23,10 +23,10 @@ export async function fastestTest<T>(
 /** run a function, reporting the wall clock time and garbage collection time. */
 async function runTracked<T>(fn: () => T): Promise<TimingResult<T>> {
   v8.collectGarbage();
-  const gcTrack = new GarbageTrack();
-  const { result: wrappedResult, trackId } = gcTrack.watch(() => runTimed(fn));
-  const gcTime = await gcTrack.gcDuration(trackId);
-  const { result, time } = wrappedResult;
-  gcTrack.destroy();
-  return { result, timing: { time, gcTime } };
+  let before = process.memoryUsage();
+  let out = runTimed(fn);
+  let after = process.memoryUsage();
+  const { result, time } = out;
+  let gcMemoryUsed = after.heapUsed - before.heapUsed;
+  return { result, timing: { time, memory: gcMemoryUsed / 1000 } };
 }

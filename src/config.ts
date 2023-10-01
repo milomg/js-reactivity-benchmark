@@ -15,8 +15,8 @@ import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
 
 export const frameworkInfo: FrameworkInfo[] = [
-  { framework: angularFramework, testPullCounts: true },
-  { framework: compostateFramework, testPullCounts: true },
+  // { framework: angularFramework, testPullCounts: true },
+  // { framework: compostateFramework, testPullCounts: true },
   // { framework: kairoFramework, testPullCounts: true },
   // { framework: mobxFramework, testPullCounts: true },
   { framework: molWireFramework, testPullCounts: true },
@@ -26,7 +26,7 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: sFramework },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: usignalFramework, testPullCounts: true },
-  { framework: vueReactivityFramework, testPullCounts: true },
+  // { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
 ];
 

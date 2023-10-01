@@ -1,8 +1,8 @@
 diff --git a/fesm2022/core.mjs b/fesm2022/core.mjs
-index 7a60a7e0e20934065cb8d111a3227839490311fc..095f634db9f00a08bdd90c26697227e3b563ff71 100755
+index 03e3f939a963ba2ad29ca3a1af0b1b8ab504c10d..097140b74ea4698314ba70234e1dbf617ce8496f 100755
 --- a/fesm2022/core.mjs
 +++ b/fesm2022/core.mjs
-@@ -12657,7 +12657,7 @@ function renderChildComponents(hostLView, components) {
+@@ -13233,7 +13233,7 @@ function renderChildComponents(hostLView, components) {
  /**
   * Tracks all effects registered within a given application and runs them via `flush`.
   */
@@ -12,10 +12,10 @@ index 7a60a7e0e20934065cb8d111a3227839490311fc..095f634db9f00a08bdd90c26697227e3
          this.all = new Set();
          this.queue = new Map();
 diff --git a/index.d.ts b/index.d.ts
-index 5ac045127388e0f8639d57b7d091a39af35bf719..1a06e59e552b61722ea0022b9b8e4e9de6594131 100755
+index 6e87aea0a58cdf679bf76104423987b214f813bf..29463411c393e0a83146620f2c699b40040c06ee 100755
 --- a/index.d.ts
 +++ b/index.d.ts
-@@ -3119,7 +3119,7 @@ declare type EffectCleanupRegisterFn = (cleanupFn: EffectCleanupFn) => void;
+@@ -3110,7 +3110,7 @@ declare type EffectCleanupRegisterFn = (cleanupFn: EffectCleanupFn) => void;
  /**
   * Tracks all effects registered within a given application and runs them via `flush`.
   */

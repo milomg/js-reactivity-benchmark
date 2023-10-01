@@ -24,6 +24,10 @@ export async function dynamicBench(
     }
 
     // warm up
+    runOnce();
+    runOnce();
+    runOnce();
+
     v8.optimizeFunctionOnNextCall(runOnce);
     runOnce();
 
