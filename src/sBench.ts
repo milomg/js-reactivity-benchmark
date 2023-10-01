@@ -29,7 +29,7 @@ export function sbench(framework: ReactiveFramework) {
   function bench(
     fn: (n: number, sources: any[]) => void,
     count: number,
-    scount: number
+    scount: number,
   ) {
     const time = run(fn, count, scount);
     logPerfResult({
@@ -42,7 +42,7 @@ export function sbench(framework: ReactiveFramework) {
   function run(
     fn: (n: number, sources: Computed<number>[]) => void,
     n: number,
-    scount: number
+    scount: number,
   ) {
     // prep n * arity sources
     let start = 0;
@@ -153,7 +153,7 @@ export function sbench(framework: ReactiveFramework) {
         sources[i * 4].read,
         sources[i * 4 + 1].read,
         sources[i * 4 + 2].read,
-        sources[i * 4 + 3].read
+        sources[i * 4 + 3].read,
       );
     }
   }
@@ -168,7 +168,7 @@ export function sbench(framework: ReactiveFramework) {
         sources[i * 8 + 4].read,
         sources[i * 8 + 5].read,
         sources[i * 8 + 6].read,
-        sources[i * 8 + 7].read
+        sources[i * 8 + 7].read,
       );
     }
   }
@@ -203,10 +203,10 @@ export function sbench(framework: ReactiveFramework) {
     s5: Reader,
     s6: Reader,
     s7: Reader,
-    s8: Reader
+    s8: Reader,
   ) {
     framework.computed(
-      () => s1() + s2() + s3() + s4() + s5() + s6() + s7() + s8()
+      () => s1() + s2() + s3() + s4() + s5() + s6() + s7() + s8(),
     );
   }
 

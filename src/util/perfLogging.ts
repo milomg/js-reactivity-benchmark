@@ -30,7 +30,7 @@ export function perfReportHeaders(): PerfRowStrings {
 export function perfRowStrings(
   frameworkName: string,
   config: TestConfig,
-  timed: TimingResult<TestResult>
+  timed: TimingResult<TestResult>,
 ): PerfRowStrings {
   const { timing } = timed;
 

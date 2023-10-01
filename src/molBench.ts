@@ -21,14 +21,14 @@ export async function molBench(framework: ReactiveFramework) {
     const B = framework.signal(0);
     const C = framework.computed(() => (A.read() % 2) + (B.read() % 2));
     const D = framework.computed(() =>
-      numbers.map((i) => ({ x: i + (A.read() % 2) - (B.read() % 2) }))
+      numbers.map((i) => ({ x: i + (A.read() % 2) - (B.read() % 2) })),
     );
     const E = framework.computed(() =>
-      hard(C.read() + A.read() + D.read()[0].x, "E")
+      hard(C.read() + A.read() + D.read()[0].x, "E"),
     );
     const F = framework.computed(() => hard(D.read()[2].x || B.read(), "F"));
     const G = framework.computed(
-      () => C.read() + (C.read() || E.read() % 2) + D.read()[4].x + F.read()
+      () => C.read() + (C.read() || E.read() % 2) + D.read()[4].x + F.read(),
     );
     const H = framework.effect(() => res.push(hard(G.read(), "H")));
     const I = framework.effect(() => res.push(G.read()));

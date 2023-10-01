@@ -6,7 +6,7 @@ import { runTimed } from "./perfUtil";
 /** benchmark a function n times, returning the fastest result and associated timing */
 export async function fastestTest<T>(
   times: number,
-  fn: () => T
+  fn: () => T,
 ): Promise<TimingResult<T>> {
   const results: TimingResult<T>[] = [];
   for (let i = 0; i < times; i++) {
@@ -14,7 +14,7 @@ export async function fastestTest<T>(
     results.push(run);
   }
   const fastest = results.reduce((a, b) =>
-    a.timing.time < b.timing.time ? a : b
+    a.timing.time < b.timing.time ? a : b,
   );
 
   return fastest;

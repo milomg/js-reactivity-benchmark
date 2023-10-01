@@ -23,7 +23,7 @@ export interface GraphAndCounter {
  */
 export function makeGraph(
   framework: ReactiveFramework,
-  config: TestConfig
+  config: TestConfig,
 ): GraphAndCounter {
   const { width, totalLayers, staticFraction, nSources } = config;
 
@@ -36,7 +36,7 @@ export function makeGraph(
       counter,
       staticFraction,
       nSources,
-      framework
+      framework,
     );
     const graph = { sources, layers: rows };
     return { graph, counter };
@@ -52,7 +52,7 @@ export function runGraph(
   graph: Graph,
   iterations: number,
   readFraction: number,
-  framework: ReactiveFramework
+  framework: ReactiveFramework,
 ): number {
   const rand = pseudoRandom();
   const { sources, layers } = graph;
@@ -93,7 +93,7 @@ function makeDependentRows(
   counter: Counter,
   staticFraction: number,
   nSources: number,
-  framework: ReactiveFramework
+  framework: ReactiveFramework,
 ): Computed<number>[][] {
   let prevRow = sources;
   const random = pseudoRandom();
@@ -106,7 +106,7 @@ function makeDependentRows(
       nSources,
       framework,
       l,
-      random
+      random,
     );
     rows.push(row);
     prevRow = row;
@@ -121,7 +121,7 @@ function makeRow(
   nSources: number,
   framework: ReactiveFramework,
   layer: number,
-  random: () => number
+  random: () => number,
 ): Computed<number>[] {
   return sources.map((_, myDex) => {
     const mySources: Computed<number>[] = [];

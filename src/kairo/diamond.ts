@@ -10,7 +10,7 @@ export function diamond(bridge: ReactiveFramework) {
     current.push(
       bridge.computed(() => {
         return head.read() + 1;
-      })
+      }),
     );
   }
   let sum = bridge.computed(() => {

@@ -18,7 +18,7 @@ export interface TestTiming {
 export function verifyBenchResult(
   perfFramework: FrameworkInfo,
   config: TestConfig,
-  timedResult: TimingResult<TestResult>
+  timedResult: TimingResult<TestResult>,
 ): void {
   const { testPullCounts, framework } = perfFramework;
   const { expected } = config;
@@ -27,13 +27,13 @@ export function verifyBenchResult(
   if (expected.sum) {
     console.assert(
       result.sum == expected.sum,
-      `sum ${framework.name} ${config.name} result:${result.sum} expected:${expected.sum}`
+      `sum ${framework.name} ${config.name} result:${result.sum} expected:${expected.sum}`,
     );
   }
   if (expected.count && (config.readFraction === 1 || testPullCounts)) {
     console.assert(
       result.count === expected.count,
-      `count ${framework.name} ${config.name} result:${result.count} expected:${expected.count}`
+      `count ${framework.name} ${config.name} result:${result.count} expected:${expected.count}`,
     );
   }
 }

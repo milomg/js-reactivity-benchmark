@@ -11,7 +11,7 @@ import { fastestTest } from "./util/benchRepeat";
  */
 export async function dynamicBench(
   frameworkTest: FrameworkInfo,
-  testRepeats = 5
+  testRepeats = 5,
 ): Promise<void> {
   const { framework } = frameworkTest;
   for (const config of perfTests) {

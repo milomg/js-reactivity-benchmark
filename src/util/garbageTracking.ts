@@ -8,7 +8,7 @@ import { promiseDelay } from "./asyncUtil";
 export class GarbageTrack {
   private trackId = 0;
   private observer = new PerformanceObserver((list) =>
-    this.perfEntries.push(...list.getEntries())
+    this.perfEntries.push(...list.getEntries()),
   );
   private perfEntries: PerformanceEntry[] = [];
   private periods: WatchPeriod[] = [];
@@ -34,7 +34,7 @@ export class GarbageTrack {
     }
 
     const entries = this.perfEntries.filter(
-      (e) => e.startTime >= period.start && e.startTime < period.end
+      (e) => e.startTime >= period.start && e.startTime < period.end,
     );
     const totalTime = entries.reduce((t, e) => e.duration + t, 0);
     return totalTime;
