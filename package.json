@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@angular/core": "16.2.1",
+    "@angular/core": "17.0.0-rc.1",
     "@preact/signals": "^1.2.1",
     "@reactively/core": "^0.0.8",
     "@solidjs/reactivity": "^0.0.9",
