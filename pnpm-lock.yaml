@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@angular/core':
-        specifier: 16.2.1
-        version: 16.2.1(patch_hash=cohf6jg3ccnbxneujnxfl4rlvu)(rxjs@7.8.1)(zone.js@0.13.1)
+        specifier: 17.0.0-rc.1
+        version: 17.0.0-rc.1(rxjs@7.8.1)(zone.js@0.14.1)
       '@preact/signals':
         specifier: ^1.2.1
         version: 1.2.1(preact@10.17.1)
@@ -101,18 +101,17 @@ importers:
 
 packages:
 
-  /@angular/core@16.2.1(patch_hash=cohf6jg3ccnbxneujnxfl4rlvu)(rxjs@7.8.1)(zone.js@0.13.1):
-    resolution: {integrity: sha512-Y+0jssQnJPovxMv9cDKYlp6BBHeFBLOHd/+FPv5IIGD1c7NwBP/TImJxCaIV78a57xnO8L0SFacDg/kULzvKrg==}
-    engines: {node: ^16.14.0 || >=18.10.0}
+  /@angular/core@17.0.0-rc.1(rxjs@7.8.1)(zone.js@0.14.1):
+    resolution: {integrity: sha512-qz5Xjye2XkmBp+4vSxpPVM6yXs/36oXx/FUQa6PDP/DrW9wrCxSELf2g9PHT84xDgq6BhBqca0a4fq+QFURTqg==}
+    engines: {node: '>=18.13.0'}
     peerDependencies:
       rxjs: ^6.5.3 || ^7.4.0
-      zone.js: ~0.13.0
+      zone.js: ~0.14.0
     dependencies:
       rxjs: 7.8.1
       tslib: 2.6.2
-      zone.js: 0.13.1
+      zone.js: 0.14.1
     dev: false
-    patched: true
 
   /@esbuild/android-arm64@0.16.17:
     resolution: {integrity: sha512-MIGl6p5sc3RDTLLkYL1MyL8BMRN4tLMRCn+yRJJmEDvYZ2M7tmAf80hx1kbNEUX2KJ50RRtxZ4JHLvCfuB6kBg==}
@@ -1091,6 +1090,14 @@ packages:
     dev: true
     optional: true
 
+  /fsevents@2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
@@ -1321,7 +1328,7 @@ packages:
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /rxjs@7.8.1:
@@ -1501,7 +1508,7 @@ packages:
       postcss: 8.4.28
       rollup: 3.28.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /vitest@0.34.2:
@@ -1622,8 +1629,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  /zone.js@0.13.1:
-    resolution: {integrity: sha512-+bIeDAFEBYuXRuU3qGQvzdPap+N1zjM4KkBAiiQuVVCrHrhjDuY6VkUhNa5+U27+9w0q3fbKiMCbpJ0XzMmSWA==}
+  /zone.js@0.14.1:
+    resolution: {integrity: sha512-R3t9Nwl/LJnnpmwx0+Q7YcHtE6xUObnowwNskWCiqEMQXYYlkZiOOhF+N2R18PMILv8+fbzCLKAJvpvyxzafpQ==}
     dependencies:
       tslib: 2.6.2
     dev: false

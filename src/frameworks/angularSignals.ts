@@ -1,15 +1,7 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
-import { signal, computed, effect, Injector, EffectManager } from "@angular/core";
+import { signal, computed } from "@angular/core";
+import { createWatch, Watch } from "@angular/core/primitives/signals";
 
-const effectManager = new EffectManager();
-const injector = Injector.create({
-  providers: [
-    {
-      provide: EffectManager,
-      useValue: effectManager,
-    },
-  ],
-});
 
 export const angularFramework: ReactiveFramework = {
   name: "@angular/signals",
@@ -26,10 +18,32 @@ export const angularFramework: ReactiveFramework = {
       read: () => c(),
     };
   },
-  effect: (fn) => effect(fn, { injector }),
+  effect: (fn) => effect(fn),
   withBatch: (fn) => {
     fn();
-    effectManager.flush();
+    flushEffects();
   },
   withBuild: (fn) => fn(),
 };
+
+
+let queue = new Set<Watch>();
+
+/**
+ * Wrapper around Angular's core effect primitive `Watch`, decoupled from dependency injection,
+ * cleanup, and other unrelated concepts.
+ */
+function effect(effectFn: () => void):
+    void {
+  const w = createWatch(effectFn, queue.add.bind(queue), true);
+
+  // Effects start dirty.
+  w.notify();
+}
+
+function flushEffects(): void {
+  for (const watch of queue) {
+    queue.delete(watch);
+    watch.run();
+  }
+}
