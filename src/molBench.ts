@@ -1,4 +1,3 @@
-import v8 from "v8-natives";
 import { fastestTest } from "./util/benchRepeat";
 import { logPerfResult } from "./util/perfLogging";
 import { ReactiveFramework } from "./util/reactiveFramework";
@@ -50,9 +49,6 @@ export async function molBench(framework: ReactiveFramework) {
   iter(0);
   iter(1);
   iter(2);
-
-  v8.optimizeFunctionOnNextCall(iter);
-  iter(1);
 
   const { timing } = await fastestTest(5, () => {
     for (let i = 0; i < 1e4; i++) {

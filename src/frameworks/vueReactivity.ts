@@ -2,7 +2,6 @@ import { computed, ref, effect, ReactiveEffect } from "@vue/reactivity";
 import { ReactiveFramework } from "../util/reactiveFramework";
 
 let scheduled = [] as ReactiveEffect[];
-let isBatching = false;
 export const vueReactivityFramework: ReactiveFramework = {
   name: "Vue",
   signal: (initial) => {
@@ -18,7 +17,7 @@ export const vueReactivityFramework: ReactiveFramework = {
       read: () => c.value,
     };
   },
-  effect: function (fn) {
+  effect: (fn) => {
     let t = effect(() => fn(), {
       lazy: false,
       scheduler: (x) => {
@@ -26,16 +25,15 @@ export const vueReactivityFramework: ReactiveFramework = {
       },
     });
   },
-  withBatch: function (fn) {
-    if (isBatching) {
-      fn();
-    }
-    isBatching = true;
+  withBatch: (fn) => {
     fn();
-    while (scheduled.length) {
-      scheduled.pop()!.run();
-    }
-    isBatching = false;
+    flushEffects();
   },
   withBuild: (fn) => fn(),
 };
+
+function flushEffects() {
+  while (scheduled.length) {
+    scheduled.pop()!.run();
+  }
+}

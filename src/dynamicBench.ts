@@ -1,4 +1,3 @@
-import v8 from "v8-natives";
 import { makeGraph, runGraph } from "./util/dependencyGraph";
 import { logPerfResult, perfRowStrings } from "./util/perfLogging";
 import { verifyBenchResult } from "./util/perfTests";
@@ -26,9 +25,6 @@ export async function dynamicBench(
     // warm up
     runOnce();
     runOnce();
-    runOnce();
-
-    v8.optimizeFunctionOnNextCall(runOnce);
     runOnce();
 
     const timedResult = await fastestTest(testRepeats, () => {

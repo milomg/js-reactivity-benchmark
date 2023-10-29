@@ -1,5 +1,4 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
-import v8 from "v8-natives";
 import { logPerfResult } from "./util/perfLogging";
 import { Computed, Signal, ReactiveFramework } from "./util/reactiveFramework";
 
@@ -31,11 +30,12 @@ export function sbench(framework: ReactiveFramework) {
     count: number,
     scount: number,
   ) {
-    const time = run(fn, count, scount);
+    const { memory, time } = run(fn, count, scount);
     logPerfResult({
       framework: framework.name,
       test: fn.name,
       time: time.toFixed(2),
+      memory: memory.toFixed(2),
     });
   }
 
@@ -47,15 +47,20 @@ export function sbench(framework: ReactiveFramework) {
     // prep n * arity sources
     let start = 0;
     let end = 0;
+    let memoryStart = 0;
+    let memoryEnd = 0;
 
     framework.withBuild(() => {
+      window.gc();
+
+      memoryStart = performance.memory.usedJSHeapSize;
+
       // run 3 times to warm up
       let sources: Computed<number>[] | null = createDataSignals(scount, []);
       fn(n / 100, sources);
       sources = createDataSignals(scount, []);
       fn(n / 100, sources);
       sources = createDataSignals(scount, []);
-      v8.optimizeFunctionOnNextCall(fn);
       fn(n / 100, sources);
       sources = createDataSignals(scount, []);
       for (let i = 0; i < scount; i++) {
@@ -65,7 +70,7 @@ export function sbench(framework: ReactiveFramework) {
       }
 
       // start GC clean
-      v8.collectGarbage();
+      window.gc();
 
       start = performance.now();
 
@@ -73,11 +78,12 @@ export function sbench(framework: ReactiveFramework) {
 
       // end GC clean
       sources = null;
-      v8.collectGarbage();
+      window.gc();
       end = performance.now();
+      memoryEnd = performance.memory.usedJSHeapSize;
     });
 
-    return end - start;
+    return { time: end - start, memory: memoryEnd - memoryStart };
   }
 
   function createDataSignals(n: number, sources: Computed<number>[]) {

@@ -1,4 +1,5 @@
 // The following is an implementation of the cellx benchmark https://github.com/Riim/cellx/blob/master/perf/perf.html
+import { nextTick } from "./util/asyncUtil";
 import { logPerfResult } from "./util/perfLogging";
 import { Computed, ReactiveFramework } from "./util/reactiveFramework";
 
@@ -87,7 +88,7 @@ type BenchmarkResults = [
   readonly [number, number, number, number],
 ];
 
-export const cellxbench = (framework: ReactiveFramework) => {
+export const cellxbench = async (framework: ReactiveFramework) => {
   const expected: Record<number, BenchmarkResults> = {
     1000: [
       [-3, -6, -2, 2],
@@ -108,12 +109,15 @@ export const cellxbench = (framework: ReactiveFramework) => {
   for (const layers in expected) {
     let total = 0;
     for (let i = 0; i < 10; i++) {
+      await nextTick();
+
       const [elapsed, before, after] = cellx(framework, Number(layers));
 
       results[layers] = [before, after];
 
       total += elapsed;
     }
+
     logPerfResult({
       framework: framework.name,
       test: `cellx${layers}`,

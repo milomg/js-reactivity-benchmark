@@ -1,9 +1,10 @@
 import { TestConfig } from "./frameworkTypes";
 import { TestResult, TimingResult } from "./perfTests";
 
+const pre = document.querySelector("pre")!;
 export function logPerfResult(row: PerfRowStrings): void {
   const line = Object.values(trimColumns(row)).join(" , ");
-  console.log(line);
+  pre.innerText += line + "\n";
 }
 
 export interface PerfRowStrings {

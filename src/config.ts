@@ -15,12 +15,12 @@ import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
 
 export const frameworkInfo: FrameworkInfo[] = [
-  // { framework: angularFramework, testPullCounts: true },
+  { framework: angularFramework, testPullCounts: true },
   // { framework: compostateFramework, testPullCounts: true },
   // { framework: kairoFramework, testPullCounts: true },
   // { framework: mobxFramework, testPullCounts: true },
   { framework: molWireFramework, testPullCounts: true },
-  { framework: obyFramework, testPullCounts: true },
+  // { framework: obyFramework, testPullCounts: true },
   { framework: preactSignalFramework, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: sFramework },

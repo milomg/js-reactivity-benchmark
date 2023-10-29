@@ -2,3 +2,5 @@
 export function promiseDelay(timeout = 0): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 }
+
+export const nextTick = () => promiseDelay(0);
