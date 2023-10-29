@@ -1,20 +1,26 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
-import { signal, computed } from "@angular/core";
-import { createWatch, Watch } from "@angular/core/primitives/signals";
+import {
+  createWatch,
+  Watch,
+  createSignal,
+  signalSetFn,
+  SIGNAL,
+  createComputed,
+} from "@angular/core/primitives/signals";
 
 let queue = new Set<Watch>();
 
 export const angularFramework: ReactiveFramework = {
   name: "@angular/signals",
   signal: (initialValue) => {
-    const s = signal(initialValue);
+    const s = createSignal(initialValue);
     return {
-      write: (v) => s.set(v),
+      write: (v) => signalSetFn(s[SIGNAL], v),
       read: () => s(),
     };
   },
   computed: (fn) => {
-    const c = computed(fn);
+    const c = createComputed(fn);
     return {
       read: () => c(),
     };

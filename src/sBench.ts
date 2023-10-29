@@ -51,9 +51,9 @@ export function sbench(framework: ReactiveFramework) {
     let memoryEnd = 0;
 
     framework.withBuild(() => {
-      window.gc();
+      if (window.gc) gc!(), gc!();
 
-      memoryStart = performance.memory.usedJSHeapSize;
+      memoryStart = window.performance.memory?.usedJSHeapSize ?? 0;
 
       // run 3 times to warm up
       let sources: Computed<number>[] | null = createDataSignals(scount, []);
@@ -70,7 +70,7 @@ export function sbench(framework: ReactiveFramework) {
       }
 
       // start GC clean
-      window.gc();
+      if (window.gc) gc!(), gc!();
 
       start = performance.now();
 
@@ -78,9 +78,9 @@ export function sbench(framework: ReactiveFramework) {
 
       // end GC clean
       sources = null;
-      window.gc();
+      if (window.gc) gc!(), gc!();
       end = performance.now();
-      memoryEnd = performance.memory.usedJSHeapSize;
+      memoryEnd = window.performance.memory?.usedJSHeapSize ?? 0;
     });
 
     return { time: end - start, memory: memoryEnd - memoryStart };

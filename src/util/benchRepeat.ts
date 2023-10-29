@@ -4,11 +4,8 @@ import { TimingResult } from "./perfTests";
 import { runTimed } from "./perfUtil";
 
 declare global {
-  interface Window {
-    gc: () => void;
-  }
   interface Performance {
-    memory: {
+    memory?: {
       totalJSHeapSize: number;
       usedJSHeapSize: number;
       jsHeapSizeLimit: number;
@@ -36,10 +33,10 @@ export async function fastestTest<T>(
 
 /** run a function, reporting the wall clock time and garbage collection time. */
 async function runTracked<T>(fn: () => T): Promise<TimingResult<T>> {
-  window.gc();
-  let before = window.performance.memory.usedJSHeapSize;
+  if (window.gc) gc!(), gc!();
+  let before = window.performance.memory?.usedJSHeapSize ?? 0;
   let out = runTimed(fn);
-  let after = window.performance.memory.usedJSHeapSize;
+  let after = window.performance.memory?.usedJSHeapSize ?? 0;
   const { result, time } = out;
   let gcMemoryUsed = after - before;
   return { result, timing: { time, memory: gcMemoryUsed / 1000 } };

@@ -5,37 +5,36 @@ import { frameworkInfo } from "./config";
 import { logPerfResult, perfReportHeaders } from "./util/perfLogging";
 import { molBench } from "./molBench";
 import { kairoBench } from "./kairoBench";
-
-const nextTick = () => new Promise((resolve) => setTimeout(resolve, 0));
+import { promiseDelay } from "./util/asyncUtil";
 
 async function main() {
   logPerfResult(perfReportHeaders());
 
-  await nextTick();
+  await promiseDelay(0);
 
   for (const { framework } of frameworkInfo) {
     await kairoBench(framework);
-    await nextTick();
+    await promiseDelay(2000);
   }
 
   for (const { framework } of frameworkInfo) {
     await molBench(framework);
-    await nextTick();
+    await promiseDelay(2000);
   }
 
   for (const { framework } of frameworkInfo) {
     sbench(framework);
-    await nextTick();
+    await promiseDelay(2000);
   }
 
   for (const { framework } of frameworkInfo) {
     cellxbench(framework);
-    await nextTick();
+    await promiseDelay(2000);
   }
 
   for (const frameworkTest of frameworkInfo) {
     await dynamicBench(frameworkTest);
-    await nextTick();
+    await promiseDelay(2000);
   }
 }
 
