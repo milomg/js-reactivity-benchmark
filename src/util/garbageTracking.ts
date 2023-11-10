@@ -14,10 +14,13 @@ export class GarbageTrack {
   private periods: WatchPeriod[] = [];
 
   /** look for gc events during the time this function is executing */
-  watch<T>(fn: () => T): { result: T; trackId: number } {
+  async watch<T>(fn: () => T): Promise<{
+    result: Awaited<T>;
+    trackId: number;
+  }> {
     this.trackId++;
     const start = performance.now();
-    const result = fn();
+    const result = await fn();
     const end = performance.now();
     this.periods.push({ trackId: this.trackId, start, end });
 

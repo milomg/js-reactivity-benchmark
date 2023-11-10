@@ -5,6 +5,7 @@ import { frameworkInfo } from "./config";
 import { logPerfResult, perfReportHeaders } from "./util/perfLogging";
 import { molBench } from "./molBench";
 import { kairoBench } from "./kairoBench";
+import { gcBench } from "./gcBench";
 
 async function main() {
   logPerfResult(perfReportHeaders());
@@ -27,6 +28,10 @@ async function main() {
 
   for (const frameworkTest of frameworkInfo) {
     await dynamicBench(frameworkTest);
+  }
+
+  for (const { framework } of frameworkInfo) {
+    await gcBench(framework);
   }
 }
 
