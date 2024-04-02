@@ -4,6 +4,7 @@ import { angularFramework } from "./frameworks/angularSignals";
 import { compostateFramework } from "./frameworks/compostate";
 import { kairoFramework } from "./frameworks/kairo";
 import { mobxFramework } from "./frameworks/mobx";
+import { tc39SignalsProposalStage0 } from './frameworks/tc39-proposal-signals-stage-0';
 import { molWireFramework } from "./frameworks/molWire";
 import { obyFramework } from "./frameworks/oby";
 import { preactSignalFramework } from "./frameworks/preactSignals";
@@ -17,6 +18,7 @@ import { xReactivityFramework } from "./frameworks/xReactivity";
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework, testPullCounts: true },
   { framework: compostateFramework, testPullCounts: true },
+  { framework: tc39SignalsProposalStage0, testPullCounts: true },
   // { framework: kairoFramework, testPullCounts: true },
   // { framework: mobxFramework, testPullCounts: true },
   { framework: molWireFramework, testPullCounts: true },
