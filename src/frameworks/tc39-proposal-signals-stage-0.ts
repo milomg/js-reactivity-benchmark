@@ -3,18 +3,18 @@ import { Signal } from "signal-polyfill";
 
 
 export const tc39SignalsProposalStage0: ReactiveFramework = {
-  name: "@angular/signals",
+  name: "TC39 Signals Proposal: Stage 0",
   signal: (initialValue) => {
     const s = new Signal.State(initialValue);
     return {
-      write: s.set,
-      read: s.get,
+      write: (v) => s.set(v),
+      read: () => s.get(),
     };
   },
   computed: (fn) => {
     const c = new Signal.Computed(fn);
     return {
-      read: c.get,
+      read: () => c.get(),
     };
   },
   effect: (fn) => effect(fn),
@@ -30,7 +30,11 @@ let needsEnqueue = false;
 const w = new Signal.subtle.Watcher(() => {
   if (needsEnqueue) {
     needsEnqueue = false;
-    queueMicrotask.enqueue(processPending);
+    (async () => {
+      await Promise.resolve();
+      // next micro queue
+      processPending();
+    })();
   }
 });
 
