@@ -23,7 +23,7 @@ We're also working on enabling consistent logging and efficient tracking of GC t
 	<em><a href="https://github.com/user-attachments/files/16992605/reactivity-bench.csv">Raw results CSV</a></em>
 </p>
 
-<detail>
+<details>
 <summary>
 Old results
 </summary>
@@ -36,6 +36,6 @@ That said, there's learning here to improve performance of all the frameworks.
 
 ![Raw](https://user-images.githubusercontent.com/14153763/222212050-5b651e4d-6e71-4667-94e7-eb94b7030bc1.png)
 
-</detail>
+</details>
 
 [^mobx]: [MobX](https://mobx.js.org) is not included in the average benchmark results because it fails to run some of the deeper, dynamic benchmarks.
