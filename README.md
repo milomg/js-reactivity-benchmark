@@ -40,7 +40,7 @@ We're also working on enabling consistent logging and efficient tracking of GC t
 
 <p align='center'>
 	<img src="https://github.com/user-attachments/assets/4621879c-fb20-4056-8fd8-f7daa31a07e3" alt="Framework average benchmark results">
-	<em><a href="https://github.com/user-attachments/files/16992605/reactivity-bench.csv">Raw results CSV</a></em> (last updated September 2024 on a M3 Macbook Pro)
+	<a href="https://github.com/user-attachments/files/16992605/reactivity-bench.csv">Raw results CSV</a> (<em>last updated September 2024 on a M3 Macbook Pro</em>)
 </p>
 
 <details>
