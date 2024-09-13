@@ -24,6 +24,7 @@
     "preact": "^10.23.2",
     "s-js": "^0.4.9",
     "signal-polyfill": "^0.1.0",
+    "signia": "^0.1.5",
     "solid-js": "^1.8.22",
     "usignal": "^0.9.0"
   },

@@ -14,9 +14,9 @@ import { solidFramework } from "./frameworks/solid";
 import { usignalFramework } from "./frameworks/uSignal";
 import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
+import { signiaFramework } from "./frameworks/signia";
 
 export const frameworkInfo: FrameworkInfo[] = [
-  { framework: vueReactivityFramework, testPullCounts: true },
   { framework: angularFramework, testPullCounts: true },
   { framework: compostateFramework, testPullCounts: true },
   { framework: mobxFramework },
@@ -26,9 +26,11 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: obyFramework, testPullCounts: true },
   { framework: preactSignalFramework, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
+  { framework: signiaFramework, testPullCounts: true },
   { framework: sFramework },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: usignalFramework, testPullCounts: true },
+  { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
 ];
 

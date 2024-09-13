@@ -47,6 +47,9 @@ importers:
       signal-polyfill:
         specifier: ^0.1.0
         version: 0.1.2
+      signia:
+        specifier: ^0.1.5
+        version: 0.1.5
       solid-js:
         specifier: ^1.8.22
         version: 1.8.22
@@ -946,6 +949,9 @@ packages:
   signal-polyfill@0.1.2:
     resolution: {integrity: sha512-HT9d+L9NMiTzMxb/tU2Baym6129ROyRETSjvchvSkQa7wN0+SrG/IUlsaBLqKn2c+4mlze6CgQBEvgBjxOpiaQ==}
 
+  signia@0.1.5:
+    resolution: {integrity: sha512-ViJpywl7H1W6zRfqbu+86xpSCcuq6tpOen7I+gR8axaiyZP8txRNAoeCsL20UkuqzG/Ybtk0u4C2lawkiwPlnw==}
+
   solid-js@1.6.11:
     resolution: {integrity: sha512-JquQQHPArGq+i2PLURxJ99Pcz2/1docpbycSio/cKSA0SeI3z5zRjy0TNcH4NRYvbOLrcini+iovXwnexKabyw==}
 
@@ -1739,6 +1745,8 @@ snapshots:
   siginfo@2.0.0: {}
 
   signal-polyfill@0.1.2: {}
+
+  signia@0.1.5: {}
 
   solid-js@1.6.11:
     dependencies:

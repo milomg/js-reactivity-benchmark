@@ -1,5 +1,5 @@
 import { dynamicBench } from "./dynamicBench";
-// import { cellxbench } from "./cellxBench";
+import { cellxbench } from "./cellxBench";
 import { sbench } from "./sBench";
 import { frameworkInfo } from "./config";
 import { logPerfResult, perfReportHeaders } from "./util/perfLogging";
