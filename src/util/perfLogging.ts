@@ -14,7 +14,7 @@ export interface PerfRowStrings {
 }
 
 const columnWidth = {
-  framework: 16,
+  framework: 22,
   test: 60,
   time: 8,
   gcTime: 6,

@@ -2,7 +2,7 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 import { Signal } from "signal-polyfill";
 
 export const tc39SignalsProposalStage0: ReactiveFramework = {
-  name: "TC39 Signals Proposal: Stage 0",
+  name: "TC39 Signals Polyfill",
   signal: (initialValue) => {
     const s = new Signal.State(initialValue);
     return {
