@@ -18,6 +18,26 @@ Current reactivity benchmarks ([S.js](https://github.com/adamhaile/S/blob/master
 
 We're also working on enabling consistent logging and efficient tracking of GC time across all benchmarks.
 
+## Frameworks
+
+- [Angular Signals](https://angular.dev/guide/signals/)
+- [Compostate](https://github.com/lxsmnsyc/compostate)
+- [Kairo]()
+- [MobX](https://mobx.js.org) is not included in the average benchmark results because it fails to run some of the deeper, dynamic benchmarks.
+- [mol wire](https://www.npmjs.com/package/mol_wire_lib)
+- [Oby](https://github.com/vobyjs/oby)
+- [Preact Signals](https://github.com/preactjs/signals)
+- [Reactively](https://github.com/milomg/reactively)
+- [S.js](https://github.com/adamhaile/S)
+- [Signia](https://github.com/tldraw/signia)
+- [Solid](https://github.com/solidjs/solid)
+- [TC39 Signals Proposal](https://github.com/tc39/proposal-signals) [polyfill](https://github.com/proposal-signals/signal-polyfill)
+- [uSignal](https://github.com/WebReflection/usignal)
+- [Vue Reactivity](https://vuejs.org/guide/essentials/reactivity-fundamentals.html)
+- [x-reactivity](https://www.npmjs.com/package/@solidjs/reactivity)
+
+## Results
+
 <p align='center'>
 	<img src="https://github.com/user-attachments/assets/4621879c-fb20-4056-8fd8-f7daa31a07e3" alt="Framework average benchmark results">
 	<em><a href="https://github.com/user-attachments/files/16992605/reactivity-bench.csv">Raw results CSV</a></em>
@@ -37,5 +57,3 @@ That said, there's learning here to improve performance of all the frameworks.
 ![Raw](https://user-images.githubusercontent.com/14153763/222212050-5b651e4d-6e71-4667-94e7-eb94b7030bc1.png)
 
 </details>
-
-[^mobx]: [MobX](https://mobx.js.org) is not included in the average benchmark results because it fails to run some of the deeper, dynamic benchmarks.
