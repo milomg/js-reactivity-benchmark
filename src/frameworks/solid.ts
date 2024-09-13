@@ -1,7 +1,7 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
 import {
   batch,
-  createEffect,
+  createRenderEffect,
   createMemo,
   createRoot,
   createSignal,
@@ -22,7 +22,7 @@ export const solidFramework: ReactiveFramework = {
       read: () => memo(),
     };
   },
-  effect: (fn) => createEffect(fn),
+  effect: (fn) => createRenderEffect(fn),
   withBatch: (fn) => batch(fn),
   withBuild: (fn) => createRoot(fn),
 };

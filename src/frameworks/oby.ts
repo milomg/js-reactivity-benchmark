@@ -16,7 +16,10 @@ export const obyFramework: ReactiveFramework = {
       read: () => memo(),
     };
   },
-  effect: (fn) => $.effect(fn),
+  effect: (fn) => {
+    fn();
+    return $.effect(fn);
+  },
   withBatch: (fn) => {
     fn();
     $.tick();

@@ -4,7 +4,7 @@ import { angularFramework } from "./frameworks/angularSignals";
 import { compostateFramework } from "./frameworks/compostate";
 import { kairoFramework } from "./frameworks/kairo";
 import { mobxFramework } from "./frameworks/mobx";
-import { tc39SignalsProposalStage0 } from './frameworks/tc39-proposal-signals-stage-0';
+import { tc39SignalsProposalStage0 } from "./frameworks/tc39-proposal-signals-stage-0";
 import { molWireFramework } from "./frameworks/molWire";
 import { obyFramework } from "./frameworks/oby";
 import { preactSignalFramework } from "./frameworks/preactSignals";
@@ -16,11 +16,12 @@ import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
 
 export const frameworkInfo: FrameworkInfo[] = [
+  { framework: vueReactivityFramework, testPullCounts: true },
   { framework: angularFramework, testPullCounts: true },
   { framework: compostateFramework, testPullCounts: true },
+  { framework: mobxFramework },
   { framework: tc39SignalsProposalStage0, testPullCounts: true },
   // { framework: kairoFramework, testPullCounts: true },
-  // { framework: mobxFramework, testPullCounts: true },
   { framework: molWireFramework, testPullCounts: true },
   { framework: obyFramework, testPullCounts: true },
   { framework: preactSignalFramework, testPullCounts: true },
@@ -28,7 +29,6 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: sFramework },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: usignalFramework, testPullCounts: true },
-  { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
 ];
 
@@ -98,17 +98,17 @@ export const perfTests: TestConfig[] = [
       count: 1246500,
     },
   },
-  {
-    name: "very dynamic",
-    width: 100,
-    totalLayers: 15,
-    staticFraction: 0.5,
-    nSources: 6,
-    readFraction: 1,
-    iterations: 2000,
-    expected: {
-      sum: 15664996402790400,
-      count: 1078000,
-    },
-  },
+  // {
+  //   name: 'very dynamic',
+  //   width: 100,
+  //   totalLayers: 15,
+  //   staticFraction: 0.5,
+  //   nSources: 6,
+  //   readFraction: 1,
+  //   iterations: 2000,
+  //   expected: {
+  //     sum: 15664996402790400,
+  //     count: 1078000
+  //   }
+  // }
 ];

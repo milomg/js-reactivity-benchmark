@@ -52,10 +52,13 @@ const cellx = (framework: ReactiveFramework, layers: number) => {
     ] as const;
 
     framework.withBatch(() => {
+      // console.log(framework.name, 'batch', 0)
       start.prop1.write(4);
+      // console.log(framework.name, 'batch', 1)
       start.prop2.write(3);
       start.prop3.write(2);
       start.prop4.write(1);
+      // console.log(framework.name, 'batch', 2)
     });
 
     const after = [
@@ -65,6 +68,7 @@ const cellx = (framework: ReactiveFramework, layers: number) => {
       end.prop4.read(),
     ] as const;
 
+    // console.log(framework.name, 4)
     const endTime = performance.now();
     const elapsedTime = endTime - startTime;
 
@@ -84,7 +88,7 @@ const arraysEqual = (a: readonly number[], b: readonly number[]) => {
 
 type BenchmarkResults = [
   readonly [number, number, number, number],
-  readonly [number, number, number, number]
+  readonly [number, number, number, number],
 ];
 
 export const cellxbench = (framework: ReactiveFramework) => {

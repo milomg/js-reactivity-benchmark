@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
     "bench": "esbuild src/index.ts --external:v8-natives --bundle --format=cjs --platform=node | node --allow-natives-syntax"
   },
   "keywords": [],

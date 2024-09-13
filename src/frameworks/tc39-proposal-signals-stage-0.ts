@@ -1,7 +1,6 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
 import { Signal } from "signal-polyfill";
 
-
 export const tc39SignalsProposalStage0: ReactiveFramework = {
   name: "TC39 Signals Proposal: Stage 0",
   signal: (initialValue) => {
@@ -48,8 +47,8 @@ function processPending() {
   w.watch();
 }
 
-export function effect(callback) {
-  let cleanup;
+export function effect(callback: any) {
+  let cleanup: any;
 
   const computed = new Signal.Computed(() => {
     typeof cleanup === "function" && cleanup();

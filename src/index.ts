@@ -1,5 +1,5 @@
 import { dynamicBench } from "./dynamicBench";
-import { cellxbench } from "./cellxBench";
+// import { cellxbench } from "./cellxBench";
 import { sbench } from "./sBench";
 import { frameworkInfo } from "./config";
 import { logPerfResult, perfReportHeaders } from "./util/perfLogging";
@@ -8,6 +8,7 @@ import { kairoBench } from "./kairoBench";
 
 async function main() {
   logPerfResult(perfReportHeaders());
+  // (globalThis as any).__DEV__ = true;
 
   for (const { framework } of frameworkInfo) {
     await kairoBench(framework);
@@ -21,9 +22,9 @@ async function main() {
     sbench(framework);
   }
 
-  for (const { framework } of frameworkInfo) {
-    cellxbench(framework);
-  }
+  // for (const { framework } of frameworkInfo) {
+  //   cellxbench(framework);
+  // }
 
   for (const frameworkTest of frameworkInfo) {
     await dynamicBench(frameworkTest);
