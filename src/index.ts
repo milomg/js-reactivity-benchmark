@@ -22,6 +22,7 @@ async function main() {
     sbench(framework);
   }
 
+  // NOTE: Several of the frameworks hang on this benchmark, so disabling it for now.
   // for (const { framework } of frameworkInfo) {
   //   cellxbench(framework);
   // }

@@ -2,7 +2,7 @@ import { TestConfig, FrameworkInfo } from "./util/frameworkTypes";
 
 import { angularFramework } from "./frameworks/angularSignals";
 import { compostateFramework } from "./frameworks/compostate";
-import { kairoFramework } from "./frameworks/kairo";
+// import { kairoFramework } from "./frameworks/kairo";
 import { mobxFramework } from "./frameworks/mobx";
 import { tc39SignalsProposalStage0 } from "./frameworks/tc39-proposal-signals-stage-0";
 import { molWireFramework } from "./frameworks/molWire";
@@ -98,6 +98,7 @@ export const perfTests: TestConfig[] = [
       count: 1246500,
     },
   },
+  // NOTE: Several of the frameworks hang on this test, so disabling it for now.
   // {
   //   name: 'very dynamic',
   //   width: 100,

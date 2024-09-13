@@ -120,7 +120,7 @@ function makeRow(
   staticFraction: number,
   nSources: number,
   framework: ReactiveFramework,
-  layer: number,
+  _layer: number,
   random: () => number
 ): Computed<number>[] {
   return sources.map((_, myDex) => {
