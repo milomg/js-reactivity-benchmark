@@ -22,11 +22,13 @@
     "mol_wire_lib": "^1.0.1155",
     "oby": "15.1.2",
     "preact": "^10.23.2",
+    "react": "^18.3.1",
     "s-js": "^0.4.9",
     "signal-polyfill": "^0.1.0",
     "signia": "^0.1.5",
     "solid-js": "^1.8.22",
-    "usignal": "^0.9.0"
+    "usignal": "^0.9.0",
+    "valtio": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.5.4",

@@ -15,10 +15,12 @@ import { usignalFramework } from "./frameworks/uSignal";
 import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
 import { signiaFramework } from "./frameworks/signia";
+import { valtioFramework } from "./frameworks/valtio";
 
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework, testPullCounts: true },
   { framework: compostateFramework, testPullCounts: true },
+  // NOTE: MobX currently hangs on some of the dynamic tests, so disable it if you want to run them.
   { framework: mobxFramework },
   { framework: tc39SignalsProposalStage0, testPullCounts: true },
   // { framework: kairoFramework, testPullCounts: true },
@@ -28,8 +30,11 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: signiaFramework, testPullCounts: true },
   { framework: sFramework },
-  { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
+  // Solid can't testPullCounts because batch executes all leaf nodes even if unread
+  { framework: solidFramework },
   { framework: usignalFramework, testPullCounts: true },
+  // NOTE: Valtio currently hangs on some of the dynamic tests, so disable it if you want to run them.
+  { framework: valtioFramework },
   { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
 ];
