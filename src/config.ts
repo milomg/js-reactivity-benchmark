@@ -2,39 +2,38 @@ import { TestConfig, FrameworkInfo } from "./util/frameworkTypes";
 
 import { angularFramework } from "./frameworks/angularSignals";
 import { compostateFramework } from "./frameworks/compostate";
-// import { kairoFramework } from "./frameworks/kairo";
 import { mobxFramework } from "./frameworks/mobx";
 import { tc39SignalsProposalStage0 } from "./frameworks/tc39-proposal-signals-stage-0";
 import { molWireFramework } from "./frameworks/molWire";
 import { obyFramework } from "./frameworks/oby";
 import { preactSignalFramework } from "./frameworks/preactSignals";
 import { reactivelyFramework } from "./frameworks/reactively";
-import { sFramework } from "./frameworks/s";
+import { signiaFramework } from "./frameworks/signia";
 import { solidFramework } from "./frameworks/solid";
+import { sFramework } from "./frameworks/s";
 import { usignalFramework } from "./frameworks/uSignal";
 import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
-import { signiaFramework } from "./frameworks/signia";
-import { valtioFramework } from "./frameworks/valtio";
+// import { valtioFramework } from "./frameworks/valtio";
 
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework, testPullCounts: true },
   { framework: compostateFramework, testPullCounts: true },
-  // NOTE: MobX currently hangs on some of the dynamic tests, so disable it if you want to run them.
-  { framework: mobxFramework },
-  { framework: tc39SignalsProposalStage0, testPullCounts: true },
   // { framework: kairoFramework, testPullCounts: true },
+  // NOTE: MobX currently hangs on some of the dynamic tests, so disable it if you want to run them. (https://github.com/mobxjs/mobx/issues/3926)
+  { framework: mobxFramework },
   { framework: molWireFramework, testPullCounts: true },
   { framework: obyFramework, testPullCounts: true },
   { framework: preactSignalFramework, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: signiaFramework, testPullCounts: true },
-  { framework: sFramework },
   // Solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: solidFramework },
+  { framework: sFramework },
+  { framework: tc39SignalsProposalStage0, testPullCounts: true },
   { framework: usignalFramework, testPullCounts: true },
-  // NOTE: Valtio currently hangs on some of the dynamic tests, so disable it if you want to run them.
-  { framework: valtioFramework },
+  // NOTE: Valtio currently hangs on some of the dynamic tests, so disable it if you want to run them. (https://github.com/pmndrs/valtio/discussions/949)
+  // ramework: valtioFramework },
   { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
 ];
@@ -105,18 +104,17 @@ export const perfTests: TestConfig[] = [
       count: 1246500,
     },
   },
-  // NOTE: Several of the frameworks hang on this test, so disabling it for now.
-  // {
-  //   name: 'very dynamic',
-  //   width: 100,
-  //   totalLayers: 15,
-  //   staticFraction: 0.5,
-  //   nSources: 6,
-  //   readFraction: 1,
-  //   iterations: 2000,
-  //   expected: {
-  //     sum: 15664996402790400,
-  //     count: 1078000
-  //   }
-  // }
+  {
+    name: "very dynamic",
+    width: 100,
+    totalLayers: 15,
+    staticFraction: 0.5,
+    nSources: 6,
+    readFraction: 1,
+    iterations: 2000,
+    expected: {
+      sum: 15664996402790400,
+      count: 1078000,
+    },
+  },
 ];

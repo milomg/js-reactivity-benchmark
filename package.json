@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "vitest run",
-    "bench": "esbuild src/index.ts --external:v8-natives --bundle --format=cjs --platform=node | node --allow-natives-syntax"
+    "bench": "esbuild src/index.ts --bundle --format=cjs --platform=node | node --expose-gc"
   },
   "keywords": [],
   "author": "",
@@ -15,13 +15,13 @@
     "@preact/signals": "^1.3.0",
     "@reactively/core": "^0.0.8",
     "@solidjs/reactivity": "^0.0.9",
-    "@vue/reactivity": "^3.5.4",
+    "@vue/reactivity": "^3.5.5",
     "compostate": "0.5.1",
     "kairo": "0.6.0-rc.0",
     "mobx": "^6.13.2",
-    "mol_wire_lib": "^1.0.1155",
+    "mol_wire_lib": "^1.0.1158",
     "oby": "15.1.2",
-    "preact": "^10.23.2",
+    "preact": "^10.24.0",
     "react": "^18.3.1",
     "s-js": "^0.4.9",
     "signal-polyfill": "^0.1.0",
@@ -31,11 +31,9 @@
     "valtio": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.5.5",
     "esbuild": "^0.23.1",
     "prettier": "^3.3.3",
-    "rxjs": "^7.8.1",
-    "v8-natives": "^1.2.5",
-    "vitest": "^2.1.0"
+    "vitest": "^2.1.1"
   }
 }
