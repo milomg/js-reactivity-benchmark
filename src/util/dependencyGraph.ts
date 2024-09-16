@@ -56,34 +56,49 @@ export function runGraph(
   const readLeaves = removeElems(leaves, skipCount, rand);
   // const start = Date.now();
 
-  for (let i = 0; i < iterations; i++) {
-    // Useful for debugging edge cases for some frameworks that experience
-    // dramatic slow downs for certain test configurations. These are generally
-    // due to `computed` effects not being cached efficiently, and as the number
-    // of layers increases, the uncached `computed` effects are re-evaluated in
-    // an `O(n^2)` manner where `n` is the number of layers.
-    // if (i % 100 === 0) {
-    //   console.log("iteration:", i, "delta:", Date.now() - start);
-    // }
+  let sum = 0;
 
+  if (framework.name.toLowerCase() === "mobx") {
+    // This special-case is only necessary for `mobx`: https://github.com/mobxjs/mobx/issues/3926
     framework.withBatch(() => {
-      const sourceDex = i % sources.length;
-      sources[sourceDex].write(i + sourceDex);
+      for (let i = 0; i < iterations; i++) {
+        // Useful for debugging edge cases for some frameworks that experience
+        // dramatic slow downs for certain test configurations. These are generally
+        // due to `computed` effects not being cached efficiently, and as the number
+        // of layers increases, the uncached `computed` effects are re-evaluated in
+        // an `O(n^2)` manner where `n` is the number of layers.
+        // if (i % 100 === 0) {
+        //   console.log("iteration:", i, "delta:", Date.now() - start);
+        // }
+
+        const sourceDex = i % sources.length;
+        sources[sourceDex].write(i + sourceDex);
+
+        for (const leaf of readLeaves) {
+          leaf.read();
+        }
+      }
+
+      sum = readLeaves.reduce((total, leaf) => leaf.read() + total, 0);
     });
+  } else {
+    for (let i = 0; i < iterations; i++) {
+      // if (i % 100 === 0) {
+      //   console.log("iteration:", i, "delta:", Date.now() - start);
+      // }
 
-    // This batch is only necessary for `mobx`: https://github.com/mobxjs/mobx/issues/3926
-    framework.withBatch(() => {
+      framework.withBatch(() => {
+        const sourceDex = i % sources.length;
+        sources[sourceDex].write(i + sourceDex);
+      });
+
       for (const leaf of readLeaves) {
         leaf.read();
       }
-    });
-  }
+    }
 
-  // This batch is only necessary for `mobx`: https://github.com/mobxjs/mobx/issues/3926
-  let sum = 0;
-  framework.withBatch(() => {
     sum = readLeaves.reduce((total, leaf) => leaf.read() + total, 0);
-  });
+  }
 
   return sum;
 }
