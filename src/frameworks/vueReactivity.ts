@@ -7,8 +7,6 @@ import {
 } from "@vue/reactivity";
 import { ReactiveFramework } from "../util/reactiveFramework";
 
-// The `@vue/reactivity` adapter is currently broken for some tests pending https://github.com/vuejs/core/issues/11928
-
 let scheduled = [] as ReactiveEffect[];
 let batching = false;
 

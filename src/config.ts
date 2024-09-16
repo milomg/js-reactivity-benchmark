@@ -28,7 +28,6 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: solidFramework },
   { framework: usignalFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
-  // // NOTE: Vue currently hangs on some of the `dynamic` tests and `cellx` tests, so disable it if you want to run them. https://github.com/vuejs/core/issues/11928
   { framework: vueReactivityFramework, testPullCounts: true },
   // NOTE: MobX currently hangs on some of the `dynamic` tests and `cellx` tests, so disable it if you want to run them. (https://github.com/mobxjs/mobx/issues/3926)
   { framework: mobxFramework, testPullCounts: false },
