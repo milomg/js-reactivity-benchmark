@@ -7,6 +7,8 @@ import {
 } from "@vue/reactivity";
 import { ReactiveFramework } from "../util/reactiveFramework";
 
+// The `@vue/reactivity` adapter is currently broken for some tests pending https://github.com/vuejs/core/issues/11928
+
 let scheduled = [] as ReactiveEffect[];
 let batching = false;
 
@@ -26,13 +28,12 @@ export const vueReactivityFramework: ReactiveFramework = {
     };
   },
   effect: (fn) => {
-    let t = effect(fn, {
+    let t = effect(() => fn(), {
       scheduler: () => {
         scheduled.push(t.effect);
       },
     });
   },
-  // withBatch: (fn) => fn(),
   withBatch: (fn) => {
     if (batching) {
       fn();
@@ -44,8 +45,17 @@ export const vueReactivityFramework: ReactiveFramework = {
       }
       batching = false;
     }
+
+    // if (batching) {
+    //   fn();
+    // }
+    // batching = true;
+    // fn();
+    // while (scheduled.length) {
+    //   scheduled.pop()!.run();
+    // }
+    // batching = false;
   },
-  // withBuild: (fn) => fn()
   withBuild: (fn) => {
     const e = effectScope();
     const r = e.run(fn)!;

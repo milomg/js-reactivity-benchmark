@@ -88,6 +88,8 @@ type BenchmarkResults = [
 ];
 
 export const cellxbench = (framework: ReactiveFramework) => {
+  globalThis.gc?.();
+
   const expected: Record<number, BenchmarkResults> = {
     1000: [
       [-3, -6, -2, 2],
@@ -115,7 +117,6 @@ export const cellxbench = (framework: ReactiveFramework) => {
       total += elapsed;
     }
 
-    globalThis.gc?.();
     logPerfResult({
       framework: framework.name,
       test: `cellx${layers}`,
@@ -137,4 +138,6 @@ export const cellxbench = (framework: ReactiveFramework) => {
       `Expected last layer ${expectedAfter}, found last layer ${after}`
     );
   }
+
+  globalThis.gc?.();
 };

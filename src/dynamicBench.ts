@@ -21,12 +21,19 @@ export async function dynamicBench(
     function runOnce(): number {
       // Create a new graph from scratch for each run to ensure they're independent
       // from each other.
-      const graph = makeGraph(framework, config, counter);
-      return runGraph(graph, iterations, readFraction, framework);
+      try {
+        const graph = makeGraph(framework, config, counter);
+        const res = runGraph(graph, iterations, readFraction, framework);
+        globalThis.gc?.();
+        return res;
+      } catch (err: any) {
+        console.warn(`Error dynamicBench "${framework.name}":`, err.message);
+        return -1;
+      }
     }
 
     // warm up
-    // runOnce();
+    runOnce();
 
     const timedResult = await fastestTest(testRepeats, () => {
       counter.count = 0;

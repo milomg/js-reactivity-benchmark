@@ -1,5 +1,5 @@
 import { dynamicBench } from "./dynamicBench";
-import { cellxbench } from "./cellxBench";
+// import { cellxbench } from "./cellxBench";
 import { sbench } from "./sBench";
 import { frameworkInfo } from "./config";
 import { logPerfResult, perfReportHeaders } from "./util/perfLogging";
@@ -22,12 +22,11 @@ async function main() {
     sbench(framework);
   }
 
-  for (const { framework } of frameworkInfo) {
-    // https://github.com/vuejs/core/issues/11928
-    if (framework.name !== "Vue") {
-      cellxbench(framework);
-    }
-  }
+  // MobX, Vue, and Valtio all fail this test currently, so disabling it for now.
+  // @see https://github.com/vuejs/core/issues/11928
+  // for (const { framework } of frameworkInfo) {
+  //   cellxbench(framework);
+  // }
 
   for (const frameworkTest of frameworkInfo) {
     await dynamicBench(frameworkTest);

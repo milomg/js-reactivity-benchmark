@@ -71,7 +71,7 @@ export function runGraph(
       sources[sourceDex].write(i + sourceDex);
     });
 
-    // this batch is necessary for `mobx` (https://github.com/mobxjs/mobx/issues/3926)
+    // This batch is only necessary for `mobx`: https://github.com/mobxjs/mobx/issues/3926
     framework.withBatch(() => {
       for (const leaf of readLeaves) {
         leaf.read();
@@ -79,9 +79,8 @@ export function runGraph(
     });
   }
 
+  // This batch is only necessary for `mobx`: https://github.com/mobxjs/mobx/issues/3926
   let sum = 0;
-
-  // this batch is necessary for `mobx` (https://github.com/mobxjs/mobx/issues/3926)
   framework.withBatch(() => {
     sum = readLeaves.reduce((total, leaf) => leaf.read() + total, 0);
   });

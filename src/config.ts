@@ -1,7 +1,7 @@
 import { TestConfig, FrameworkInfo } from "./util/frameworkTypes";
 
 import { angularFramework } from "./frameworks/angularSignals";
-import { compostateFramework } from "./frameworks/compostate";
+// import { compostateFramework } from "./frameworks/compostate";
 import { mobxFramework } from "./frameworks/mobx";
 import { tc39SignalsProposalStage0 } from "./frameworks/tc39-proposal-signals-stage-0";
 import { molWireFramework } from "./frameworks/molWire";
@@ -22,20 +22,24 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: sFramework },
   { framework: angularFramework, testPullCounts: true },
-  { framework: compostateFramework, testPullCounts: true },
-  // { framework: kairoFramework, testPullCounts: true },
-  // NOTE: MobX currently hangs on some of the dynamic tests, so disable it if you want to run them. (https://github.com/mobxjs/mobx/issues/3926)
-  { framework: mobxFramework },
   { framework: molWireFramework, testPullCounts: true },
   { framework: obyFramework, testPullCounts: true },
   { framework: signiaFramework, testPullCounts: true },
-  // Solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: solidFramework },
   { framework: usignalFramework, testPullCounts: true },
-  // NOTE: Valtio currently hangs on some of the dynamic tests, so disable it if you want to run them. (https://github.com/pmndrs/valtio/discussions/949)
-  // ramework: valtioFramework },
-  { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
+  // NOTE: Vue currently hangs on some of the `dynamic` tests and `cellx` tests, so disable it if you want to run them. https://github.com/vuejs/core/issues/11928
+  { framework: vueReactivityFramework, testPullCounts: true },
+  // NOTE: MobX currently hangs on some of the `dynamic` tests and `cellx` tests, so disable it if you want to run them. (https://github.com/mobxjs/mobx/issues/3926)
+  { framework: mobxFramework, testPullCounts: false },
+
+  // --- Disabled frameworks ---
+  // NOTE: the compostate adapter is currently broken and unused.
+  // { framework: compostateFramework },
+  // NOTE: the kairo adapter is currently broken and unused.
+  // { framework: kairoFramework, testPullCounts: true },
+  // NOTE: Valtio currently hangs on some of the `dynamic` tests, so disable it if you want to run them. (https://github.com/pmndrs/valtio/discussions/949)
+  // { framework: valtioFramework },
 ];
 
 export const perfTests: TestConfig[] = [
@@ -104,17 +108,19 @@ export const perfTests: TestConfig[] = [
       count: 1246502,
     },
   },
-  {
-    name: "very dynamic",
-    width: 100,
-    totalLayers: 15,
-    staticFraction: 0.5,
-    nSources: 6,
-    readFraction: 1,
-    iterations: 2000,
-    expected: {
-      sum: 15664996402790400,
-      count: 1078671,
-    },
-  },
+  // Several frameworks hang on this test, so disabling it for now.
+  // @see https://github.com/vuejs/core/issues/11928
+  // {
+  //   name: "very dynamic",
+  //   width: 100,
+  //   totalLayers: 15,
+  //   staticFraction: 0.5,
+  //   nSources: 6,
+  //   readFraction: 1,
+  //   iterations: 2000,
+  //   expected: {
+  //     sum: 15664996402790400,
+  //     count: 1078671,
+  //   },
+  // },
 ];

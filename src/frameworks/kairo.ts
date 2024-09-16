@@ -2,7 +2,7 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 import { batch, computed, effect, mutValue } from "kairo";
 import { collectScope } from "kairo";
 
-// NOTE: The kairo adapter is currently not working and used.
+// NOTE: The kairo adapter is currently not working and unused.
 
 export const kairoFramework: ReactiveFramework = {
   name: "kairo",

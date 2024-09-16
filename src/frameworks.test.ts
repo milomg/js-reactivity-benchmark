@@ -58,36 +58,40 @@ function frameworkTests({ framework, testPullCounts }: FrameworkInfo) {
   });
 
   test(`${name} | static graph, read 2/3 of leaves`, () => {
-    const config = makeConfig();
-    config.readFraction = 2 / 3;
-    config.iterations = 10;
-    const counter = new Counter();
-    const graph = makeGraph(framework, config, counter);
-    const sum = runGraph(graph, 10, 2 / 3, framework);
+    framework.withBuild(() => {
+      const config = makeConfig();
+      config.readFraction = 2 / 3;
+      config.iterations = 10;
+      const counter = new Counter();
+      const graph = makeGraph(framework, config, counter);
+      const sum = runGraph(graph, 10, 2 / 3, framework);
 
-    expect(sum).toEqual(73);
-    if (testPullCounts) {
-      expect(counter.count).toEqual(41);
-    } else {
-      expect(counter.count).toBeGreaterThanOrEqual(41);
-    }
+      expect(sum).toEqual(73);
+      if (testPullCounts) {
+        expect(counter.count).toEqual(41);
+      } else {
+        expect(counter.count).toBeGreaterThanOrEqual(41);
+      }
+    });
   });
 
   test(`${name} | dynamic graph`, () => {
-    const config = makeConfig();
-    config.staticFraction = 0.5;
-    config.width = 4;
-    config.totalLayers = 2;
-    const counter = new Counter();
-    const graph = makeGraph(framework, config, counter);
-    const sum = runGraph(graph, 10, 1, framework);
+    framework.withBuild(() => {
+      const config = makeConfig();
+      config.staticFraction = 0.5;
+      config.width = 4;
+      config.totalLayers = 2;
+      const counter = new Counter();
+      const graph = makeGraph(framework, config, counter);
+      const sum = runGraph(graph, 10, 1, framework);
 
-    expect(sum).toEqual(72);
-    if (testPullCounts) {
-      expect(counter.count).toEqual(22);
-    } else {
-      expect(counter.count).toBeGreaterThanOrEqual(22);
-    }
+      expect(sum).toEqual(72);
+      if (testPullCounts) {
+        expect(counter.count).toEqual(22);
+      } else {
+        expect(counter.count).toBeGreaterThanOrEqual(22);
+      }
+    });
   });
 
   test(`${name} | withBuild`, () => {
