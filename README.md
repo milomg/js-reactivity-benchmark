@@ -30,6 +30,7 @@ We're also working on enabling consistent logging and efficient tracking of GC t
 - [S.js](https://github.com/adamhaile/S)
 - [Signia](https://github.com/tldraw/signia)
 - [Solid](https://github.com/solidjs/solid)
+- [Svelte v5](https://svelte.dev/blog/runes)
 - [TC39 Signals Proposal](https://github.com/tc39/proposal-signals) [polyfill](https://github.com/proposal-signals/signal-polyfill)
 - [uSignal](https://github.com/WebReflection/usignal)
 - [Valtio](https://github.com/pmndrs/valtio)
@@ -39,23 +40,8 @@ We're also working on enabling consistent logging and efficient tracking of GC t
 ## Results
 
 <p align='center'>
-  <img src="https://github.com/user-attachments/assets/a385d3cc-eb14-4c38-86cb-438ea79ab612" alt="Average benchmark results across frameworks">
-  <a href="https://github.com/user-attachments/files/17009283/reactivity-bench-3.csv">Raw results CSV</a> (<em>lower times are better</em>)
+  <img src="https://github.com/user-attachments/assets/f6d041a1-d5da-4b30-8e60-b4c815ac70bc" alt="Average benchmark results across frameworks">
+  (<em>lower times are better</em>)
 </p>
 
 These results were last updated _September 2024_ on an M3 Macbook Pro using Node.js v22.4.1 ([29d22d6](https://github.com/transitive-bullshit/js-reactivity-benchmark/tree/29d22d64666b25aa8268ef8ff30afe8d51bb7937)).
-
-<details>
-<summary>
-Old results
-</summary>
-
-The frameworks are all plenty fast for typical applications. The charts report the run time of the test in milliseconds on an M1 laptop, and are made using [Tableau](https://public.tableau.com/). Typical applications will do much more work than a framework benchmark, and at these speeds the frameworks are unlikely to bottleneck overall performance.
-
-That said, there's learning here to improve performance of all the frameworks.
-
-![Performance Results](https://user-images.githubusercontent.com/14153763/221107379-51a93eab-95ac-4c89-9a74-7a1527fc4a03.png)
-
-![Raw](https://user-images.githubusercontent.com/14153763/222212050-5b651e4d-6e71-4667-94e7-eb94b7030bc1.png)
-
-</details>

@@ -13,11 +13,13 @@ import { sFramework } from "./frameworks/s";
 import { usignalFramework } from "./frameworks/uSignal";
 import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
+import { svelteFramework } from "./frameworks/svelte";
 // import { compostateFramework } from "./frameworks/compostate";
 // import { valtioFramework } from "./frameworks/valtio";
 
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: preactSignalFramework, testPullCounts: true },
+  { framework: svelteFramework, testPullCounts: true },
   { framework: tc39SignalsProposalStage0, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: sFramework },

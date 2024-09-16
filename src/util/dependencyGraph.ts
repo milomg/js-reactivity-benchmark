@@ -55,10 +55,12 @@ export function runGraph(
   const skipCount = Math.round(leaves.length * (1 - readFraction));
   const readLeaves = removeElems(leaves, skipCount, rand);
   // const start = Date.now();
-
   let sum = 0;
 
-  if (framework.name.toLowerCase() === "mobx") {
+  if (
+    framework.name.toLowerCase() === "mobx" ||
+    framework.name.toLowerCase() === "svelte v5"
+  ) {
     // This special-case is only necessary for `mobx`: https://github.com/mobxjs/mobx/issues/3926
     framework.withBatch(() => {
       for (let i = 0; i < iterations; i++) {

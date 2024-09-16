@@ -18,7 +18,7 @@ async function main() {
     sbench(framework);
 
     // MobX and Valtio both fail this test currently, so disabling it for now.
-    // @see https://github.com/vuejs/core/issues/11928
+    // @see https://github.com/mobxjs/mobx/issues/3926
     // cellxbench(framework);
 
     await dynamicBench(frameworkTest);
