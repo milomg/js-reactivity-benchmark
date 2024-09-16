@@ -7,7 +7,7 @@ function fib(n: number): number {
   return fib(n - 1) + fib(n - 2);
 }
 
-function hard(n: number, log: string) {
+function hard(n: number, _log: string) {
   return n + fib(16);
 }
 
@@ -29,9 +29,10 @@ export async function molBench(framework: ReactiveFramework) {
     const G = framework.computed(
       () => C.read() + (C.read() || E.read() % 2) + D.read()[4].x + F.read()
     );
-    const H = framework.effect(() => res.push(hard(G.read(), "H")));
-    const I = framework.effect(() => res.push(G.read()));
-    const J = framework.effect(() => res.push(hard(F.read(), "J")));
+
+    framework.effect(() => res.push(hard(G.read(), "H")));
+    framework.effect(() => res.push(G.read()));
+    framework.effect(() => res.push(hard(F.read(), "J")));
 
     return (i: number) => {
       res.length = 0;
