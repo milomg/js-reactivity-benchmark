@@ -2,7 +2,7 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 import { proxy } from "valtio/vanilla";
 import { watch } from "valtio/utils";
 
-// The Valtio adapter is currently broken and not used: https://github.com/pmndrs/valtio/discussions/949
+// The Valtio adapter is currently not working and unused: https://github.com/pmndrs/valtio/discussions/949
 
 type WatchGet = <T extends object>(proxyObject: T) => T;
 

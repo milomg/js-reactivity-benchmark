@@ -2,6 +2,8 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 import { batch, computed, effect, mutValue } from "kairo";
 import { collectScope } from "kairo";
 
+// NOTE: The kairo adapter is currently not working and used.
+
 export const kairoFramework: ReactiveFramework = {
   name: "kairo",
   signal: (initialValue) => {
