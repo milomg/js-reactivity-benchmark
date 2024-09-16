@@ -44,4 +44,4 @@ We're also working on enabling consistent logging and efficient tracking of GC t
   (<em>lower times are better</em>)
 </p>
 
-These results were last updated _September 2024_ on an M3 Macbook Pro using Node.js v22.4.1 ([29d22d6](https://github.com/transitive-bullshit/js-reactivity-benchmark/tree/29d22d64666b25aa8268ef8ff30afe8d51bb7937)).
+These results were last updated _September 2024_ on an M3 Macbook Pro using Node.js v22.4.1.
