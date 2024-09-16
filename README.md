@@ -39,13 +39,11 @@ We're also working on enabling consistent logging and efficient tracking of GC t
 ## Results
 
 <p align='center'>
-	<img src="https://github.com/user-attachments/assets/4621879c-fb20-4056-8fd8-f7daa31a07e3" alt="Framework average benchmark results">
-	<a href="https://github.com/user-attachments/files/16992605/reactivity-bench.csv">Raw results CSV</a> (<em>lower times are better</em>)
+  <img src="https://github.com/user-attachments/assets/a385d3cc-eb14-4c38-86cb-438ea79ab612" alt="Average benchmark results across frameworks">
+  <a href="https://github.com/user-attachments/files/17009283/reactivity-bench-3.csv">Raw results CSV</a> (<em>lower times are better</em>)
 </p>
 
-Note that MobX and Valtio are not included in the average results summary because they fail to run some of the benchmark tests.
-
-These results were last updated _September 2024_ on an M3 Macbook Pro.
+These results were last updated _September 2024_ on an M3 Macbook Pro using Node.js v22.4.1 ([c22196a](https://github.com/transitive-bullshit/js-reactivity-benchmark/tree/c22196a4f4d2671e35537886233e1c264a7d7070)).
 
 <details>
 <summary>
