@@ -43,7 +43,7 @@ We're also working on enabling consistent logging and efficient tracking of GC t
   <a href="https://github.com/user-attachments/files/17009283/reactivity-bench-3.csv">Raw results CSV</a> (<em>lower times are better</em>)
 </p>
 
-These results were last updated _September 2024_ on an M3 Macbook Pro using Node.js v22.4.1 ([c22196a](https://github.com/transitive-bullshit/js-reactivity-benchmark/tree/c22196a4f4d2671e35537886233e1c264a7d7070)).
+These results were last updated _September 2024_ on an M3 Macbook Pro using Node.js v22.4.1 ([29d22d6](https://github.com/transitive-bullshit/js-reactivity-benchmark/tree/29d22d64666b25aa8268ef8ff30afe8d51bb7937)).
 
 <details>
 <summary>
