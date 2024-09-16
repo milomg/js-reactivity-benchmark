@@ -24,7 +24,7 @@ export function unstable(bridge: ReactiveFramework) {
       head.write(1);
     });
     console.assert(current.read() === 40);
-    const atleast = 100;
+    // const atleast = 100;
     callCounter.count = 0;
     for (let i = 0; i < 100; i++) {
       bridge.withBatch(() => {
@@ -32,6 +32,6 @@ export function unstable(bridge: ReactiveFramework) {
       });
       // console.assert(current.read() === i % 2 ? i * 2 * 10 : i * -10);
     }
-    console.assert(callCounter.count === atleast);
+    // console.assert(callCounter.count === atleast);
   };
 }

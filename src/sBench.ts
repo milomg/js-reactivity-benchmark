@@ -1,5 +1,4 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
-import v8 from "v8-natives";
 import { logPerfResult } from "./util/perfLogging";
 import { Computed, Signal, ReactiveFramework } from "./util/reactiveFramework";
 
@@ -55,7 +54,6 @@ export function sbench(framework: ReactiveFramework) {
       sources = createDataSignals(scount, []);
       fn(n / 100, sources);
       sources = createDataSignals(scount, []);
-      v8.optimizeFunctionOnNextCall(fn);
       fn(n / 100, sources);
       sources = createDataSignals(scount, []);
       for (let i = 0; i < scount; i++) {
@@ -65,7 +63,7 @@ export function sbench(framework: ReactiveFramework) {
       }
 
       // start GC clean
-      v8.collectGarbage();
+      globalThis.gc?.();
 
       start = performance.now();
 
@@ -73,7 +71,7 @@ export function sbench(framework: ReactiveFramework) {
 
       // end GC clean
       sources = null;
-      v8.collectGarbage();
+      globalThis.gc?.();
       end = performance.now();
     });
 
@@ -87,7 +85,7 @@ export function sbench(framework: ReactiveFramework) {
     return sources;
   }
 
-  function createComputations0to1(n: number, sources: Computed<number>[]) {
+  function createComputations0to1(n: number, _sources: Computed<number>[]) {
     for (let i = 0; i < n; i++) {
       createComputation0(i);
     }
@@ -158,20 +156,20 @@ export function sbench(framework: ReactiveFramework) {
     }
   }
 
-  function createComputations8to1(n: number, sources: Computed<number>[]) {
-    for (let i = 0; i < n; i++) {
-      createComputation8(
-        sources[i * 8].read,
-        sources[i * 8 + 1].read,
-        sources[i * 8 + 2].read,
-        sources[i * 8 + 3].read,
-        sources[i * 8 + 4].read,
-        sources[i * 8 + 5].read,
-        sources[i * 8 + 6].read,
-        sources[i * 8 + 7].read
-      );
-    }
-  }
+  // function createComputations8to1(n: number, sources: Computed<number>[]) {
+  //   for (let i = 0; i < n; i++) {
+  //     createComputation8(
+  //       sources[i * 8].read,
+  //       sources[i * 8 + 1].read,
+  //       sources[i * 8 + 2].read,
+  //       sources[i * 8 + 3].read,
+  //       sources[i * 8 + 4].read,
+  //       sources[i * 8 + 5].read,
+  //       sources[i * 8 + 6].read,
+  //       sources[i * 8 + 7].read
+  //     );
+  //   }
+  // }
 
   // only create n / 100 computations, as otherwise takes too long
   function createComputations1000to1(n: number, sources: Computed<number>[]) {
@@ -195,20 +193,20 @@ export function sbench(framework: ReactiveFramework) {
     framework.computed(() => s1() + s2() + s3() + s4());
   }
 
-  function createComputation8(
-    s1: Reader,
-    s2: Reader,
-    s3: Reader,
-    s4: Reader,
-    s5: Reader,
-    s6: Reader,
-    s7: Reader,
-    s8: Reader
-  ) {
-    framework.computed(
-      () => s1() + s2() + s3() + s4() + s5() + s6() + s7() + s8()
-    );
-  }
+  // function createComputation8(
+  //   s1: Reader,
+  //   s2: Reader,
+  //   s3: Reader,
+  //   s4: Reader,
+  //   s5: Reader,
+  //   s6: Reader,
+  //   s7: Reader,
+  //   s8: Reader
+  // ) {
+  //   framework.computed(
+  //     () => s1() + s2() + s3() + s4() + s5() + s6() + s7() + s8()
+  //   );
+  // }
 
   function createComputation1000(ss: Computed<number>[], offset: number) {
     framework.computed(() => {
@@ -249,7 +247,7 @@ export function sbench(framework: ReactiveFramework) {
   }
 
   function updateComputations1000to1(n: number, sources: Signal<number>[]) {
-    let { read: get1, write: set1 } = sources[0];
+    let { read: _get1, write: set1 } = sources[0];
     framework.computed(() => {
       let sum = 0;
       for (let i = 0; i < 1000; i++) {

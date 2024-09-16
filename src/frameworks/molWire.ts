@@ -4,7 +4,7 @@ import $ from "mol_wire_lib";
 const Atom = $.$mol_wire_atom; // fix a bug in mol exports
 
 export const molWireFramework: ReactiveFramework = {
-  name: "$mol_wire_atom",
+  name: "$mol_wire",
   signal: <T>(initialValue: T): Signal<T> => {
     const atom = new Atom("", (next: T = initialValue) => next);
     return {

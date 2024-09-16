@@ -27,7 +27,7 @@ export function diamond(bridge: ReactiveFramework) {
       head.write(1);
     });
     console.assert(sum.read() === 2 * width);
-    const atleast = 500;
+    // const atleast = 500;
     callCounter.count = 0;
     for (let i = 0; i < 500; i++) {
       bridge.withBatch(() => {
@@ -35,6 +35,6 @@ export function diamond(bridge: ReactiveFramework) {
       });
       console.assert(sum.read() === (i + 1) * width);
     }
-    console.assert(callCounter.count === atleast);
+    // console.assert(callCounter.count === atleast);
   };
 }

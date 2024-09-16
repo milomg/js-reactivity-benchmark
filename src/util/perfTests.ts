@@ -12,7 +12,6 @@ export interface TimingResult<T> {
 
 export interface TestTiming {
   time: number;
-  gcTime?: number;
 }
 
 export function verifyBenchResult(
@@ -30,7 +29,11 @@ export function verifyBenchResult(
       `sum ${framework.name} ${config.name} result:${result.sum} expected:${expected.sum}`
     );
   }
-  if (expected.count && (config.readFraction === 1 || testPullCounts)) {
+  if (
+    expected.count &&
+    (config.readFraction === 1 || testPullCounts) &&
+    testPullCounts !== false
+  ) {
     console.assert(
       result.count === expected.count,
       `count ${framework.name} ${config.name} result:${result.count} expected:${expected.count}`

@@ -84,10 +84,12 @@ const arraysEqual = (a: readonly number[], b: readonly number[]) => {
 
 type BenchmarkResults = [
   readonly [number, number, number, number],
-  readonly [number, number, number, number]
+  readonly [number, number, number, number],
 ];
 
 export const cellxbench = (framework: ReactiveFramework) => {
+  globalThis.gc?.();
+
   const expected: Record<number, BenchmarkResults> = {
     1000: [
       [-3, -6, -2, 2],
@@ -114,6 +116,7 @@ export const cellxbench = (framework: ReactiveFramework) => {
 
       total += elapsed;
     }
+
     logPerfResult({
       framework: framework.name,
       test: `cellx${layers}`,
@@ -135,4 +138,6 @@ export const cellxbench = (framework: ReactiveFramework) => {
       `Expected last layer ${expectedAfter}, found last layer ${after}`
     );
   }
+
+  globalThis.gc?.();
 };
