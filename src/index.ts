@@ -10,27 +10,19 @@ async function main() {
   logPerfResult(perfReportHeaders());
   (globalThis as any).__DEV__ = true;
 
-  for (const { framework } of frameworkInfo) {
+  for (const frameworkTest of frameworkInfo) {
+    const { framework } = frameworkTest;
+
     await kairoBench(framework);
+    await molBench(framework);
+    sbench(framework);
+
+    // MobX, Vue, and Valtio all fail this test currently, so disabling it for now.
+    // @see https://github.com/vuejs/core/issues/11928
+    // cellxbench(framework);
+
+    await dynamicBench(frameworkTest);
   }
-
-  // for (const { framework } of frameworkInfo) {
-  //   await molBench(framework);
-  // }
-
-  // for (const { framework } of frameworkInfo) {
-  //   sbench(framework);
-  // }
-
-  // MobX, Vue, and Valtio all fail this test currently, so disabling it for now.
-  // @see https://github.com/vuejs/core/issues/11928
-  // for (const { framework } of frameworkInfo) {
-  //   cellxbench(framework);
-  // }
-
-  // for (const frameworkTest of frameworkInfo) {
-  //   await dynamicBench(frameworkTest);
-  // }
 }
 
 main();
