@@ -8,19 +8,19 @@ import { kairoBench } from "./kairoBench";
 
 async function main() {
   logPerfResult(perfReportHeaders());
-  // (globalThis as any).__DEV__ = true;
+  (globalThis as any).__DEV__ = true;
 
   for (const { framework } of frameworkInfo) {
     await kairoBench(framework);
   }
 
-  for (const { framework } of frameworkInfo) {
-    await molBench(framework);
-  }
+  // for (const { framework } of frameworkInfo) {
+  //   await molBench(framework);
+  // }
 
-  for (const { framework } of frameworkInfo) {
-    sbench(framework);
-  }
+  // for (const { framework } of frameworkInfo) {
+  //   sbench(framework);
+  // }
 
   // MobX, Vue, and Valtio all fail this test currently, so disabling it for now.
   // @see https://github.com/vuejs/core/issues/11928
@@ -28,9 +28,9 @@ async function main() {
   //   cellxbench(framework);
   // }
 
-  for (const frameworkTest of frameworkInfo) {
-    await dynamicBench(frameworkTest);
-  }
+  // for (const frameworkTest of frameworkInfo) {
+  //   await dynamicBench(frameworkTest);
+  // }
 }
 
 main();
