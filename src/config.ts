@@ -1,7 +1,6 @@
 import { TestConfig, FrameworkInfo } from "./util/frameworkTypes";
 
 import { angularFramework } from "./frameworks/angularSignals";
-// import { compostateFramework } from "./frameworks/compostate";
 import { mobxFramework } from "./frameworks/mobx";
 import { tc39SignalsProposalStage0 } from "./frameworks/tc39-proposal-signals-stage-0";
 import { molWireFramework } from "./frameworks/molWire";
@@ -14,22 +13,23 @@ import { sFramework } from "./frameworks/s";
 import { usignalFramework } from "./frameworks/uSignal";
 import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
+// import { compostateFramework } from "./frameworks/compostate";
 // import { valtioFramework } from "./frameworks/valtio";
 
 export const frameworkInfo: FrameworkInfo[] = [
-  // { framework: preactSignalFramework, testPullCounts: true },
-  // { framework: tc39SignalsProposalStage0, testPullCounts: true },
-  // { framework: reactivelyFramework, testPullCounts: true },
-  // { framework: sFramework },
-  // { framework: angularFramework, testPullCounts: true },
-  // { framework: molWireFramework, testPullCounts: true },
-  // { framework: obyFramework, testPullCounts: true },
-  // { framework: signiaFramework, testPullCounts: true },
-  // { framework: solidFramework },
-  // { framework: usignalFramework, testPullCounts: true },
-  // { framework: xReactivityFramework, testPullCounts: true },
+  { framework: preactSignalFramework, testPullCounts: true },
+  { framework: tc39SignalsProposalStage0, testPullCounts: true },
+  { framework: reactivelyFramework, testPullCounts: true },
+  { framework: sFramework },
+  { framework: angularFramework, testPullCounts: true },
+  { framework: molWireFramework, testPullCounts: true },
+  { framework: obyFramework, testPullCounts: true },
+  { framework: signiaFramework, testPullCounts: true },
+  { framework: solidFramework },
+  { framework: usignalFramework, testPullCounts: true },
+  { framework: xReactivityFramework, testPullCounts: true },
   // // NOTE: Vue currently hangs on some of the `dynamic` tests and `cellx` tests, so disable it if you want to run them. https://github.com/vuejs/core/issues/11928
-  // { framework: vueReactivityFramework, testPullCounts: true },
+  { framework: vueReactivityFramework, testPullCounts: true },
   // NOTE: MobX currently hangs on some of the `dynamic` tests and `cellx` tests, so disable it if you want to run them. (https://github.com/mobxjs/mobx/issues/3926)
   { framework: mobxFramework, testPullCounts: false },
 
