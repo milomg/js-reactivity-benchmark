@@ -13,7 +13,7 @@ let scheduled = [] as ReactiveEffect[];
 let batching = false;
 
 export const vueReactivityFramework: ReactiveFramework = {
-  name: "Vue",
+  name: "@vue/reactivity",
   signal: (initial) => {
     const data = shallowRef(initial);
     return {
@@ -45,16 +45,6 @@ export const vueReactivityFramework: ReactiveFramework = {
       }
       batching = false;
     }
-
-    // if (batching) {
-    //   fn();
-    // }
-    // batching = true;
-    // fn();
-    // while (scheduled.length) {
-    //   scheduled.pop()!.run();
-    // }
-    // batching = false;
   },
   withBuild: (fn) => {
     const e = effectScope();
