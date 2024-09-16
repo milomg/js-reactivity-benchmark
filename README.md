@@ -22,7 +22,7 @@ We're also working on enabling consistent logging and efficient tracking of GC t
 - [Angular Signals](https://angular.dev/guide/signals/)
 - [Compostate](https://github.com/lxsmnsyc/compostate)
 - [Kairo](https://github.com/3Shain/kairo)
-- [MobX](https://mobx.js.org) (not included in the average benchmark results because it fails to run some tests)
+- [MobX](https://mobx.js.org)
 - [mol wire](https://www.npmjs.com/package/mol_wire_lib)
 - [Oby](https://github.com/vobyjs/oby)
 - [Preact Signals](https://github.com/preactjs/signals)
