@@ -17,6 +17,10 @@ import { xReactivityFramework } from "./frameworks/xReactivity";
 // import { valtioFramework } from "./frameworks/valtio";
 
 export const frameworkInfo: FrameworkInfo[] = [
+  { framework: preactSignalFramework, testPullCounts: true },
+  { framework: tc39SignalsProposalStage0, testPullCounts: true },
+  { framework: reactivelyFramework, testPullCounts: true },
+  { framework: sFramework },
   { framework: angularFramework, testPullCounts: true },
   { framework: compostateFramework, testPullCounts: true },
   // { framework: kairoFramework, testPullCounts: true },
@@ -24,13 +28,9 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: mobxFramework },
   { framework: molWireFramework, testPullCounts: true },
   { framework: obyFramework, testPullCounts: true },
-  { framework: preactSignalFramework, testPullCounts: true },
-  { framework: reactivelyFramework, testPullCounts: true },
   { framework: signiaFramework, testPullCounts: true },
   // Solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: solidFramework },
-  { framework: sFramework },
-  { framework: tc39SignalsProposalStage0, testPullCounts: true },
   { framework: usignalFramework, testPullCounts: true },
   // NOTE: Valtio currently hangs on some of the dynamic tests, so disable it if you want to run them. (https://github.com/pmndrs/valtio/discussions/949)
   // ramework: valtioFramework },
@@ -48,8 +48,8 @@ export const perfTests: TestConfig[] = [
     readFraction: 0.2,
     iterations: 600000,
     expected: {
-      sum: 19199968,
-      count: 3480000,
+      sum: 19199832,
+      count: 2640004,
     },
   },
   {
@@ -61,8 +61,8 @@ export const perfTests: TestConfig[] = [
     readFraction: 0.2,
     iterations: 15000,
     expected: {
-      sum: 302310782860,
-      count: 1155000,
+      sum: 302310477864,
+      count: 1125003,
     },
   },
   {
@@ -75,7 +75,7 @@ export const perfTests: TestConfig[] = [
     iterations: 7000,
     expected: {
       sum: 29355933696000,
-      count: 1463000,
+      count: 1473791,
     },
   },
   {
@@ -88,7 +88,7 @@ export const perfTests: TestConfig[] = [
     iterations: 3000,
     expected: {
       sum: 1171484375000,
-      count: 732000,
+      count: 735756,
     },
   },
   {
@@ -101,7 +101,7 @@ export const perfTests: TestConfig[] = [
     iterations: 500,
     expected: {
       sum: 3.0239642676898464e241,
-      count: 1246500,
+      count: 1246502,
     },
   },
   {
@@ -114,7 +114,7 @@ export const perfTests: TestConfig[] = [
     iterations: 2000,
     expected: {
       sum: 15664996402790400,
-      count: 1078000,
+      count: 1078671,
     },
   },
 ];

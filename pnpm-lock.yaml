@@ -41,6 +41,9 @@ importers:
       preact:
         specifier: ^10.24.0
         version: 10.24.0
+      random:
+        specifier: ^5.1.0
+        version: 5.1.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -918,6 +921,10 @@ packages:
   proxy-compare@3.0.0:
     resolution: {integrity: sha512-y44MCkgtZUCT9tZGuE278fB7PWVf7fRYy0vbRXAts2o5F0EfC4fIQrvQQGBJo1WJbFcVLXzApOscyJuZqHQc1w==}
 
+  random@5.1.0:
+    resolution: {integrity: sha512-0NGG4HMW9sTstLbignEDasSQJlCGkNQZICIWStZ+h4SzSJfZXpecGKV7qL0AOKcIT8XX9pJ49uZnvI0n/Y+vWA==}
+    engines: {node: '>=18'}
+
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
@@ -1728,6 +1735,8 @@ snapshots:
   prettier@3.3.3: {}
 
   proxy-compare@3.0.0: {}
+
+  random@5.1.0: {}
 
   react@18.3.1:
     dependencies:

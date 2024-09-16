@@ -1,4 +1,4 @@
-import { computed, observable, autorun, transaction, action } from "mobx";
+import { computed, observable, autorun, runInAction } from "mobx";
 import { ReactiveFramework } from "../util/reactiveFramework";
 
 export const mobxFramework: ReactiveFramework = {
@@ -7,7 +7,7 @@ export const mobxFramework: ReactiveFramework = {
     const s = observable.box(initial, { deep: false });
     return {
       read: () => s.get(),
-      write: action((x) => s.set(x)),
+      write: (x) => s.set(x),
     };
   },
   computed: (fn) => {
@@ -17,6 +17,6 @@ export const mobxFramework: ReactiveFramework = {
     };
   },
   effect: (fn) => autorun(fn),
-  withBatch: (fn) => transaction(fn),
+  withBatch: (fn) => runInAction(fn),
   withBuild: (fn) => fn(),
 };

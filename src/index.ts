@@ -22,10 +22,12 @@ async function main() {
     sbench(framework);
   }
 
-  // NOTE: Several of the frameworks hang on this benchmark, so disabling it for now.
-  // for (const { framework } of frameworkInfo) {
-  //   cellxbench(framework);
-  // }
+  for (const { framework } of frameworkInfo) {
+    // https://github.com/vuejs/core/issues/11928
+    if (framework.name !== "Vue") {
+      cellxbench(framework);
+    }
+  }
 
   for (const frameworkTest of frameworkInfo) {
     await dynamicBench(frameworkTest);

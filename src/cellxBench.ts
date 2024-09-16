@@ -114,6 +114,8 @@ export const cellxbench = (framework: ReactiveFramework) => {
 
       total += elapsed;
     }
+
+    globalThis.gc?.();
     logPerfResult({
       framework: framework.name,
       test: `cellx${layers}`,

@@ -1,5 +1,4 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
-import v8 from "v8-natives";
 import { logPerfResult } from "./util/perfLogging";
 import { Computed, Signal, ReactiveFramework } from "./util/reactiveFramework";
 
@@ -55,7 +54,6 @@ export function sbench(framework: ReactiveFramework) {
       sources = createDataSignals(scount, []);
       fn(n / 100, sources);
       sources = createDataSignals(scount, []);
-      v8.optimizeFunctionOnNextCall(fn);
       fn(n / 100, sources);
       sources = createDataSignals(scount, []);
       for (let i = 0; i < scount; i++) {
@@ -65,7 +63,7 @@ export function sbench(framework: ReactiveFramework) {
       }
 
       // start GC clean
-      v8.collectGarbage();
+      globalThis.gc?.();
 
       start = performance.now();
 
@@ -73,7 +71,7 @@ export function sbench(framework: ReactiveFramework) {
 
       // end GC clean
       sources = null;
-      v8.collectGarbage();
+      globalThis.gc?.();
       end = performance.now();
     });
 
