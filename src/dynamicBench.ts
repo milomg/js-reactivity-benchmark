@@ -27,7 +27,7 @@ export async function dynamicBench(
         globalThis.gc?.();
         return res;
       } catch (err: any) {
-        console.warn(`Error dynamicBench "${framework.name}":`, err.message);
+        console.warn(`Error dynamicBench "${framework.name}":`, err);
         return -1;
       }
     }

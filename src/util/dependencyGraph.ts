@@ -54,10 +54,11 @@ export function runGraph(
   const leaves = layers[layers.length - 1];
   const skipCount = Math.round(leaves.length * (1 - readFraction));
   const readLeaves = removeElems(leaves, skipCount, rand);
+  const frameworkName = framework.name.toLowerCase();
   // const start = Date.now();
   let sum = 0;
 
-  if (framework.name === "s-js") {
+  if (frameworkName === "s-js" || frameworkName === "solidjs") {
     // [S.js freeze](https://github.com/adamhaile/S#sdatavalue) doesn't allow different values to be set during a single batch, so special case it.
     for (let i = 0; i < iterations; i++) {
       framework.withBatch(() => {
