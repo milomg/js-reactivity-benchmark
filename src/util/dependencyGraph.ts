@@ -57,11 +57,30 @@ export function runGraph(
   // const start = Date.now();
   let sum = 0;
 
-  if (
-    framework.name.toLowerCase() === "mobx" ||
-    framework.name.toLowerCase() === "svelte v5"
-  ) {
-    // This special-case is only necessary for `mobx`: https://github.com/mobxjs/mobx/issues/3926
+  if (framework.name === "s-js") {
+    // [S.js freeze](https://github.com/adamhaile/S#sdatavalue) doesn't allow different values to be set during a single batch, so special case it.
+    for (let i = 0; i < iterations; i++) {
+      // Useful for debugging edge cases for some frameworks that experience
+      // dramatic slow downs for certain test configurations. These are generally
+      // due to `computed` effects not being cached efficiently, and as the number
+      // of layers increases, the uncached `computed` effects are re-evaluated in
+      // an `O(n^2)` manner where `n` is the number of layers.
+      // if (i % 100 === 0) {
+      //   console.log("iteration:", i, "delta:", Date.now() - start);
+      // }
+
+      framework.withBatch(() => {
+        const sourceDex = i % sources.length;
+        sources[sourceDex].write(i + sourceDex);
+      });
+
+      for (const leaf of readLeaves) {
+        leaf.read();
+      }
+    }
+
+    sum = readLeaves.reduce((total, leaf) => leaf.read() + total, 0);
+  } else {
     framework.withBatch(() => {
       for (let i = 0; i < iterations; i++) {
         // Useful for debugging edge cases for some frameworks that experience
@@ -83,23 +102,6 @@ export function runGraph(
 
       sum = readLeaves.reduce((total, leaf) => leaf.read() + total, 0);
     });
-  } else {
-    for (let i = 0; i < iterations; i++) {
-      // if (i % 100 === 0) {
-      //   console.log("iteration:", i, "delta:", Date.now() - start);
-      // }
-
-      framework.withBatch(() => {
-        const sourceDex = i % sources.length;
-        sources[sourceDex].write(i + sourceDex);
-      });
-
-      for (const leaf of readLeaves) {
-        leaf.read();
-      }
-    }
-
-    sum = readLeaves.reduce((total, leaf) => leaf.read() + total, 0);
   }
 
   return sum;

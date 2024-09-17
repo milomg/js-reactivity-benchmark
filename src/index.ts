@@ -22,6 +22,8 @@ async function main() {
     // cellxbench(framework);
 
     await dynamicBench(frameworkTest);
+
+    globalThis.gc?.();
   }
 }
 

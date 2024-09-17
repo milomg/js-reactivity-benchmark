@@ -26,15 +26,10 @@ export const svelteFramework: ReactiveFramework = {
     };
   },
   effect: (fn) => {
-    // TODO: which one makes more sense here?
-    $.user_effect(fn);
-    // $.render_effect(fn);
-    fn();
+    $.render_effect(fn);
   },
   withBatch: (fn) => {
-    fn();
-    // $.tick();
-    $.flush_sync();
+    $.flush_sync(fn);
   },
   withBuild: (fn) => {
     let res: ReturnType<typeof fn> | undefined;
