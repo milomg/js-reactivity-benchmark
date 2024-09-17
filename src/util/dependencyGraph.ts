@@ -60,15 +60,6 @@ export function runGraph(
   if (framework.name === "s-js") {
     // [S.js freeze](https://github.com/adamhaile/S#sdatavalue) doesn't allow different values to be set during a single batch, so special case it.
     for (let i = 0; i < iterations; i++) {
-      // Useful for debugging edge cases for some frameworks that experience
-      // dramatic slow downs for certain test configurations. These are generally
-      // due to `computed` effects not being cached efficiently, and as the number
-      // of layers increases, the uncached `computed` effects are re-evaluated in
-      // an `O(n^2)` manner where `n` is the number of layers.
-      // if (i % 100 === 0) {
-      //   console.log("iteration:", i, "delta:", Date.now() - start);
-      // }
-
       framework.withBatch(() => {
         const sourceDex = i % sources.length;
         sources[sourceDex].write(i + sourceDex);
