@@ -46,8 +46,6 @@ export const vueReactivityFramework: ReactiveFramework = {
   },
   withBuild: (fn) => {
     const e = effectScope();
-    const r = e.run(fn)!;
-    e.stop();
-    return r;
+    return e.run(fn)!;
   },
 };

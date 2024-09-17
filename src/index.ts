@@ -17,8 +17,9 @@ async function main() {
     await molBench(framework);
     sbench(framework);
 
-    // MobX and Valtio both fail this test currently, so disabling it for now.
+    // MobX, Valtio, and Svelte fail this test currently, so disabling it for now.
     // @see https://github.com/mobxjs/mobx/issues/3926
+    // @see https://github.com/sveltejs/svelte/discussions/13277
     // cellxbench(framework);
 
     await dynamicBench(frameworkTest);

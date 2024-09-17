@@ -109,19 +109,23 @@ function frameworkTests({ framework, testPullCounts }: FrameworkInfo) {
   test(`${name} | effect`, () => {
     const spy = vi.fn();
 
+    const s = framework.signal(2);
+    let c: any;
+
     framework.withBuild(() => {
-      const s = framework.signal(2);
-      const c = framework.computed(() => s.read() * 2);
+      c = framework.computed(() => s.read() * 2);
 
-      framework.effect(() => spy(c.read()));
-      framework.withBatch(() => {
-        s.write(3);
+      framework.effect(() => {
+        spy(c.read());
       });
-
-      expect(s.read()).toEqual(3);
-      expect(c.read()).toEqual(6);
     });
+    expect(spy.mock.calls.length).toBe(1);
 
+    framework.withBatch(() => {
+      s.write(3);
+    });
+    expect(s.read()).toEqual(3);
+    expect(c.read()).toEqual(6);
     expect(spy.mock.calls.length).toBe(2);
   });
 }

@@ -33,11 +33,9 @@ export const svelteFramework: ReactiveFramework = {
   },
   withBuild: <T>(fn: () => T): T => {
     let res: T | undefined;
-    const destroy = $.effect_root(() => {
+    $.effect_root(() => {
       res = fn();
     });
-    $.tick();
-    destroy();
     return res!;
   },
 };
