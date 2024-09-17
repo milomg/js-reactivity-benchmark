@@ -31,8 +31,8 @@ export const svelteFramework: ReactiveFramework = {
   withBatch: (fn) => {
     $.flush_sync(fn);
   },
-  withBuild: (fn) => {
-    let res: ReturnType<typeof fn> | undefined;
+  withBuild: <T>(fn: () => T): T => {
+    let res: T | undefined;
     const destroy = $.effect_root(() => {
       res = fn();
     });
