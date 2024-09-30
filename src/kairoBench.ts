@@ -6,6 +6,7 @@ import { mux } from "./kairo/mux";
 import { repeatedObservers } from "./kairo/repeated";
 import { triangle } from "./kairo/triangle";
 import { unstable } from "./kairo/unstable";
+import { nextTick } from "./util/asyncUtil";
 import { fastestTest } from "./util/benchRepeat";
 import { logPerfResult } from "./util/perfLogging";
 import { ReactiveFramework } from "./util/reactiveFramework";
@@ -30,6 +31,8 @@ export async function kairoBench(framework: ReactiveFramework) {
 
     iter();
     iter();
+
+    await nextTick();
     iter();
 
     const { timing } = await fastestTest(5, () => {

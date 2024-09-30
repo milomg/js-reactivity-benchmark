@@ -1,6 +1,7 @@
 import { TestConfig, FrameworkInfo } from "./util/frameworkTypes";
 
 import { angularFramework } from "./frameworks/angularSignals";
+import { angularFramework as angularFramework2 } from "./frameworks/angularSignals2";
 import { compostateFramework } from "./frameworks/compostate";
 import { kairoFramework } from "./frameworks/kairo";
 import { mobxFramework } from "./frameworks/mobx";
@@ -15,18 +16,19 @@ import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
 
 export const frameworkInfo: FrameworkInfo[] = [
-  { framework: angularFramework, testPullCounts: true },
-  // { framework: compostateFramework, testPullCounts: true },
-  // { framework: kairoFramework, testPullCounts: true },
-  // { framework: mobxFramework, testPullCounts: true },
+  { framework: angularFramework2, testPullCounts: true },
+  // { framework: angularFramework, testPullCounts: true },
+  { framework: compostateFramework, testPullCounts: true },
+  { framework: kairoFramework, testPullCounts: true },
+  { framework: mobxFramework, testPullCounts: true },
   { framework: molWireFramework, testPullCounts: true },
-  // { framework: obyFramework, testPullCounts: true },
+  { framework: obyFramework, testPullCounts: true },
   { framework: preactSignalFramework, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: sFramework },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: usignalFramework, testPullCounts: true },
-  // { framework: vueReactivityFramework, testPullCounts: true },
+  { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
 ];
 

@@ -1,3 +1,4 @@
+import { nextTick } from "./util/asyncUtil";
 import { fastestTest } from "./util/benchRepeat";
 import { logPerfResult } from "./util/perfLogging";
 import { ReactiveFramework } from "./util/reactiveFramework";
@@ -48,6 +49,8 @@ export async function molBench(framework: ReactiveFramework) {
 
   iter(0);
   iter(1);
+
+  await nextTick()
   iter(2);
 
   const { timing } = await fastestTest(5, () => {
