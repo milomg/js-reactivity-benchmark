@@ -1,5 +1,4 @@
-import v8 from "v8-natives";
-import { makeGraph, runGraph } from "./util/dependencyGraph";
+import { Counter, makeGraph, runGraph } from "./util/dependencyGraph";
 import { logPerfResult, perfRowStrings } from "./util/perfLogging";
 import { verifyBenchResult } from "./util/perfTests";
 import { FrameworkInfo } from "./util/frameworkTypes";
@@ -17,14 +16,23 @@ export async function dynamicBench(
   for (const config of perfTests) {
     const { iterations, readFraction } = config;
 
-    const { graph, counter } = makeGraph(framework, config);
+    let counter = new Counter();
 
     function runOnce(): number {
-      return runGraph(graph, iterations, readFraction, framework);
+      // Create a new graph from scratch for each run to ensure they're independent
+      // from each other.
+      try {
+        const graph = makeGraph(framework, config, counter);
+        const res = runGraph(graph, iterations, readFraction, framework);
+        globalThis.gc?.();
+        return res;
+      } catch (err: any) {
+        console.warn(`Error dynamicBench "${framework.name}":`, err);
+        return -1;
+      }
     }
 
     // warm up
-    v8.optimizeFunctionOnNextCall(runOnce);
     runOnce();
 
     const timedResult = await fastestTest(testRepeats, () => {

@@ -1,6 +1,8 @@
 import { signal, computed, syncEffect, batch, createRoot } from "compostate";
 import { ReactiveFramework } from "../util/reactiveFramework";
 
+// NOTE: The compostate adapter is currently not working and unused.
+
 export const compostateFramework: ReactiveFramework = {
   name: "Compostate",
   signal: (initialValue) => {

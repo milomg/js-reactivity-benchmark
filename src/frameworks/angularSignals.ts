@@ -2,7 +2,6 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 import { signal, computed } from "@angular/core";
 import { createWatch, Watch } from "@angular/core/primitives/signals";
 
-
 export const angularFramework: ReactiveFramework = {
   name: "@angular/signals",
   signal: (initialValue) => {
@@ -26,19 +25,17 @@ export const angularFramework: ReactiveFramework = {
   withBuild: (fn) => fn(),
 };
 
-
 let queue = new Set<Watch>();
 
 /**
- * Wrapper around Angular's core effect primitive `Watch`, decoupled from dependency injection,
- * cleanup, and other unrelated concepts.
+ * Wrapper around Angular's core effect primitive `Watch`, decoupled from
+ * dependency injection, cleanup, and other unrelated concepts.
  */
-function effect(effectFn: () => void):
-    void {
+function effect(effectFn: () => void): void {
   const w = createWatch(effectFn, queue.add.bind(queue), true);
 
-  // Effects start dirty.
-  w.notify();
+  // Run effect immediately
+  w.run();
 }
 
 function flushEffects(): void {

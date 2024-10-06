@@ -9,24 +9,18 @@ import { kairoBench } from "./kairoBench";
 async function main() {
   logPerfResult(perfReportHeaders());
 
-  for (const { framework } of frameworkInfo) {
-    await kairoBench(framework);
-  }
-
-  for (const { framework } of frameworkInfo) {
-    await molBench(framework);
-  }
-
-  for (const { framework } of frameworkInfo) {
-    sbench(framework);
-  }
-
-  for (const { framework } of frameworkInfo) {
-    cellxbench(framework);
-  }
-
   for (const frameworkTest of frameworkInfo) {
+    const { framework } = frameworkTest;
+
+    await kairoBench(framework);
+    await molBench(framework);
+    sbench(framework);
+
+    cellxbench(framework);
+
     await dynamicBench(frameworkTest);
+
+    globalThis.gc?.();
   }
 }
 

@@ -30,6 +30,7 @@ export function unstable(bridge: ReactiveFramework) {
       bridge.withBatch(() => {
         head.write(i);
       });
+      // TODO: this assertion is failing for Preact Signals (and possibly other frameworks)
       // console.assert(current.read() === i % 2 ? i * 2 * 10 : i * -10);
     }
     console.assert(callCounter.count === atleast);

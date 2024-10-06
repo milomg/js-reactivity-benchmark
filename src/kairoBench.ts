@@ -1,4 +1,3 @@
-import v8 from "v8-natives";
 import { avoidablePropagation } from "./kairo/avoidable";
 import { broadPropagation } from "./kairo/broad";
 import { deepPropagation } from "./kairo/deep";
@@ -29,7 +28,7 @@ export async function kairoBench(framework: ReactiveFramework) {
       return iter;
     });
 
-    v8.optimizeFunctionOnNextCall(iter);
+    // warm up
     iter();
 
     const { timing } = await fastestTest(10, () => {
@@ -42,7 +41,6 @@ export async function kairoBench(framework: ReactiveFramework) {
       framework: framework.name,
       test: c.name,
       time: timing.time.toFixed(2),
-      gcTime: timing.gcTime?.toFixed(2),
     });
   }
 }

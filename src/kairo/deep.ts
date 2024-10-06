@@ -14,7 +14,7 @@ export function deepPropagation(bridge: ReactiveFramework) {
   }
   let callCounter = new Counter();
 
-  const stop = bridge.effect(() => {
+  bridge.effect(() => {
     current.read();
     callCounter.count++;
   });
