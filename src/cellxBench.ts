@@ -95,14 +95,17 @@ export const cellxbench = (framework: ReactiveFramework) => {
       [-3, -6, -2, 2],
       [-2, -4, 2, 3],
     ],
-    2500: [
-      [-3, -6, -2, 2],
-      [-2, -4, 2, 3],
-    ],
-    5000: [
-      [2, 4, -1, -6],
-      [-2, 1, -4, -4],
-    ],
+    // TODO: https://github.com/milomg/js-reactivity-benchmark/pull/13#issuecomment-2395253701
+    // @see https://github.com/mobxjs/mobx/issues/3926
+    // @see https://github.com/sveltejs/svelte/discussions/13277
+    // 2500: [
+    //   [-3, -6, -2, 2],
+    //   [-2, -4, 2, 3],
+    // ],
+    // 5000: [
+    //   [2, 4, -1, -6],
+    //   [-2, 1, -4, -4],
+    // ],
   };
 
   const results: Record<number, BenchmarkResults> = {};

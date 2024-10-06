@@ -30,7 +30,7 @@ export function triangle(bridge: ReactiveFramework) {
       head.write(1);
     });
     console.assert(sum.read() === constant);
-    // const atleast = 100;
+    const atleast = 100;
     callCounter.count = 0;
     for (let i = 0; i < 100; i++) {
       bridge.withBatch(() => {
@@ -38,7 +38,7 @@ export function triangle(bridge: ReactiveFramework) {
       });
       console.assert(sum.read() === constant - width + i * width);
     }
-    // console.assert(callCounter.count === atleast);
+    console.assert(callCounter.count === atleast);
   };
 }
 
