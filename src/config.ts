@@ -14,9 +14,13 @@ import { solidFramework } from "./frameworks/solid";
 import { usignalFramework } from "./frameworks/uSignal";
 import { vueReactivityFramework } from "./frameworks/vueReactivity";
 import { xReactivityFramework } from "./frameworks/xReactivity";
+import { alienFramework } from "./frameworks/alienSignals";
+import { svelteFramework } from "./frameworks/svelte";
+import { tc39SignalsFramework } from "./frameworks/tc39signals";
 
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: angularFramework2, testPullCounts: true },
+  { framework: alienFramework, testPullCounts: true },
   // { framework: angularFramework, testPullCounts: true },
   { framework: compostateFramework, testPullCounts: true },
   { framework: kairoFramework, testPullCounts: true },
@@ -27,6 +31,8 @@ export const frameworkInfo: FrameworkInfo[] = [
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: sFramework },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
+  { framework: svelteFramework, testPullCounts: true },
+  { framework: tc39SignalsFramework, testPullCounts: true },
   { framework: usignalFramework, testPullCounts: true },
   { framework: vueReactivityFramework, testPullCounts: true },
   { framework: xReactivityFramework, testPullCounts: true },
