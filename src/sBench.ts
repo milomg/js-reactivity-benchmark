@@ -30,12 +30,11 @@ export function sbench(framework: ReactiveFramework) {
     count: number,
     scount: number,
   ) {
-    const { memory, time } = run(fn, count, scount);
+    const { time } = run(fn, count, scount);
     logPerfResult({
       framework: framework.name,
       test: fn.name,
       time: time.toFixed(2),
-      memory: memory.toFixed(2),
     });
   }
 
@@ -52,8 +51,6 @@ export function sbench(framework: ReactiveFramework) {
 
     framework.withBuild(() => {
       if (window.gc) gc!(), gc!();
-
-      memoryStart = window.performance.memory?.usedJSHeapSize ?? 0;
 
       // run 3 times to warm up
       let sources: Computed<number>[] | null = createDataSignals(scount, []);
@@ -80,10 +77,9 @@ export function sbench(framework: ReactiveFramework) {
       sources = null;
       if (window.gc) gc!(), gc!();
       end = performance.now();
-      memoryEnd = window.performance.memory?.usedJSHeapSize ?? 0;
     });
 
-    return { time: end - start, memory: memoryEnd - memoryStart };
+    return { time: end - start };
   }
 
   function createDataSignals(n: number, sources: Computed<number>[]) {

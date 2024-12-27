@@ -1,5 +1,5 @@
 import { computed, ref, effect, ReactiveEffect } from "@vue/reactivity";
-import { ReactiveFramework } from "../util/reactiveFramework";
+import { ReactiveFramework } from "../../util/reactiveFramework";
 
 let scheduled = [] as ReactiveEffect[];
 export const vueReactivityFramework: ReactiveFramework = {

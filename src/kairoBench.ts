@@ -45,7 +45,6 @@ export async function kairoBench(framework: ReactiveFramework) {
       framework: framework.name,
       test: c.name,
       time: timing.time.toFixed(2),
-      memory: timing.memory?.toFixed(2),
     });
   }
 }

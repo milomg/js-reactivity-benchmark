@@ -63,6 +63,5 @@ export async function molBench(framework: ReactiveFramework) {
     framework: framework.name,
     test: "molBench",
     time: timing.time.toFixed(2),
-    memory: timing.memory?.toFixed(2),
   });
 }

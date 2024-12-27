@@ -48,18 +48,12 @@ function processPending() {
 }
 
 export function effect(callback: any) {
-  let cleanup: any;
-
-  const computed = new Signal.Computed(() => {
-    typeof cleanup === "function" && cleanup();
-    cleanup = callback();
-  });
+  const computed = new Signal.Computed(() => callback());
 
   w.watch(computed);
   computed.get();
 
   return () => {
     w.unwatch(computed);
-    typeof cleanup === "function" && cleanup();
   };
 }
