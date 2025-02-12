@@ -1,10 +1,10 @@
-import { dynamicBench } from "./dynamicBench";
-import { cellxbench } from "./cellxBench";
-import { sbench } from "./sBench";
+import { dynamicBench } from "./benches/reactively/dynamicBench";
+import { cellxbench } from "./benches/cellxBench";
+import { sbench } from "./benches/sBench";
 import { frameworkInfo } from "./config";
 import { logPerfResult, perfReportHeaders } from "./util/perfLogging";
-import { molBench } from "./molBench";
-import { kairoBench } from "./kairoBench";
+import { molBench } from "./benches/molBench";
+import { kairoBench } from "./benches/kairoBench";
 import { promiseDelay } from "./util/asyncUtil";
 
 async function main() {

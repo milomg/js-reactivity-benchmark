@@ -1,7 +1,7 @@
 // The following is an implementation of the cellx benchmark https://github.com/Riim/cellx/blob/master/perf/perf.html
-import { nextTick } from "./util/asyncUtil";
-import { logPerfResult } from "./util/perfLogging";
-import { Computed, ReactiveFramework } from "./util/reactiveFramework";
+import { nextTick } from "../util/asyncUtil";
+import { logPerfResult } from "../util/perfLogging";
+import { Computed, ReactiveFramework } from "../util/reactiveFramework";
 
 const cellx = (framework: ReactiveFramework, layers: number) => {
   return framework.withBuild(() => {

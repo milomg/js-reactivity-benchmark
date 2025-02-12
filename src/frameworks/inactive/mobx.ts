@@ -1,5 +1,5 @@
 import { computed, observable, autorun, transaction, action } from "mobx";
-import { ReactiveFramework } from "../util/reactiveFramework";
+import { ReactiveFramework } from "../../util/reactiveFramework";
 
 export const mobxFramework: ReactiveFramework = {
   name: "MobX",

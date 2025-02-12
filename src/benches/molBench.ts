@@ -1,14 +1,14 @@
-import { nextTick } from "./util/asyncUtil";
-import { fastestTest } from "./util/benchRepeat";
-import { logPerfResult } from "./util/perfLogging";
-import { ReactiveFramework } from "./util/reactiveFramework";
+import { nextTick } from "../util/asyncUtil";
+import { fastestTest } from "../util/benchRepeat";
+import { logPerfResult } from "../util/perfLogging";
+import { ReactiveFramework } from "../util/reactiveFramework";
 
 function fib(n: number): number {
   if (n < 2) return 1;
   return fib(n - 1) + fib(n - 2);
 }
 
-function hard(n: number, log: string) {
+function hard(n: number, _log: string) {
   return n + fib(16);
 }
 
@@ -30,9 +30,12 @@ export async function molBench(framework: ReactiveFramework) {
     const G = framework.computed(
       () => C.read() + (C.read() || E.read() % 2) + D.read()[4].x + F.read(),
     );
-    const H = framework.effect(() => res.push(hard(G.read(), "H")));
-    const I = framework.effect(() => res.push(G.read()));
-    const J = framework.effect(() => res.push(hard(F.read(), "J")));
+    // H:
+    framework.effect(() => res.push(hard(G.read(), "H")));
+    // I:
+    framework.effect(() => res.push(G.read()));
+    // J:
+    framework.effect(() => res.push(hard(F.read(), "J")));
 
     return (i: number) => {
       res.length = 0;

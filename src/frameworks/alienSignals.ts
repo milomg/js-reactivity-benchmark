@@ -1,8 +1,8 @@
 import {
-  Computed,
-  Effect,
+  computed,
+  effect,
   endBatch,
-  Signal,
+  signal,
   startBatch,
 } from "alien-signals/esm";
 import { ReactiveFramework } from "../util/reactiveFramework";
@@ -10,19 +10,19 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 export const alienFramework: ReactiveFramework = {
   name: "alien-signals",
   signal: (initial) => {
-    const data = new Signal(initial);
+    const data = signal(initial);
     return {
-      read: () => data.get(),
-      write: (v) => data.set(v),
+      read: () => data(),
+      write: (v) => data(v),
     };
   },
   computed: (fn) => {
-    const c = new Computed(fn);
+    const c = computed(fn);
     return {
-      read: () => c.get(),
+      read: () => c(),
     };
   },
-  effect: (fn) => new Effect(fn).run(),
+  effect: (fn) => effect(fn),
   withBatch: (fn) => {
     startBatch();
     fn();

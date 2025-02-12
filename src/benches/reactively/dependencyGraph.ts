@@ -1,6 +1,7 @@
-import { TestConfig } from "./frameworkTypes";
-import { pseudoRandom } from "./pseudoRandom";
-import { Computed, ReactiveFramework, Signal } from "./reactiveFramework";
+import { Counter } from "../../util/counter";
+import { TestConfig } from "../../util/frameworkTypes";
+import { pseudoRandom } from "../../util/pseudoRandom";
+import { Computed, ReactiveFramework, Signal } from "../../util/reactiveFramework";
 
 export interface Graph {
   sources: Signal<number>[];
@@ -83,10 +84,6 @@ function removeElems<T>(src: T[], rmCount: number, rand: () => number): T[] {
   return copy;
 }
 
-export class Counter {
-  count = 0;
-}
-
 function makeDependentRows(
   sources: Computed<number>[],
   numRows: number,
@@ -120,7 +117,7 @@ function makeRow(
   staticFraction: number,
   nSources: number,
   framework: ReactiveFramework,
-  layer: number,
+  _layer: number,
   random: () => number,
 ): Computed<number>[] {
   return sources.map((_, myDex) => {

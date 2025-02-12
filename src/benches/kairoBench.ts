@@ -6,10 +6,10 @@ import { mux } from "./kairo/mux";
 import { repeatedObservers } from "./kairo/repeated";
 import { triangle } from "./kairo/triangle";
 import { unstable } from "./kairo/unstable";
-import { nextTick } from "./util/asyncUtil";
-import { fastestTest } from "./util/benchRepeat";
-import { logPerfResult } from "./util/perfLogging";
-import { ReactiveFramework } from "./util/reactiveFramework";
+import { nextTick } from "../util/asyncUtil";
+import { fastestTest } from "../util/benchRepeat";
+import { logPerfResult } from "../util/perfLogging";
+import { ReactiveFramework } from "../util/reactiveFramework";
 
 const cases = [
   avoidablePropagation,

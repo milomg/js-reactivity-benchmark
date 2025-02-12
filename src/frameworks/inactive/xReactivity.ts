@@ -1,18 +1,18 @@
-import { ReactiveFramework } from "../util/reactiveFramework";
+import { ReactiveFramework } from "../../util/reactiveFramework";
 import {
   flushSync,
   createEffect,
   createMemo,
   createRoot,
   createSignal,
-} from "@solidjs/reactivity";
+} from "@solidjs/signals";
 
 export const xReactivityFramework: ReactiveFramework = {
   name: "x-reactivity",
   signal: (initialValue) => {
-    const [getter, setter] = createSignal(initialValue);
+    const [getter, setter] = createSignal(initialValue as any);
     return {
-      write: (v) => setter(v),
+      write: (v) => setter(v as any),
       read: () => getter(),
     };
   },
@@ -22,7 +22,7 @@ export const xReactivityFramework: ReactiveFramework = {
       read: () => memo(),
     };
   },
-  effect: (fn) => createEffect(fn),
+  effect: (fn) => createEffect(fn, () => {}),
   withBatch: (fn) => {
     fn();
     flushSync();

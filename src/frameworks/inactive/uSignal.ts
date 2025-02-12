@@ -1,4 +1,4 @@
-import { ReactiveFramework } from "../util/reactiveFramework";
+import { ReactiveFramework } from "../../util/reactiveFramework";
 import { batch, computed, effect, signal } from "usignal";
 
 export const usignalFramework: ReactiveFramework = {

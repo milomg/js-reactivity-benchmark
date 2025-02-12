@@ -1,5 +1,5 @@
-import { Counter } from "./../util/dependencyGraph";
-import { Computed, ReactiveFramework } from "../util/reactiveFramework";
+import { Counter } from "../../util/counter";
+import { Computed, ReactiveFramework } from "../../util/reactiveFramework";
 
 let width = 10;
 

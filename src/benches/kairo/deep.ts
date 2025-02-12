@@ -1,5 +1,5 @@
-import { Counter } from "../util/dependencyGraph";
-import { Computed, ReactiveFramework } from "./../util/reactiveFramework";
+import { Counter } from "../../util/counter";
+import { Computed, ReactiveFramework } from "../../util/reactiveFramework";
 let len = 50;
 
 /** deep propagation */
@@ -14,7 +14,7 @@ export function deepPropagation(bridge: ReactiveFramework) {
   }
   let callCounter = new Counter();
 
-  const stop = bridge.effect(() => {
+  bridge.effect(() => {
     current.read();
     callCounter.count++;
   });

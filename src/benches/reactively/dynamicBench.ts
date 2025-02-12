@@ -1,9 +1,9 @@
-import { makeGraph, runGraph } from "./util/dependencyGraph";
-import { logPerfResult, perfRowStrings } from "./util/perfLogging";
-import { verifyBenchResult } from "./util/perfTests";
-import { FrameworkInfo } from "./util/frameworkTypes";
-import { perfTests } from "./config";
-import { fastestTest } from "./util/benchRepeat";
+import { makeGraph, runGraph } from "./dependencyGraph";
+import { logPerfResult, perfRowStrings } from "../../util/perfLogging";
+import { verifyBenchResult } from "../../util/perfTests";
+import { FrameworkInfo } from "../../util/frameworkTypes";
+import { perfTests } from "../../config";
+import { fastestTest } from "../../util/benchRepeat";
 
 /** benchmark a single test under single framework.
  * The test is run multiple times and the fastest result is logged to the console.

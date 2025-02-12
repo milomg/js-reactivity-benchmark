@@ -1,5 +1,5 @@
-import { Counter } from "../util/dependencyGraph";
-import { ReactiveFramework } from "../util/reactiveFramework";
+import { Counter } from "../../util/counter";
+import { ReactiveFramework } from "../../util/reactiveFramework";
 
 /** worst case. */
 export function unstable(bridge: ReactiveFramework) {

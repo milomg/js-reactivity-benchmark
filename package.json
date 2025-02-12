@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "tsc": "tsc",
     "test": "vitest",
     "build": "esbuild src/index.ts --bundle --format=iife --target=esnext --outfile=public/dist/index.js --sourcemap=inline",
     "start": "serve public",
@@ -13,28 +14,29 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@angular/core": "19.0.5",
-    "@preact/signals": "^2.0.0",
+    "@angular/core": "19.1.5",
+    "@preact/signals": "^2.0.1",
     "@reactively/core": "^0.0.8",
-    "@solidjs/reactivity": "^0.0.9",
+    "@solidjs/signals": "^0.0.9",
     "@vue/reactivity": "^3.5.13",
-    "alien-signals": "^0.4.11",
+    "alien-signals": "^1.0.3",
     "compostate": "^0.5.1",
-    "kairo": "0.6.0-rc.0",
-    "mobx": "^6.13.5",
-    "mol_wire_lib": "^1.0.1245",
+    "mobx": "^6.13.6",
+    "mol_wire_lib": "^1.0.1306",
     "oby": "15.1.2",
-    "preact": "^10.25.3",
+    "preact": "^10.25.4",
     "s-js": "^0.4.9",
-    "signal-polyfill": "^0.2.1",
-    "solid-js": "^1.9.3",
-    "svelte": "^5.16.0",
+    "signal-polyfill": "^0.2.2",
+    "solid-js": "^1.9.4",
+    "svelte": "^5.20.0",
     "usignal": "^0.9.0"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "esbuild": "^0.24.2",
+    "@types/node": "^22.13.1",
+    "esbuild": "^0.25.0",
     "serve": "^14.2.4",
-    "vitest": "^2.1.5"
-  }
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "packageManager": "pnpm@10.3.0"
 }

@@ -1,5 +1,5 @@
 import { signal, computed, syncEffect, batch, createRoot } from "compostate";
-import { ReactiveFramework } from "../util/reactiveFramework";
+import { ReactiveFramework } from "../../util/reactiveFramework";
 
 export const compostateFramework: ReactiveFramework = {
   name: "Compostate",
