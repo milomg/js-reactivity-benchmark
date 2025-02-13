@@ -1,50 +1,86 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
 import {
-  createComputed,
-  createSignal,
-  createWatch,
-  SIGNAL,
-  signalSetFn,
-  Watch,
-} from "@angular/core/primitives/signals";
+  signal,
+  computed,
+  effect,
+  Injector,
+  ɵChangeDetectionScheduler,
+  ɵEffectScheduler,
+  untracked,
+} from "@angular/core";
 
-let queue: Array<Watch> = [];
+interface SchedulableEffect {
+  run(): void;
+}
+export class ArrayEffectScheduler implements ɵEffectScheduler {
+  private queue = new Set<SchedulableEffect>();
+
+  schedule(handle: SchedulableEffect): void {
+    this.enqueue(handle);
+  }
+
+  remove(handle: SchedulableEffect): void {
+    if (!this.queue.has(handle)) {
+      return;
+    }
+
+    this.queue.delete(handle);
+  }
+
+  private enqueue(handle: SchedulableEffect): void {
+    if (this.queue.has(handle)) {
+      return;
+    }
+    this.queue.add(handle);
+  }
+
+  flush(): void {
+    for (const handle of this.queue) {
+      this.queue.delete(handle);
+
+      handle.run();
+    }
+  }
+}
+
+const scheduler = new ArrayEffectScheduler();
+const injector = Injector.create({
+  providers: [
+    { provide: ɵChangeDetectionScheduler, useValue: { notify() {} } },
+    { provide: ɵEffectScheduler, useValue: scheduler },
+  ],
+});
+
+const injectorObj = { injector };
 
 export const angularFramework: ReactiveFramework = {
   name: "@angular/signal2",
   signal: (initialValue) => {
-    const s = createSignal(initialValue);
+    const s = signal(initialValue);
     return {
-      write: (v) => signalSetFn(s[SIGNAL], v),
+      write: (v) => s.set(v),
       read: () => s(),
     };
   },
   computed: (fn) => {
-    const c = createComputed(fn);
+    const c = computed(fn);
     return {
       read: () => c(),
     };
   },
-  /**
-   * Wrapper around Angular's core effect primitive `Watch`, decoupled from dependency injection,
-   * cleanup, and other unrelated concepts.
-   */
   effect: (fn) => {
-    const w = createWatch(fn, queue.push.bind(queue), true);
-
-    // Effects start dirty.
-    w.notify();
+    effect(fn, injectorObj);
   },
   withBatch: (fn) => {
     fn();
-    flushEffects();
+    scheduler.flush();
   },
-  withBuild: (fn) => fn(),
+  withBuild: <T>(fn: () => T) => {
+    let res: T;
+    effect(() => {
+      res = untracked(fn);
+    }, injectorObj);
+    scheduler.flush();
+    return res!;
+  },
 };
-
-function flushEffects(): void {
-  for (const watch of queue) {
-    watch.run();
-  }
-  queue.length = 0;
-}
