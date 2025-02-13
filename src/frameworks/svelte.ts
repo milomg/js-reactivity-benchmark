@@ -28,7 +28,7 @@ export const svelteFramework: ReactiveFramework = {
   effect: (fn) => {
     $.render_effect(fn);
   },
-  withBatch: $.flush_sync,
+  withBatch: (fn) => $.flush_sync(fn),
   withBuild: <T>(fn: () => T): T => {
     let res: T | undefined;
     $.effect_root(() => {
