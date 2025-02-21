@@ -16,10 +16,10 @@ export async function dynamicBench(
   for (const config of perfTests) {
     const { iterations, readFraction } = config;
 
-    const { graph, counter } = makeGraph(framework, config);
+    const { graph, counter } = makeGraph(framework, readFraction, config);
 
     function runOnce(): number {
-      return runGraph(graph, iterations, readFraction, framework);
+      return runGraph(graph, iterations, framework);
     }
 
     // warm up

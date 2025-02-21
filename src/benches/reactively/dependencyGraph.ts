@@ -6,6 +6,7 @@ import { Computed, ReactiveFramework, Signal } from "../../util/reactiveFramewor
 export interface Graph {
   sources: Signal<number>[];
   layers: Computed<number>[][];
+  readLeaves: Computed<number>[];
 }
 
 export interface GraphAndCounter {
@@ -24,6 +25,7 @@ export interface GraphAndCounter {
  */
 export function makeGraph(
   framework: ReactiveFramework,
+  readFraction: number,
   config: TestConfig,
 ): GraphAndCounter {
   const { width, totalLayers, staticFraction, nSources } = config;
@@ -39,7 +41,18 @@ export function makeGraph(
       nSources,
       framework,
     );
-    const graph = { sources, layers: rows };
+
+    const rand = pseudoRandom();
+    const leaves = rows[rows.length - 1];
+    const skipCount = Math.round(leaves.length * (1 - readFraction));
+    const readLeaves = removeElems(leaves, skipCount, rand);
+    framework.effect(() => {
+      for (const leaf of readLeaves) {
+        leaf.read();
+      }
+    });
+
+    const graph = { sources, layers: rows, readLeaves };
     return { graph, counter };
   });
 }
@@ -52,15 +65,10 @@ export function makeGraph(
 export function runGraph(
   graph: Graph,
   iterations: number,
-  readFraction: number,
   framework: ReactiveFramework,
 ): number {
-  const rand = pseudoRandom();
-  const { sources, layers } = graph;
-  const leaves = layers[layers.length - 1];
-  const skipCount = Math.round(leaves.length * (1 - readFraction));
-  const readLeaves = removeElems(leaves, skipCount, rand);
-
+  const { sources, readLeaves } = graph;
+  
   for (let i = 0; i < iterations; i++) {
     framework.withBatch(() => {
       const sourceDex = i % sources.length;
