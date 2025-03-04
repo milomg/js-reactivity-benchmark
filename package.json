@@ -17,27 +17,32 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@angular/core": "19.1.5",
+    "@angular/core": "19.2.0",
     "@preact/signals": "^2.0.1",
     "@reactively/core": "^0.0.8",
-    "@solidjs/signals": "^0.0.9",
+    "@solidjs/signals": "^0.2.4",
+    "@types/node": "^22.13.9",
     "@vue/reactivity": "^3.5.13",
-    "alien-signals": "^1.0.3",
+    "alien-signals": "^1.0.4",
     "compostate": "^0.5.1",
-    "mobx": "^6.13.6",
-    "mol_wire_lib": "^1.0.1306",
-    "oby": "15.1.2",
-    "preact": "^10.25.4",
-    "s-js": "^0.4.9",
-    "signal-polyfill": "^0.2.2",
-    "solid-js": "^1.9.4",
-    "svelte": "^5.20.0",
-    "usignal": "^0.9.0",
-    "@types/node": "^22.13.1",
     "esbuild": "^0.25.0",
+    "mobx": "^6.13.6",
+    "mol_wire_lib": "^1.0.1325",
+    "oby": "15.1.2",
+    "preact": "^10.26.4",
+    "s-js": "^0.4.9",
     "serve": "^14.2.4",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "signal-polyfill": "^0.2.2",
+    "solid-js": "^1.9.5",
+    "svelte": "^5.22.1",
+    "typescript": "^5.8.2",
+    "usignal": "^0.9.0",
+    "vitest": "^3.0.7"
   },
-  "packageManager": "pnpm@10.3.0"
+  "packageManager": "pnpm@10.5.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
 }
