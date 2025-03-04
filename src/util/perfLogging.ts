@@ -1,59 +1,32 @@
-import { TestConfig } from "./frameworkTypes";
-import { TestResult, TimingResult } from "./perfTests";
-
-const pre = document.querySelector("pre")!;
-export function logPerfResult(row: PerfRowStrings): void {
-  const line = Object.values(trimColumns(row)).join(" , ");
-  pre.innerText += line + "\n";
+export interface PerfResult {
+  framework: string;
+  test: string;
+  time: number;
 }
 
-export interface PerfRowStrings {
+export interface PerfResultStrings {
   framework: string;
   test: string;
   time: string;
 }
 
+export type PerfResultCallback = (result: PerfResult) => void;
+
 const columnWidth = {
-  framework: 16,
+  framework: 32,
   test: 60,
   time: 8,
 };
 
-export function perfReportHeaders(): PerfRowStrings {
-  const keys: (keyof PerfRowStrings)[] = Object.keys(columnWidth) as any;
+export function perfResultHeaders(): PerfResultStrings {
+  const keys: (keyof PerfResultStrings)[] = Object.keys(columnWidth) as any;
   const kv = keys.map((key) => [key, key]);
   const untrimmed = Object.fromEntries(kv);
   return trimColumns(untrimmed);
 }
 
-export function perfRowStrings(
-  frameworkName: string,
-  config: TestConfig,
-  timed: TimingResult<TestResult>,
-): PerfRowStrings {
-  const { timing } = timed;
-
-  return {
-    framework: frameworkName,
-    test: `${makeTitle(config)} (${config.name || ""})`,
-    time: timing.time.toFixed(2),
-  };
-}
-
-export function makeTitle(config: TestConfig): string {
-  const { width, totalLayers, staticFraction, nSources, readFraction } = config;
-  const dyn = staticFraction < 1 ? " - dynamic" : "";
-  const read = readFraction < 1 ? ` - read ${percent(readFraction)}` : "";
-  const sources = ` - ${nSources} sources`;
-  return `${width}x${totalLayers}${sources}${dyn}${read}`;
-}
-
-function percent(n: number): string {
-  return Math.round(n * 100) + "%";
-}
-
-function trimColumns(row: PerfRowStrings): PerfRowStrings {
-  const keys: (keyof PerfRowStrings)[] = Object.keys(columnWidth) as any;
+function trimColumns(row: PerfResultStrings): PerfResultStrings {
+  const keys: (keyof PerfResultStrings)[] = Object.keys(columnWidth) as any;
   const trimmed = { ...row };
   for (const key of keys) {
     const length = columnWidth[key];
@@ -61,4 +34,16 @@ function trimColumns(row: PerfRowStrings): PerfRowStrings {
     trimmed[key] = value;
   }
   return trimmed;
+}
+
+export function formatPerfResultStrings(row: PerfResultStrings): string {
+  return Object.values(trimColumns(row)).join(" , ");
+}
+
+export function formatPerfResult(row: PerfResult): string {
+  return formatPerfResultStrings({
+    framework: row.framework,
+    test: row.test,
+    time: row.time.toFixed(2),
+  });
 }

@@ -8,8 +8,8 @@ import { triangle } from "./kairo/triangle";
 import { unstable } from "./kairo/unstable";
 import { nextTick } from "../util/asyncUtil";
 import { fastestTest } from "../util/benchRepeat";
-import { logPerfResult } from "../util/perfLogging";
 import { ReactiveFramework } from "../util/reactiveFramework";
+import { PerfResultCallback } from "../util/perfLogging";
 
 const cases = [
   avoidablePropagation,
@@ -22,7 +22,7 @@ const cases = [
   unstable,
 ];
 
-export async function kairoBench(framework: ReactiveFramework) {
+export async function kairoBench(framework: ReactiveFramework, logPerfResult: PerfResultCallback) {
   for (const c of cases) {
     const iter = framework.withBuild(() => {
       const iter = c(framework);
@@ -44,7 +44,7 @@ export async function kairoBench(framework: ReactiveFramework) {
     logPerfResult({
       framework: framework.name,
       test: c.name,
-      time: timing.time.toFixed(2),
+      time: timing.time,
     });
   }
 }
