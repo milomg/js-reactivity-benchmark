@@ -1,6 +1,6 @@
 // The following is an implementation of the cellx benchmark https://github.com/Riim/cellx/blob/master/perf/perf.html
 import { nextTick } from "../util/asyncUtil";
-import { logPerfResult } from "../util/perfLogging";
+import { PerfResultCallback } from "../util/perfLogging";
 import { Computed, ReactiveFramework } from "../util/reactiveFramework";
 
 const cellx = (framework: ReactiveFramework, layers: number) => {
@@ -88,7 +88,7 @@ type BenchmarkResults = [
   readonly [number, number, number, number],
 ];
 
-export const cellxbench = async (framework: ReactiveFramework) => {
+export const cellxbench = async (framework: ReactiveFramework, logPerfResult: PerfResultCallback) => {
   const expected: Record<number, BenchmarkResults> = {
     1000: [
       [-3, -6, -2, 2],
@@ -121,7 +121,7 @@ export const cellxbench = async (framework: ReactiveFramework) => {
     logPerfResult({
       framework: framework.name,
       test: `cellx${layers}`,
-      time: total.toFixed(2),
+      time: total,
     });
   }
 

@@ -1,7 +1,7 @@
 import { makeGraph, runGraph } from "./benches/reactively/dependencyGraph";
 import { expect, test } from "vitest";
 import { FrameworkInfo, TestConfig } from "./util/frameworkTypes";
-import { frameworkInfo } from "./config";
+import { frameworkInfo } from "./frameworksList";
 
 frameworkInfo.forEach((frameworkInfo) => frameworkTests(frameworkInfo));
 
