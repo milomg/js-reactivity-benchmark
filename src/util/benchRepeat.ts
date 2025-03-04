@@ -34,7 +34,7 @@ export function runTimed<T>(fn: () => T): TimedResult<T> {
 
 /** run a function, reporting the wall clock time and garbage collection time. */
 async function runTracked<T>(fn: () => T): Promise<TimingResult<T>> {
-  if (window.gc) gc!(), gc!();
+  if (globalThis.gc) gc!(), gc!();
   let out = runTimed(fn);
   const { result, time } = out;
   return { result, timing: { time } };

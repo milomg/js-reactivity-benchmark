@@ -50,7 +50,7 @@ export function sbench(framework: ReactiveFramework, logPerfResult: PerfResultCa
     let end = 0;
     
     framework.withBuild(() => {
-      if (window.gc) gc!(), gc!();
+      if (globalThis.gc) gc!(), gc!();
 
       // run 3 times to warm up
       let sources: Computed<number>[] | null = createDataSignals(scount, []);
@@ -67,7 +67,7 @@ export function sbench(framework: ReactiveFramework, logPerfResult: PerfResultCa
       }
 
       // start GC clean
-      if (window.gc) gc!(), gc!();
+      if (globalThis.gc) gc!(), gc!();
 
       start = performance.now();
 
@@ -75,7 +75,7 @@ export function sbench(framework: ReactiveFramework, logPerfResult: PerfResultCa
 
       // end GC clean
       sources = null;
-      if (window.gc) gc!(), gc!();
+      if (globalThis.gc) gc!(), gc!();
       end = performance.now();
     });
 
