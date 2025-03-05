@@ -14,6 +14,7 @@ import { solidFramework } from "./frameworks/solid";
 // import { xReactivityFramework } from "./frameworks/inactive/xReactivity";
 import { alienFramework } from "./frameworks/alienSignals";
 import { svelteFramework } from "./frameworks/svelte";
+import { tansuFramework } from "./frameworks/tansu";
 // import { tc39SignalsFramework } from "./frameworks/tc39signals";
 
 export const frameworkInfo: FrameworkInfo[] = [
@@ -30,6 +31,7 @@ export const frameworkInfo: FrameworkInfo[] = [
   // { framework: sFramework },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
   { framework: svelteFramework, testPullCounts: true },
+  { framework: tansuFramework, testPullCounts: true },
   // { framework: tc39SignalsFramework, testPullCounts: true },
   // { framework: usignalFramework, testPullCounts: true },
   // { framework: vueReactivityFramework, testPullCounts: true },
