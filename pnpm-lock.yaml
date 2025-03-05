@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@amadeus-it-group/tansu':
+        specifier: ^2.0.0
+        version: 2.0.0
       '@angular/core':
         specifier: 19.2.0
         version: 19.2.0(rxjs@7.8.1)(zone.js@0.14.2)
@@ -75,6 +78,9 @@ importers:
   packages/bench: {}
 
 packages:
+
+  '@amadeus-it-group/tansu@2.0.0':
+    resolution: {integrity: sha512-KebRcEFWkdKix1vN12Y8cuGWdWKqkCzXiesXnxSAZbEULBDlPwm0sey+ygP98PudM1gBygtiWyWzGTeAL5+jIw==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -1033,6 +1039,8 @@ packages:
     resolution: {integrity: sha512-X4U7J1isDhoOmHmFWiLhloWc2lzMkdnumtfQ1LXzf/IOZp5NQYuMUTaviVzG/q1ugMBIXzin2AqeVJUoSEkNyQ==}
 
 snapshots:
+
+  '@amadeus-it-group/tansu@2.0.0': {}
 
   '@ampproject/remapping@2.3.0':
     dependencies:
