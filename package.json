@@ -9,7 +9,7 @@
     "tsc": "tsc",
     "test": "vitest",
     "prepare": "esbuild src/index.ts --bundle --format=esm --target=esnext --outdir=dist --sourcemap=external && tsc -p tsconfig.d.json",
-    "build": "esbuild src/main.ts --bundle --format=iife --target=esnext --outfile=public/dist/index.js --sourcemap=inline",
+    "build": "esbuild src/main.ts --bundle --format=iife --target=esnext --outfile=public/dist/index.js --sourcemap=inline --log-override:import-is-undefined=error",
     "start": "serve public",
     "chrome": "chrome --no-sandbox --js-flags=--log-deopt,--log-ic,--log-maps,--log-maps-details,--log-internal-timer-events,--prof,--expose-gc,--detailed-line-info --enable-precise-memory-info --user-data-dir=$(PWD)/chrome http://localhost:3000"
   },
