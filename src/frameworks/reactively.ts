@@ -22,4 +22,7 @@ export const reactivelyFramework: ReactiveFramework = {
     stabilize();
   },
   withBuild: (fn) => fn(),
+  cleanup: () => {
+    // TODO: reactively doesn't support cleaning up effects yet
+  },
 };

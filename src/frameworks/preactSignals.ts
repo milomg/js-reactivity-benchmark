@@ -1,6 +1,7 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
 import { batch, computed, effect, signal } from "@preact/signals";
 
+let toCleanup: (() => void)[] = [];
 export const preactSignalFramework: ReactiveFramework = {
   name: "Preact Signals",
   signal: (initialValue) => {
@@ -16,7 +17,13 @@ export const preactSignalFramework: ReactiveFramework = {
       read: () => c.value,
     };
   },
-  effect: (fn) => effect(fn),
+  effect: (fn) => toCleanup.push(effect(fn)),
   withBatch: (fn) => batch(fn),
   withBuild: (fn) => fn(),
+  cleanup: () => {
+    for (const cleanup of toCleanup) {
+      cleanup();
+    }
+    toCleanup = [];
+  },
 };

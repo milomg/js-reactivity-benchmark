@@ -19,4 +19,7 @@ export const tansuFramework: ReactiveFramework = {
   effect: (fn) => computed(fn).subscribe(() => {}),
   withBatch: (fn) => batch(fn),
   withBuild: (fn) => fn(),
+  cleanup: () => {
+    // No-op?
+  },
 };

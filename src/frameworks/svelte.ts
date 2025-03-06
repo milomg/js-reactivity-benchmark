@@ -31,9 +31,10 @@ export const svelteFramework: ReactiveFramework = {
   withBatch: (fn) => $.flush(fn),
   withBuild: <T>(fn: () => T): T => {
     let res: T | undefined;
-    $.effect_root(() => {
+    svelteFramework.cleanup = $.effect_root(() => {
       res = fn();
     });
     return res!;
   },
+  cleanup: () => {}
 };

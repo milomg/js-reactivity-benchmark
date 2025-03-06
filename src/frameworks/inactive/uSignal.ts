@@ -1,6 +1,7 @@
 import { ReactiveFramework } from "../../util/reactiveFramework";
 import { batch, computed, effect, signal } from "usignal";
 
+let toCleanup: (() => void)[] = [];
 export const usignalFramework: ReactiveFramework = {
   name: "uSignal",
   signal: (initialValue) => {
@@ -16,7 +17,13 @@ export const usignalFramework: ReactiveFramework = {
       read: () => c.value,
     };
   },
-  effect: (fn) => effect(fn),
+  effect: (fn) => toCleanup.push(effect(fn)),
   withBatch: (fn) => batch(fn),
   withBuild: (fn) => fn(),
+  cleanup: () => {
+    for (const cleanup of toCleanup) {
+      cleanup();
+    }
+    toCleanup = [];
+  },
 };

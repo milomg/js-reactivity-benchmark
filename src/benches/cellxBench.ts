@@ -4,7 +4,7 @@ import { PerfResultCallback } from "../util/perfLogging";
 import { Computed, ReactiveFramework } from "../util/reactiveFramework";
 
 const cellx = (framework: ReactiveFramework, layers: number) => {
-  return framework.withBuild(() => {
+  const iter = framework.withBuild(() => {
     const start = {
       prop1: framework.signal(1),
       prop2: framework.signal(2),
@@ -33,44 +33,48 @@ const cellx = (framework: ReactiveFramework, layers: number) => {
       framework.effect(() => s.prop3.read());
       framework.effect(() => s.prop4.read());
 
-      s.prop1.read();
-      s.prop2.read();
-      s.prop3.read();
-      s.prop4.read();
-
       layer = s;
     }
 
     const end = layer;
 
-    const startTime = performance.now();
+    return () => {
+      const startTime = performance.now();
 
-    const before = [
-      end.prop1.read(),
-      end.prop2.read(),
-      end.prop3.read(),
-      end.prop4.read(),
-    ] as const;
+      const before = [
+        end.prop1.read(),
+        end.prop2.read(),
+        end.prop3.read(),
+        end.prop4.read(),
+      ] as const;
 
-    framework.withBatch(() => {
-      start.prop1.write(4);
-      start.prop2.write(3);
-      start.prop3.write(2);
-      start.prop4.write(1);
-    });
+      framework.withBatch(() => {
+        start.prop1.write(4);
+        start.prop2.write(3);
+        start.prop3.write(2);
+        start.prop4.write(1);
+      });
 
-    const after = [
-      end.prop1.read(),
-      end.prop2.read(),
-      end.prop3.read(),
-      end.prop4.read(),
-    ] as const;
+      const after = [
+        end.prop1.read(),
+        end.prop2.read(),
+        end.prop3.read(),
+        end.prop4.read(),
+      ] as const;
 
-    const endTime = performance.now();
-    const elapsedTime = endTime - startTime;
+      const endTime = performance.now();
+      const elapsedTime = endTime - startTime;
 
-    return [elapsedTime, before, after] as const;
+      return [elapsedTime, before, after] as const;
+    };
   });
+  
+  let result = iter();
+
+  framework.cleanup();
+  if (globalThis.gc) gc!(), gc!();
+  
+  return result;
 };
 
 const arraysEqual = (a: readonly number[], b: readonly number[]) => {
@@ -85,10 +89,13 @@ const arraysEqual = (a: readonly number[], b: readonly number[]) => {
 
 type BenchmarkResults = [
   readonly [number, number, number, number],
-  readonly [number, number, number, number],
+  readonly [number, number, number, number]
 ];
 
-export const cellxbench = async (framework: ReactiveFramework, logPerfResult: PerfResultCallback) => {
+export const cellxbench = async (
+  framework: ReactiveFramework,
+  logPerfResult: PerfResultCallback
+) => {
   const expected: Record<number, BenchmarkResults> = {
     1000: [
       [-3, -6, -2, 2],
@@ -131,12 +138,12 @@ export const cellxbench = async (framework: ReactiveFramework, logPerfResult: Pe
 
     console.assert(
       arraysEqual(before, expectedBefore),
-      `Expected first layer ${expectedBefore}, found first layer ${before}`,
+      `Expected first layer ${expectedBefore}, found first layer ${before}`
     );
 
     console.assert(
       arraysEqual(after, expectedAfter),
-      `Expected last layer ${expectedAfter}, found last layer ${after}`,
+      `Expected last layer ${expectedAfter}, found last layer ${after}`
     );
   }
 };

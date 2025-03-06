@@ -18,5 +18,10 @@ export const sFramework: ReactiveFramework = {
   },
   effect: (fn) => S(fn),
   withBatch: (fn) => S.freeze(fn),
-  withBuild: (fn) => S.root(fn),
+  withBuild: (fn) =>
+    S.root((dispose) => {
+      sFramework.cleanup = dispose;
+      return fn();
+    }),
+  cleanup: () => {},
 };

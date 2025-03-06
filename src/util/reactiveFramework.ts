@@ -9,6 +9,7 @@ export interface ReactiveFramework {
   effect(fn: () => void): void;
   withBatch<T>(fn: () => T): void;
   withBuild<T>(fn: () => T): T;
+  cleanup(): void;
 }
 
 export interface Signal<T> {

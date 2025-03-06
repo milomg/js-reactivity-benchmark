@@ -1,6 +1,7 @@
 import { ReactiveFramework } from "../../util/reactiveFramework";
 import $ from "oby";
 
+let toCleanup: (() => void)[] = [];
 export const obyFramework: ReactiveFramework = {
   name: "Oby",
   signal: (initialValue) => {
@@ -16,10 +17,16 @@ export const obyFramework: ReactiveFramework = {
       read: () => memo(),
     };
   },
-  effect: (fn) => $.effect(fn),
+  effect: (fn) => toCleanup.push($.effect(fn)),
   withBatch: (fn) => {
     fn();
     $.tick();
   },
   withBuild: (fn) => $.root(fn),
+  cleanup: () => {
+    for (const cleanup of toCleanup) {
+      cleanup();
+    }
+    toCleanup = [];
+  },
 };

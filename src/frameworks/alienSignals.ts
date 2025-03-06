@@ -7,6 +7,8 @@ import {
 } from "alien-signals/esm";
 import { ReactiveFramework } from "../util/reactiveFramework";
 
+let toCleanup: (() => void)[] = [];
+
 export const alienFramework: ReactiveFramework = {
   name: "alien-signals",
   signal: (initial) => {
@@ -22,11 +24,17 @@ export const alienFramework: ReactiveFramework = {
       read: () => c(),
     };
   },
-  effect: (fn) => effect(fn),
+  effect: (fn) => toCleanup.push(effect(fn)),
   withBatch: (fn) => {
     startBatch();
     fn();
     endBatch();
   },
   withBuild: (fn) => fn(),
+  cleanup: () => {
+    for (const cleanup of toCleanup) {
+      cleanup();
+    }
+    toCleanup = [];
+  },
 };

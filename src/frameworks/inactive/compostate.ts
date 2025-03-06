@@ -1,6 +1,7 @@
 import { signal, computed, syncEffect, batch, createRoot } from "compostate";
 import { ReactiveFramework } from "../../util/reactiveFramework";
 
+let toCleanup: (() => void)[] = [];
 export const compostateFramework: ReactiveFramework = {
   name: "Compostate",
   signal: (initialValue) => {
@@ -16,7 +17,13 @@ export const compostateFramework: ReactiveFramework = {
       read: () => get(),
     };
   },
-  effect: (fn) => syncEffect(fn),
+  effect: (fn) => toCleanup.push(syncEffect(fn)),
   withBatch: (fn) => batch(fn),
   withBuild: (fn) => createRoot(fn),
+  cleanup: () => {
+    for (const cleanup of toCleanup) {
+      cleanup();
+    }
+    toCleanup = [];
+  },
 };

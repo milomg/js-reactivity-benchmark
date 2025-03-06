@@ -34,13 +34,14 @@ export async function runTests(
     await promiseDelay(2000);
   }
 
-  for (const { framework } of frameworkInfo) {
-    sbench(framework, logPerfResult);
-    await promiseDelay(2000);
-  }
+  // Disabled because it doesn't cleanup and read computeds only outside of withBuild
+  // for (const { framework } of frameworkInfo) {
+  //   sbench(framework, logPerfResult);
+  //   await promiseDelay(2000);
+  // }
 
   for (const { framework } of frameworkInfo) {
-    cellxbench(framework, logPerfResult);
+    await cellxbench(framework, logPerfResult);
     await promiseDelay(2000);
   }
 

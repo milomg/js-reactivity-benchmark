@@ -7,6 +7,7 @@ import {
   ɵChangeDetectionScheduler,
   ɵEffectScheduler,
   untracked,
+  EffectRef,
 } from "@angular/core";
 
 interface SchedulableEffect {
@@ -52,6 +53,7 @@ const injector = Injector.create({
 });
 
 const injectorObj = { injector };
+let toCleanup: EffectRef[] = [];
 
 export const angularFramework: ReactiveFramework = {
   name: "@angular/signal2",
@@ -69,7 +71,7 @@ export const angularFramework: ReactiveFramework = {
     };
   },
   effect: (fn) => {
-    effect(fn, injectorObj);
+    toCleanup.push(effect(fn, injectorObj));
   },
   withBatch: (fn) => {
     fn();
@@ -82,5 +84,11 @@ export const angularFramework: ReactiveFramework = {
     }, injectorObj);
     scheduler.flush();
     return res!;
+  },
+  cleanup: () => {
+    for (const cleanup of toCleanup) {
+      cleanup.destroy();
+    }
+    toCleanup = [];
   },
 };

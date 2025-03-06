@@ -46,6 +46,9 @@ export async function dynamicBench(
       return { sum, count: counter.count };
     });
 
+    framework.cleanup();
+    if (globalThis.gc) gc!(), gc!();
+
     logPerfResult({
       framework: framework.name,
       test: `${makeTitle(config)} (${config.name || ""})`,

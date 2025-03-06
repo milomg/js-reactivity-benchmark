@@ -27,5 +27,10 @@ export const xReactivityFramework: ReactiveFramework = {
     fn();
     flushSync();
   },
-  withBuild: (fn) => createRoot(fn),
+  withBuild: (fn) =>
+    createRoot((dispose) => {
+      xReactivityFramework.cleanup = dispose;
+      return fn();
+    }),
+  cleanup: () => {},
 };

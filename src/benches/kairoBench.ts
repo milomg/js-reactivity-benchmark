@@ -41,6 +41,9 @@ export async function kairoBench(framework: ReactiveFramework, logPerfResult: Pe
       }
     });
 
+    framework.cleanup();
+    if (globalThis.gc) gc!(), gc!();
+
     logPerfResult({
       framework: framework.name,
       test: c.name,

@@ -62,6 +62,9 @@ export async function molBench(framework: ReactiveFramework, logPerfResult: Perf
     }
   });
 
+  framework.cleanup();
+  if (globalThis.gc) gc!(), gc!();
+
   logPerfResult({
     framework: framework.name,
     test: "molBench",

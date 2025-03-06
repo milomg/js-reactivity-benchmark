@@ -24,5 +24,10 @@ export const solidFramework: ReactiveFramework = {
   },
   effect: (fn) => createEffect(fn),
   withBatch: (fn) => batch(fn),
-  withBuild: (fn) => createRoot(fn),
+  withBuild: (fn) =>
+    createRoot((dispose) => {
+      solidFramework.cleanup = dispose;
+      return fn();
+    }),
+  cleanup: () => {},
 };

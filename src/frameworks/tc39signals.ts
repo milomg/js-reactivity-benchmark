@@ -1,6 +1,8 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
 import { Signal } from "signal-polyfill";
 
+let toCleanup: (() => void)[] = [];
+
 export const tc39SignalsFramework: ReactiveFramework = {
   name: "TC39 Signals Polyfill",
   signal: (initialValue) => {
@@ -22,6 +24,12 @@ export const tc39SignalsFramework: ReactiveFramework = {
     processPending();
   },
   withBuild: (fn) => fn(),
+  cleanup: () => {
+    for (const cleanup of toCleanup) {
+      cleanup();
+    }
+    toCleanup = [];
+  }
 };
 
 let needsEnqueue = false;
@@ -53,7 +61,5 @@ export function effect(callback: any) {
   w.watch(computed);
   computed.get();
 
-  return () => {
-    w.unwatch(computed);
-  };
+  toCleanup.push(() => w.unwatch(computed));
 }
