@@ -18,7 +18,7 @@ export const vueReactivityFramework: ReactiveFramework = {
     };
   },
   effect: (fn) => {
-    let t = effect(() => fn(), {
+    let t = effect(fn, {
       scheduler: () => {
         scheduled.push(t.effect);
       },

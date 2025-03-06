@@ -1,4 +1,4 @@
-import { ReactiveFramework } from "../../util/reactiveFramework";
+import { ReactiveFramework } from "../util/reactiveFramework";
 import {
   flushSync,
   createEffect,
