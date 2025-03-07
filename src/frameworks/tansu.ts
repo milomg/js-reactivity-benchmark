@@ -1,6 +1,7 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
 import { writable, computed, batch } from "@amadeus-it-group/tansu";
 
+let toCleanup: (() => void)[] = [];
 export const tansuFramework: ReactiveFramework = {
   name: "@amadeus-it-group/tansu",
   signal: (initialValue) => {
@@ -16,10 +17,13 @@ export const tansuFramework: ReactiveFramework = {
       read: () => c(),
     };
   },
-  effect: (fn) => computed(fn).subscribe(() => {}),
+  effect: (fn) => toCleanup.push(computed(fn).subscribe(() => {})),
   withBatch: (fn) => batch(fn),
   withBuild: (fn) => fn(),
   cleanup: () => {
-    // No-op?
+    for (const cleanup of toCleanup) {
+      cleanup();
+    }
+    toCleanup = [];
   },
 };
