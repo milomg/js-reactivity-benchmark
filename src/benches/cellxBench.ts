@@ -68,12 +68,12 @@ const cellx = (framework: ReactiveFramework, layers: number) => {
       return [elapsedTime, before, after] as const;
     };
   });
-  
+
   let result = iter();
 
   framework.cleanup();
   if (globalThis.gc) gc!(), gc!();
-  
+
   return result;
 };
 
@@ -89,12 +89,12 @@ const arraysEqual = (a: readonly number[], b: readonly number[]) => {
 
 type BenchmarkResults = [
   readonly [number, number, number, number],
-  readonly [number, number, number, number]
+  readonly [number, number, number, number],
 ];
 
 export const cellxbench = async (
   framework: ReactiveFramework,
-  logPerfResult: PerfResultCallback
+  logPerfResult: PerfResultCallback,
 ) => {
   const expected: Record<number, BenchmarkResults> = {
     1000: [
@@ -138,12 +138,12 @@ export const cellxbench = async (
 
     console.assert(
       arraysEqual(before, expectedBefore),
-      `Expected first layer ${expectedBefore}, found first layer ${before}`
+      `Expected first layer ${expectedBefore}, found first layer ${before}`,
     );
 
     console.assert(
       arraysEqual(after, expectedAfter),
-      `Expected last layer ${expectedAfter}, found last layer ${after}`
+      `Expected last layer ${expectedAfter}, found last layer ${after}`,
     );
   }
 };

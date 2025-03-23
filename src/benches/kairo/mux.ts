@@ -1,6 +1,5 @@
 import { ReactiveFramework } from "../../util/reactiveFramework";
 
-
 export function mux(bridge: ReactiveFramework) {
   let heads = new Array(100).fill(null).map((_) => bridge.signal(0));
   const mux = bridge.computed(() => {

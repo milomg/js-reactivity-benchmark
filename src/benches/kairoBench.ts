@@ -22,7 +22,10 @@ const cases = [
   unstable,
 ];
 
-export async function kairoBench(framework: ReactiveFramework, logPerfResult: PerfResultCallback) {
+export async function kairoBench(
+  framework: ReactiveFramework,
+  logPerfResult: PerfResultCallback,
+) {
   for (const c of cases) {
     const iter = framework.withBuild(() => {
       const iter = c(framework);

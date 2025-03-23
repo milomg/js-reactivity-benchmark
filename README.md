@@ -14,7 +14,6 @@ $ pnpm bench
 - Tracks garbage collection overhead per test
 - Outputs a csv file for easy integration with other tools.
 
-
 Current reactivity benchmarks ([S.js](https://github.com/adamhaile/S/blob/master/bench/bench.js), [CellX](https://github.com/Riim/cellx/blob/master/perf/perf.html)) are focused on creation time, and update time for a static graph. Additionally, existing benchmarks aren't very configurable, and don't test for dynamic dependencies. We've created a new benchmark that allows library authors to compare their frameworks against each other, and against the existing benchmarks, as well as against a new configurable benchmark with dynamically changing sources.
 
 We're also working on enabling consistent logging and efficient tracking of GC time across all benchmarks.

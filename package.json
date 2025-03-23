@@ -11,6 +11,7 @@
     "prepare": "esbuild src/index.ts --bundle --format=esm --target=esnext --outdir=dist --sourcemap=external && tsc -p tsconfig.d.json",
     "build": "esbuild src/main.ts --bundle --format=iife --target=esnext --outfile=public/dist/index.js --sourcemap=inline",
     "start": "serve public",
+    "format": "prettier --write .",
     "chrome": "chrome --no-sandbox --js-flags=--log-deopt,--log-ic,--log-maps,--log-maps-details,--log-internal-timer-events,--prof,--expose-gc,--detailed-line-info --enable-precise-memory-info --user-data-dir=$(PWD)/chrome http://localhost:3000"
   },
   "keywords": [],
@@ -18,29 +19,30 @@
   "license": "ISC",
   "devDependencies": {
     "@amadeus-it-group/tansu": "^2.0.0",
-    "@angular/core": "19.2.0",
+    "@angular/core": "19.2.3",
     "@preact/signals": "^2.0.1",
     "@reactively/core": "^0.0.8",
     "@solidjs/signals": "^0.2.4",
-    "@types/node": "^22.13.9",
+    "@types/node": "^22.13.11",
     "@vue/reactivity": "^3.5.13",
-    "alien-signals": "^1.0.4",
+    "alien-signals": "^1.0.7",
     "compostate": "^0.5.1",
-    "esbuild": "^0.25.0",
-    "mobx": "^6.13.6",
-    "mol_wire_lib": "^1.0.1325",
+    "esbuild": "^0.25.1",
+    "mobx": "^6.13.7",
+    "mol_wire_lib": "^1.0.1345",
     "oby": "15.1.2",
     "preact": "^10.26.4",
+    "prettier": "^3.5.3",
     "s-js": "^0.4.9",
     "serve": "^14.2.4",
     "signal-polyfill": "^0.2.2",
     "solid-js": "^1.9.5",
-    "svelte": "^5.22.1",
+    "svelte": "^5.25.3",
     "typescript": "^5.8.2",
     "usignal": "^0.9.0",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.9"
   },
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.6.5",
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild"

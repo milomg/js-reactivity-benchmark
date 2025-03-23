@@ -23,7 +23,7 @@ export function makeTitle(config: TestConfig): string {
 export async function dynamicBench(
   frameworkTest: FrameworkInfo,
   logPerfResult: PerfResultCallback,
-  testRepeats = 5
+  testRepeats = 5,
 ): Promise<void> {
   const { framework } = frameworkTest;
   for (const config of perfTests) {

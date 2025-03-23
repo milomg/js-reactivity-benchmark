@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+chrome/
+public/dist/
+isolates-*
+pnpm-lock.yaml

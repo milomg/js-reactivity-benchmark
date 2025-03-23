@@ -1,7 +1,11 @@
 import { Counter } from "../../util/counter";
 import { TestConfig } from "../../util/frameworkTypes";
 import { pseudoRandom } from "../../util/pseudoRandom";
-import { Computed, ReactiveFramework, Signal } from "../../util/reactiveFramework";
+import {
+  Computed,
+  ReactiveFramework,
+  Signal,
+} from "../../util/reactiveFramework";
 
 export interface Graph {
   sources: Signal<number>[];
@@ -68,7 +72,7 @@ export function runGraph(
   framework: ReactiveFramework,
 ): number {
   const { sources, readLeaves } = graph;
-  
+
   for (let i = 0; i < iterations; i++) {
     framework.withBatch(() => {
       const sourceDex = i % sources.length;

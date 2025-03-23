@@ -36,5 +36,5 @@ export const svelteFramework: ReactiveFramework = {
     });
     return res!;
   },
-  cleanup: () => {}
+  cleanup: () => {},
 };

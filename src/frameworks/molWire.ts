@@ -3,7 +3,7 @@ import $ from "mol_wire_lib";
 
 const Atom = $.$mol_wire_atom; // fix a bug in mol exports
 
-let toCleanup: ($.$mol_wire_atom<unknown, [], unknown>)[] = [];
+let toCleanup: $.$mol_wire_atom<unknown, [], unknown>[] = [];
 export const molWireFramework: ReactiveFramework = {
   name: "$mol_wire_atom",
   signal: <T>(initialValue: T): Signal<T> => {

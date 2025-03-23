@@ -29,7 +29,7 @@ export const tc39SignalsFramework: ReactiveFramework = {
       cleanup();
     }
     toCleanup = [];
-  }
+  },
 };
 
 let needsEnqueue = false;

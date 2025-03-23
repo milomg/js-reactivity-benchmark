@@ -14,7 +14,10 @@ function hard(n: number, _log: string) {
 
 const numbers = Array.from({ length: 5 }, (_, i) => i);
 
-export async function molBench(framework: ReactiveFramework, logPerfResult: PerfResultCallback) {
+export async function molBench(
+  framework: ReactiveFramework,
+  logPerfResult: PerfResultCallback,
+) {
   let res = [];
   const iter = framework.withBuild(() => {
     const A = framework.signal(0);
@@ -53,7 +56,7 @@ export async function molBench(framework: ReactiveFramework, logPerfResult: Perf
   iter(0);
   iter(1);
 
-  await nextTick()
+  await nextTick();
   iter(2);
 
   const { timing } = await fastestTest(5, () => {
