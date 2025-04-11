@@ -6,7 +6,7 @@
     "run": "node dist/index.js"
   },
   "dependencies": {
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.25.2",
     "js-reactivity-benchmark": "workspace:*"
   },
   "packageManager": "pnpm@10.8.0"
