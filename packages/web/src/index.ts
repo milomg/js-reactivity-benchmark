@@ -100,12 +100,12 @@ function graph() {
       }
       {
         const td = document.createElement("td");
-        const div = document.createElement("div");
-        const row = groupedData[test][framework] ?? 0;
-        div.style.width = Math.floor((800 * row) / maxTime) + "px";
-        div.style.height = "20px";
-        div.style.backgroundColor = `#${colors[frameworkIndex]}`;
-        td.appendChild(div);
+        const time = groupedData[test][framework] ?? 0;
+        const img = document.createElement("img");
+        img.src = `pngs/${colors[frameworkIndex]}.png`;
+        img.style.width = Math.floor((800 * time) / maxTime) + "px";
+        img.style.height = "20px";
+        td.appendChild(img);
         tr.appendChild(td);
       }
 
