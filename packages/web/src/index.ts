@@ -86,7 +86,7 @@ function graph() {
     // so we just create a bunch of 0s in a row
     const tr = document.createElement("tr");
     const td = document.createElement("td");
-    td.innerText = "0".repeat(120);
+    td.innerText = "0".repeat(150);
     td.colSpan = 3;
     td.style.display = "none";
     tr.appendChild(td);

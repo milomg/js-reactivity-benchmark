@@ -2,7 +2,6 @@ import { TestConfig } from "./util/frameworkTypes";
 
 export const perfTests: TestConfig[] = [
   {
-    name: "simple component",
     width: 10, // can't change for decorator tests
     staticFraction: 1, // can't change for decorator tests
     nSources: 2, // can't change for decorator tests
@@ -15,7 +14,6 @@ export const perfTests: TestConfig[] = [
     },
   },
   {
-    name: "dynamic component",
     width: 10,
     totalLayers: 10,
     staticFraction: 3 / 4,
@@ -28,7 +26,6 @@ export const perfTests: TestConfig[] = [
     },
   },
   {
-    name: "large web app",
     width: 1000,
     totalLayers: 12,
     staticFraction: 0.95,
@@ -41,7 +38,6 @@ export const perfTests: TestConfig[] = [
     },
   },
   {
-    name: "wide dense",
     width: 1000,
     totalLayers: 5,
     staticFraction: 1,
@@ -54,7 +50,6 @@ export const perfTests: TestConfig[] = [
     },
   },
   {
-    name: "deep",
     width: 5,
     totalLayers: 500,
     staticFraction: 1,
@@ -67,7 +62,6 @@ export const perfTests: TestConfig[] = [
     },
   },
   {
-    name: "very dynamic",
     width: 100,
     totalLayers: 15,
     staticFraction: 0.5,

@@ -11,10 +11,9 @@ function percent(n: number): string {
 
 export function makeTitle(config: TestConfig): string {
   const { width, totalLayers, staticFraction, nSources, readFraction } = config;
-  const dyn = staticFraction < 1 ? " - dynamic" : "";
-  const read = readFraction < 1 ? ` - read ${percent(readFraction)}` : "";
-  const sources = ` - ${nSources} sources`;
-  return `${width}x${totalLayers}${sources}${dyn}${read}`;
+  const dyn = staticFraction < 1 ? " - dyn" + percent(1 - staticFraction) : "";
+  const read = readFraction < 1 ? ` - lazy${percent(1 - readFraction)}` : "";
+  return `${nSources}-${width}x${totalLayers}${dyn}${read}`;
 }
 
 /** benchmark a single test under single framework.
@@ -51,7 +50,7 @@ export async function dynamicBench(
 
     logPerfResult({
       framework: framework.name,
-      test: `${makeTitle(config)} (${config.name || ""})`,
+      test: makeTitle(config) + (config.name ? ` (${config.name})` : ""),
       time: timedResult.timing.time,
     });
     verifyBenchResult(frameworkTest, config, timedResult);

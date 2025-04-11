@@ -13,40 +13,45 @@ export async function sbench(
   framework: ReactiveFramework,
   logPerfResult: PerfResultCallback,
 ) {
-  await bench("createSignals", createSignals, COUNT, COUNT);
-  await bench("create0to1", create0to1, COUNT, 0);
-  await bench("create1to1", create1to1, COUNT, COUNT);
-  await bench("create2to1", create2to1, COUNT / 2, COUNT);
-  await bench("create4to1", create4to1, COUNT / 4, COUNT);
-  await bench("create1000to1", create1000to1, COUNT / 1000, COUNT);
-  await bench("create1to2", create1to2, COUNT, COUNT / 2);
-  await bench("create1to4", create1to4, COUNT, COUNT / 4);
-  await bench("create1to8", create1to8, COUNT, COUNT / 8);
-  await bench("create1to1000", create1to1000, COUNT, COUNT / 1000);
-  await bench("update1to1", update1to1, COUNT * 4, 1);
-  await bench("update2to1", update2to1, COUNT * 2, 2);
-  await bench("update4to1", update4to1, COUNT, 4);
-  await bench("update1000to1", update1000to1, COUNT / 250, 1000);
-  await bench("update1to2", update1to2, COUNT, 1);
-  await bench("update1to4", update1to4, COUNT, 1);
-  await bench("update1to1000", update1to1000, COUNT, 1);
+  const createSignalsTime = await run(createSignals, COUNT, COUNT);
+  logPerfResult({
+    framework: framework.name,
+    test: "createSignals",
+    time: createSignalsTime,
+  });
 
-  async function bench(
-    name: string,
-    fn: (n: number, sources: any[]) => () => void,
-    count: number,
-    scount: number,
-  ) {
-    const { time } = await run(fn, count, scount);
-    logPerfResult({
-      framework: framework.name,
-      test: name,
-      time: time,
-    });
-  }
+  let createTotal = 0;
+  createTotal += await run(create0to1, COUNT, 0);
+  createTotal += await run(create1to1, COUNT, COUNT);
+  createTotal += await run(create2to1, COUNT / 2, COUNT);
+  createTotal += await run(create4to1, COUNT / 4, COUNT);
+  createTotal += await run(create1000to1, COUNT / 1000, COUNT);
+  createTotal += await run(create1to2, COUNT, COUNT / 2);
+  createTotal += await run(create1to4, COUNT, COUNT / 4);
+  createTotal += await run(create1to8, COUNT, COUNT / 8);
+  createTotal += await run(create1to1000, COUNT, COUNT / 1000);
+  logPerfResult({
+    framework: framework.name,
+    test: "createComputations",
+    time: createTotal,
+  });
+
+  let updateTotal = 0;
+  updateTotal += await run(update1to1, COUNT * 4, 1);
+  updateTotal += await run(update2to1, COUNT * 2, 2);
+  updateTotal += await run(update4to1, COUNT, 4);
+  updateTotal += await run(update1000to1, COUNT / 250, 1000);
+  updateTotal += await run(update1to2, COUNT, 1);
+  updateTotal += await run(update1to4, COUNT, 1);
+  updateTotal += await run(update1to1000, COUNT, 1);
+  logPerfResult({
+    framework: framework.name,
+    test: "updateSignals",
+    time: updateTotal,
+  });
 
   async function run(
-    fn: (n: number, sources: Computed<number>[]) => () => void,
+    fn: (n: number, sources: Signal<number>[]) => () => void,
     n: number,
     scount: number,
   ) {
@@ -54,7 +59,7 @@ export async function sbench(
     let start = 0;
     let end = 0;
 
-    let sources: Computed<number>[] | null;
+    let sources: Signal<number>[] | null;
     if (globalThis.gc) gc!(), gc!();
     for (let i = 0; i < 3; i++) {
       let warmupUpdate = framework.withBuild(() => {
@@ -95,7 +100,7 @@ export async function sbench(
     // end GC clean
     if (globalThis.gc) gc!(), gc!();
 
-    return { time: end - start };
+    return end - start;
   }
 
   function createSignals(n: number, sources: Computed<number>[]) {
