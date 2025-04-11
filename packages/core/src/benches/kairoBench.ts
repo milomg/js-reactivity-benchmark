@@ -24,7 +24,7 @@ const cases = [
 
 export async function kairoBench(
   framework: ReactiveFramework,
-  logPerfResult: PerfResultCallback
+  logPerfResult: PerfResultCallback,
 ) {
   for (const c of cases) {
     const iter = framework.withBuild(() => {

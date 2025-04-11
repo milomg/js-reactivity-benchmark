@@ -1,5 +1,6 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
 
+import { nextTick } from "../util/asyncUtil";
 import { PerfResultCallback } from "../util/perfLogging";
 import { Computed, ReactiveFramework, Signal } from "../util/reactiveFramework";
 
@@ -8,35 +9,35 @@ const COUNT = 1e6;
 function empty() {}
 
 type Reader = () => number;
-export function sbench(
+export async function sbench(
   framework: ReactiveFramework,
-  logPerfResult: PerfResultCallback
+  logPerfResult: PerfResultCallback,
 ) {
-  bench("createSignals", createSignals, COUNT, COUNT);
-  bench("create0to1", create0to1, COUNT, 0);
-  bench("create1to1", create1to1, COUNT, COUNT);
-  bench("create2to1", create2to1, COUNT / 2, COUNT);
-  bench("create4to1", create4to1, COUNT / 4, COUNT);
-  bench("create1000to1", create1000to1, COUNT / 1000, COUNT);
-  bench("create1to2", create1to2, COUNT, COUNT / 2);
-  bench("create1to4", create1to4, COUNT, COUNT / 4);
-  bench("create1to8", create1to8, COUNT, COUNT / 8);
-  bench("create1to1000", create1to1000, COUNT, COUNT / 1000);
-  bench("update1to1", update1to1, COUNT * 4, 1);
-  bench("update2to1", update2to1, COUNT * 2, 2);
-  bench("update4to1", update4to1, COUNT, 4);
-  bench("update1000to1", update1000to1, COUNT / 100, 1000);
-  bench("update1to2", update1to2, COUNT * 4, 1);
-  bench("update1to4", update1to4, COUNT * 4, 1);
-  bench("update1to1000", update1to1000, COUNT * 4, 1);
+  await bench("createSignals", createSignals, COUNT, COUNT);
+  await bench("create0to1", create0to1, COUNT, 0);
+  await bench("create1to1", create1to1, COUNT, COUNT);
+  await bench("create2to1", create2to1, COUNT / 2, COUNT);
+  await bench("create4to1", create4to1, COUNT / 4, COUNT);
+  await bench("create1000to1", create1000to1, COUNT / 1000, COUNT);
+  await bench("create1to2", create1to2, COUNT, COUNT / 2);
+  await bench("create1to4", create1to4, COUNT, COUNT / 4);
+  await bench("create1to8", create1to8, COUNT, COUNT / 8);
+  await bench("create1to1000", create1to1000, COUNT, COUNT / 1000);
+  await bench("update1to1", update1to1, COUNT * 4, 1);
+  await bench("update2to1", update2to1, COUNT * 2, 2);
+  await bench("update4to1", update4to1, COUNT, 4);
+  await bench("update1000to1", update1000to1, COUNT / 250, 1000);
+  await bench("update1to2", update1to2, COUNT, 1);
+  await bench("update1to4", update1to4, COUNT, 1);
+  await bench("update1to1000", update1to1000, COUNT, 1);
 
-  function bench(
+  async function bench(
     name: string,
     fn: (n: number, sources: any[]) => () => void,
     count: number,
-    scount: number
+    scount: number,
   ) {
-    const { time } = run(fn, count, scount);
+    const { time } = await run(fn, count, scount);
     logPerfResult({
       framework: framework.name,
       test: name,
@@ -44,10 +45,10 @@ export function sbench(
     });
   }
 
-  function run(
+  async function run(
     fn: (n: number, sources: Computed<number>[]) => () => void,
     n: number,
-    scount: number
+    scount: number,
   ) {
     // prep n * arity sources
     let start = 0;
@@ -55,7 +56,7 @@ export function sbench(
 
     let sources: Computed<number>[] | null;
     if (globalThis.gc) gc!(), gc!();
-    for (let i = 0; i< 3; i++) {
+    for (let i = 0; i < 3; i++) {
       let warmupUpdate = framework.withBuild(() => {
         // run 3 times to warm up
         sources = [];
@@ -66,6 +67,8 @@ export function sbench(
     }
     sources = null;
     framework.cleanup();
+
+    await nextTick();
 
     let update = framework.withBuild(() => {
       sources = [];
@@ -175,7 +178,7 @@ export function sbench(
         sources[i * 4].read,
         sources[i * 4 + 1].read,
         sources[i * 4 + 2].read,
-        sources[i * 4 + 3].read
+        sources[i * 4 + 3].read,
       );
     }
     return empty;

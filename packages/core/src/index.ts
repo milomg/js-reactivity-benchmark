@@ -36,7 +36,7 @@ export async function runTests(
   }
 
   for (const { framework } of frameworkInfo) {
-    sbench(framework, logPerfResult);
+    await sbench(framework, logPerfResult);
     await promiseDelay(1000);
   }
 

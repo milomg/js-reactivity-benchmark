@@ -92,34 +92,58 @@ function graph() {
     .append("g")
     .attr("transform", `translate(${marginLeft},0)`)
     .call(d3.axisLeft(fy).tickSizeOuter(0))
-    .call((g) => g.selectAll(".domain").remove());
+    .call((g) => g.selectAll(".domain").remove())
+    .call((g) => {
+      g.selectAll(".tick text").each(function (this) {
+        const text = d3.select(this);
+        const label = text.text();
 
-     const legend = svg
-     .append("g")
-     .attr("transform", `translate(${marginLeft}, ${rawMargin})`);
- 
-   legend
-     .selectAll()
-     .data(frameworks)
-     .join("g")
-     .attr("transform", (d, i) => `translate(0, ${i * 20})`)
-     .attr("font-size", 10)
-     .attr("font-family", "sans-serif")
-     .call((g) =>
-       g
-         .append("rect")
-         .attr("width", 18)
-         .attr("height", 18)
-         .attr("fill", color)
-     )
-     .call((g) =>
-       g
-         .append("text")
-         .attr("x", 24)
-         .attr("y", 9)
-         .attr("dy", "0.35em")
-         .text((d) => d)
-     );
+        // Add foreignObject to wrap the text
+        const fo = d3
+          .select((this as SVGTextElement).parentNode as SVGGElement)
+          .append("foreignObject")
+          .attr("x", -110)
+          .attr("y", -testGroupHeight / 2)
+          .attr("width", 100)
+          .attr("height", testGroupHeight);
+
+        fo.append("xhtml:div")
+          .style("font-size", "10px")
+          .style("font-family", "sans-serif")
+          .style("text-align", "right")
+          .style("word-wrap", "break-word")
+          .style("height", "100%")
+          .style("display", "flex")
+          .style("align-items", "center")
+          .style("justify-content", "end")
+          .text(label);
+
+        text.remove();
+      });
+    });
+
+  const legend = svg
+    .append("g")
+    .attr("transform", `translate(${marginLeft}, ${rawMargin})`);
+
+  legend
+    .selectAll()
+    .data(frameworks)
+    .join("g")
+    .attr("transform", (d, i) => `translate(0, ${i * 20})`)
+    .attr("font-size", 10)
+    .attr("font-family", "sans-serif")
+    .call((g) =>
+      g.append("rect").attr("width", 18).attr("height", 18).attr("fill", color),
+    )
+    .call((g) =>
+      g
+        .append("text")
+        .attr("x", 24)
+        .attr("y", 9)
+        .attr("dy", "0.35em")
+        .text((d) => d),
+    );
 
   pre.after(svg.node()!);
 }
