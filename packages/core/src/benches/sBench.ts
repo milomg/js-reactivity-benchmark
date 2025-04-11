@@ -4,7 +4,7 @@ import { nextTick } from "../util/asyncUtil";
 import { PerfResultCallback } from "../util/perfLogging";
 import { Computed, ReactiveFramework, Signal } from "../util/reactiveFramework";
 
-const COUNT = 1e6;
+const COUNT = 1e5;
 
 function empty() {}
 
