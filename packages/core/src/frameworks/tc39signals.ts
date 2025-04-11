@@ -4,7 +4,7 @@ import { Signal } from "signal-polyfill";
 let toCleanup: (() => void)[] = [];
 
 export const tc39SignalsFramework: ReactiveFramework = {
-  name: "TC39 Signals Polyfill",
+  name: "TC39 Signals",
   signal: (initialValue) => {
     const s = new Signal.State(initialValue);
     return {

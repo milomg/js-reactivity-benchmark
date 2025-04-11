@@ -56,7 +56,7 @@ const injectorObj = { injector };
 let toCleanup: EffectRef[] = [];
 
 export const angularFramework: ReactiveFramework = {
-  name: "@angular/signal2",
+  name: "Angular Signals",
   signal: (initialValue) => {
     const s = signal(initialValue);
     return {

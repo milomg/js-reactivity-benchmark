@@ -10,7 +10,7 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 let toCleanup: (() => void)[] = [];
 
 export const alienFramework: ReactiveFramework = {
-  name: "alien-signals",
+  name: "Alien Signals",
   signal: (initial) => {
     const data = signal(initial);
     return {

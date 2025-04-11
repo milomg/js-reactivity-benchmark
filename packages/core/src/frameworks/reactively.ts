@@ -2,7 +2,7 @@ import { Reactive, stabilize } from "@reactively/core";
 import { ReactiveFramework } from "../util/reactiveFramework";
 
 export const reactivelyFramework: ReactiveFramework = {
-  name: "@reactively",
+  name: "Reactively",
   signal: (initialValue) => {
     const r = new Reactive(initialValue);
     return {

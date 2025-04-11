@@ -3,7 +3,7 @@ import { writable, computed, batch } from "@amadeus-it-group/tansu";
 
 let toCleanup: (() => void)[] = [];
 export const tansuFramework: ReactiveFramework = {
-  name: "@amadeus-it-group/tansu",
+  name: "amadeus-it-group/tansu",
   signal: (initialValue) => {
     const w = writable(initialValue);
     return {
