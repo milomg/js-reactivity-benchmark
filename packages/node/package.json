@@ -1,0 +1,13 @@
+{
+  "name": "js-reactivity-benchmark-node",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --format=esm --target=esnext --outdir=dist --sourcemap=external",
+    "run": "node dist/index.js"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.1",
+    "js-reactivity-benchmark": "workspace:*"
+  },
+  "packageManager": "pnpm@10.8.0"
+}

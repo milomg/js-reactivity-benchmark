@@ -1,11 +1,11 @@
-import { frameworkInfo } from "./frameworksList";
 import {
+  frameworkInfo,
   formatPerfResult,
   formatPerfResultStrings,
   PerfResult,
   perfResultHeaders,
   runTests,
-} from "./index";
+} from "js-reactivity-benchmark/src/index";
 
 const pre = document.querySelector("pre")!;
 function logLine(line: string): void {

@@ -4,19 +4,20 @@ import { cellxbench } from "./benches/cellxBench";
 import { molBench } from "./benches/molBench";
 import { kairoBench } from "./benches/kairoBench";
 import { promiseDelay } from "./util/asyncUtil";
-import { FrameworkInfo } from "./util/frameworkTypes";
+import type { FrameworkInfo } from "./util/frameworkTypes";
 import { PerfResultCallback } from "./util/perfLogging";
 
-export { ReactiveFramework } from "./util/reactiveFramework";
+export type { ReactiveFramework } from "./util/reactiveFramework";
 export {
   perfResultHeaders,
   formatPerfResult,
   formatPerfResultStrings,
-  PerfResult,
-  PerfResultStrings,
-  PerfResultCallback,
+  type PerfResult,
+  type PerfResultStrings,
+  type PerfResultCallback,
 } from "./util/perfLogging";
-export { FrameworkInfo };
+export { frameworkInfo, allFrameworks } from ".//frameworksList";
+export type { FrameworkInfo };
 
 export async function runTests(
   frameworkInfo: FrameworkInfo[],

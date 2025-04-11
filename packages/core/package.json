@@ -1,0 +1,40 @@
+{
+  "name": "js-reactivity-benchmark",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "test": "vitest",
+    "build": "esbuild src/index.ts --bundle --format=esm --target=esnext --outdir=dist --sourcemap=external && tsc -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@amadeus-it-group/tansu": "^2.0.0",
+    "@angular/core": "19.2.3",
+    "@preact/signals": "^2.0.1",
+    "@reactively/core": "^0.0.8",
+    "@solidjs/signals": "^0.2.4",
+    "@types/node": "^22.13.11",
+    "@vue/reactivity": "^3.5.13",
+    "alien-signals": "^1.0.7",
+    "compostate": "^0.5.1",
+    "esbuild": "^0.25.1",
+    "mobx": "^6.13.7",
+    "mol_wire_lib": "^1.0.1345",
+    "oby": "15.1.2",
+    "preact": "^10.26.4",
+    "s-js": "^0.4.9",
+    "signal-polyfill": "^0.2.2",
+    "solid-js": "^1.9.5",
+    "svelte": "^5.25.3",
+    "typescript": "^5.8.2",
+    "usignal": "^0.9.0",
+    "vitest": "^3.0.9"
+  },
+  "packageManager": "pnpm@10.8.0"
+}
