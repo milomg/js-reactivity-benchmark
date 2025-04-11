@@ -26,7 +26,6 @@ function graph() {
   document.querySelector("svg")?.remove();
 
   const width = 928;
-  const marginTop = 10;
   const marginRight = 10;
   const marginBottom = 20;
   const marginLeft = 120;
@@ -34,6 +33,8 @@ function graph() {
   const tests = new Set(data.map((d) => d.test));
   const frameworks = new Set(data.map((d) => d.framework));
 
+  const rawMargin = 10;
+  const marginTop = rawMargin + frameworks.size * 20;
   const testGroupHeight = frameworks.size * 20 + 10;
   const height = marginTop + tests.size * testGroupHeight + marginBottom;
 
@@ -92,6 +93,33 @@ function graph() {
     .attr("transform", `translate(${marginLeft},0)`)
     .call(d3.axisLeft(fy).tickSizeOuter(0))
     .call((g) => g.selectAll(".domain").remove());
+
+     const legend = svg
+     .append("g")
+     .attr("transform", `translate(${marginLeft}, ${rawMargin})`);
+ 
+   legend
+     .selectAll()
+     .data(frameworks)
+     .join("g")
+     .attr("transform", (d, i) => `translate(0, ${i * 20})`)
+     .attr("font-size", 10)
+     .attr("font-family", "sans-serif")
+     .call((g) =>
+       g
+         .append("rect")
+         .attr("width", 18)
+         .attr("height", 18)
+         .attr("fill", color)
+     )
+     .call((g) =>
+       g
+         .append("text")
+         .attr("x", 24)
+         .attr("y", 9)
+         .attr("dy", "0.35em")
+         .text((d) => d)
+     );
 
   pre.after(svg.node()!);
 }
