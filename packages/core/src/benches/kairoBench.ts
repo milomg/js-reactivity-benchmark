@@ -12,23 +12,23 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 import { PerfResultCallback } from "../util/perfLogging";
 
 const cases = [
-  avoidablePropagation,
-  broadPropagation,
-  deepPropagation,
-  diamond,
-  mux,
-  repeatedObservers,
-  triangle,
-  unstable,
+  { name: "avoidablePropagation", fn: avoidablePropagation },
+  { name: "broadPropagation", fn: broadPropagation },
+  { name: "deepPropagation", fn: deepPropagation },
+  { name: "diamond", fn: diamond },
+  { name: "mux", fn: mux },
+  { name: "repeatedObservers", fn: repeatedObservers },
+  { name: "triangle", fn: triangle },
+  { name: "unstable", fn: unstable },
 ];
 
 export async function kairoBench(
   framework: ReactiveFramework,
-  logPerfResult: PerfResultCallback,
+  logPerfResult: PerfResultCallback
 ) {
   for (const c of cases) {
     const iter = framework.withBuild(() => {
-      const iter = c(framework);
+      const iter = c.fn(framework);
       return iter;
     });
 

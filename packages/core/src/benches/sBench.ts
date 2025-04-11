@@ -8,36 +8,36 @@ const COUNT = 1e5;
 type Reader = () => number;
 export function sbench(
   framework: ReactiveFramework,
-  logPerfResult: PerfResultCallback,
+  logPerfResult: PerfResultCallback
 ) {
-  bench(createDataSignals, COUNT, COUNT);
-  bench(createComputations0to1, COUNT, 0);
-  bench(createComputations1to1, COUNT, COUNT);
-  bench(createComputations2to1, COUNT / 2, COUNT);
-  bench(createComputations4to1, COUNT / 4, COUNT);
-  bench(createComputations1000to1, COUNT / 1000, COUNT);
-  // createTotal += bench(createComputations8to1, COUNT, 8 * COUNT);
-  bench(createComputations1to2, COUNT, COUNT / 2);
-  bench(createComputations1to4, COUNT, COUNT / 4);
-  bench(createComputations1to8, COUNT, COUNT / 8);
-  bench(createComputations1to1000, COUNT, COUNT / 1000);
-  bench(updateComputations1to1, COUNT * 4, 1);
-  bench(updateComputations2to1, COUNT * 2, 2);
-  bench(updateComputations4to1, COUNT, 4);
-  bench(updateComputations1000to1, COUNT / 100, 1000);
-  bench(updateComputations1to2, COUNT * 4, 1);
-  bench(updateComputations1to4, COUNT * 4, 1);
-  bench(updateComputations1to1000, COUNT * 4, 1);
+  bench("createSignals", createSignals, COUNT, COUNT);
+  bench("create0to1", create0to1, COUNT, 0);
+  bench("create1to1", create1to1, COUNT, COUNT);
+  bench("create2to1", create2to1, COUNT / 2, COUNT);
+  bench("create4to1", create4to1, COUNT / 4, COUNT);
+  bench("create1000to1", create1000to1, COUNT / 1000, COUNT);
+  bench("create1to2", create1to2, COUNT, COUNT / 2);
+  bench("create1to4", create1to4, COUNT, COUNT / 4);
+  bench("create1to8", create1to8, COUNT, COUNT / 8);
+  bench("create1to1000", create1to1000, COUNT, COUNT / 1000);
+  bench("update1to1", update1to1, COUNT * 4, 1);
+  bench("update2to1", update2to1, COUNT * 2, 2);
+  bench("update4to1", update4to1, COUNT, 4);
+  bench("update1000to1", update1000to1, COUNT / 100, 1000);
+  bench("update1to2", update1to2, COUNT * 4, 1);
+  bench("update1to4", update1to4, COUNT * 4, 1);
+  bench("update1to1000", update1to1000, COUNT * 4, 1);
 
   function bench(
+    name: string,
     fn: (n: number, sources: any[]) => void,
     count: number,
-    scount: number,
+    scount: number
   ) {
     const { time } = run(fn, count, scount);
     logPerfResult({
       framework: framework.name,
-      test: fn.name,
+      test: name,
       time: time,
     });
   }
@@ -45,7 +45,7 @@ export function sbench(
   function run(
     fn: (n: number, sources: Computed<number>[]) => void,
     n: number,
-    scount: number,
+    scount: number
   ) {
     // prep n * arity sources
     let start = 0;
@@ -55,13 +55,13 @@ export function sbench(
       if (globalThis.gc) gc!(), gc!();
 
       // run 3 times to warm up
-      let sources: Computed<number>[] | null = createDataSignals(scount, []);
+      let sources: Computed<number>[] | null = createSignals(scount, []);
       fn(n / 100, sources);
-      sources = createDataSignals(scount, []);
+      sources = createSignals(scount, []);
       fn(n / 100, sources);
-      sources = createDataSignals(scount, []);
+      sources = createSignals(scount, []);
       fn(n / 100, sources);
-      sources = createDataSignals(scount, []);
+      sources = createSignals(scount, []);
       for (let i = 0; i < scount; i++) {
         sources[i].read();
         sources[i].read();
@@ -84,20 +84,20 @@ export function sbench(
     return { time: end - start };
   }
 
-  function createDataSignals(n: number, sources: Computed<number>[]) {
+  function createSignals(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n; i++) {
       sources[i] = framework.signal(i);
     }
     return sources;
   }
 
-  function createComputations0to1(n: number, _sources: Computed<number>[]) {
+  function create0to1(n: number, _sources: Computed<number>[]) {
     for (let i = 0; i < n; i++) {
       createComputation0(i);
     }
   }
 
-  function createComputations1to1000(n: number, sources: Computed<number>[]) {
+  function create1to1000(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n / 1000; i++) {
       const { read: get } = sources[i];
       for (let j = 0; j < 1000; j++) {
@@ -106,7 +106,7 @@ export function sbench(
     }
   }
 
-  function createComputations1to8(n: number, sources: Computed<number>[]) {
+  function create1to8(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n / 8; i++) {
       const { read: get } = sources[i];
       createComputation1(get);
@@ -120,7 +120,7 @@ export function sbench(
     }
   }
 
-  function createComputations1to4(n: number, sources: Computed<number>[]) {
+  function create1to4(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n / 4; i++) {
       const { read: get } = sources[i];
       createComputation1(get);
@@ -130,7 +130,7 @@ export function sbench(
     }
   }
 
-  function createComputations1to2(n: number, sources: Computed<number>[]) {
+  function create1to2(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n / 2; i++) {
       const { read: get } = sources[i];
       createComputation1(get);
@@ -138,32 +138,32 @@ export function sbench(
     }
   }
 
-  function createComputations1to1(n: number, sources: Computed<number>[]) {
+  function create1to1(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n; i++) {
       const { read: get } = sources[i];
       createComputation1(get);
     }
   }
 
-  function createComputations2to1(n: number, sources: Computed<number>[]) {
+  function create2to1(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n; i++) {
       createComputation2(sources[i * 2].read, sources[i * 2 + 1].read);
     }
   }
 
-  function createComputations4to1(n: number, sources: Computed<number>[]) {
+  function create4to1(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n; i++) {
       createComputation4(
         sources[i * 4].read,
         sources[i * 4 + 1].read,
         sources[i * 4 + 2].read,
-        sources[i * 4 + 3].read,
+        sources[i * 4 + 3].read
       );
     }
   }
 
   // only create n / 100 computations, as otherwise takes too long
-  function createComputations1000to1(n: number, sources: Computed<number>[]) {
+  function create1000to1(n: number, sources: Computed<number>[]) {
     for (let i = 0; i < n; i++) {
       createComputation1000(sources, i * 1000);
     }
@@ -194,7 +194,7 @@ export function sbench(
     });
   }
 
-  function updateComputations1to1(n: number, sources: Signal<number>[]) {
+  function update1to1(n: number, sources: Signal<number>[]) {
     let { read: get1, write: set1 } = sources[0];
     framework.computed(() => get1());
     for (let i = 0; i < n; i++) {
@@ -202,7 +202,7 @@ export function sbench(
     }
   }
 
-  function updateComputations2to1(n: number, sources: Signal<number>[]) {
+  function update2to1(n: number, sources: Signal<number>[]) {
     let { read: get1, write: set1 } = sources[0],
       { read: get2 } = sources[1];
     framework.computed(() => get1() + get2());
@@ -211,7 +211,7 @@ export function sbench(
     }
   }
 
-  function updateComputations4to1(n: number, sources: Signal<number>[]) {
+  function update4to1(n: number, sources: Signal<number>[]) {
     let { read: get1, write: set1 } = sources[0],
       { read: get2 } = sources[1],
       { read: get3 } = sources[2],
@@ -222,7 +222,7 @@ export function sbench(
     }
   }
 
-  function updateComputations1000to1(n: number, sources: Signal<number>[]) {
+  function update1000to1(n: number, sources: Signal<number>[]) {
     let { write: set1 } = sources[0];
     framework.computed(() => {
       let sum = 0;
@@ -236,7 +236,7 @@ export function sbench(
     }
   }
 
-  function updateComputations1to2(n: number, sources: Signal<number>[]) {
+  function update1to2(n: number, sources: Signal<number>[]) {
     let { read: get1, write: set1 } = sources[0];
     framework.computed(() => get1());
     framework.computed(() => get1());
@@ -245,7 +245,7 @@ export function sbench(
     }
   }
 
-  function updateComputations1to4(n: number, sources: Signal<number>[]) {
+  function update1to4(n: number, sources: Signal<number>[]) {
     let { read: get1, write: set1 } = sources[0];
     framework.computed(() => get1());
     framework.computed(() => get1());
@@ -256,7 +256,7 @@ export function sbench(
     }
   }
 
-  function updateComputations1to1000(n: number, sources: Signal<number>[]) {
+  function update1to1000(n: number, sources: Signal<number>[]) {
     const { read: get1, write: set1 } = sources[0];
     for (let i = 0; i < 1000; i++) {
       framework.computed(() => get1());
