@@ -8,7 +8,6 @@
     "chrome": "chrome --no-sandbox --js-flags=--log-deopt,--log-ic,--log-maps,--log-maps-details,--log-internal-timer-events,--prof,--expose-gc,--detailed-line-info --enable-precise-memory-info --user-data-dir=$(PWD)/chrome http://localhost:3000"
   },
   "dependencies": {
-    "d3": "^7.9.0",
     "js-reactivity-benchmark": "workspace:*",
     "vite": "^6.2.6"
   },

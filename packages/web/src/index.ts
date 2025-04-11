@@ -6,7 +6,6 @@ import {
   perfResultHeaders,
   runTests,
 } from "js-reactivity-benchmark/src/index";
-import * as d3 from "d3";
 
 let data: PerfResult[] = [];
 
@@ -23,129 +22,97 @@ function logPerfResult(result: PerfResult): void {
 function graph() {
   console.log(data);
 
-  document.querySelector("svg")?.remove();
+  document.querySelector("table")?.remove();
 
-  const width = 928;
-  const marginRight = 10;
-  const marginBottom = 20;
-  const marginLeft = 120;
+  const tests = [...new Set(data.map((d) => d.test))];
+  const frameworks = [...new Set(data.map((d) => d.framework))];
 
-  const tests = new Set(data.map((d) => d.test));
-  const frameworks = new Set(data.map((d) => d.framework));
+  const table = document.createElement("table");
+  table.style.width = "1100px";
+  table.style.fontFamily = "sans-serif";
+  table.style.fontSize = "12px";
 
-  const rawMargin = 10;
-  const marginTop = rawMargin + frameworks.size * 20;
-  const testGroupHeight = frameworks.size * 20 + 10;
-  const height = marginTop + tests.size * testGroupHeight + marginBottom;
+  const colgroup = document.createElement("colgroup");
+  {
+    const col = document.createElement("col");
+    col.style.width = "200px";
+    colgroup.appendChild(col);
+  }
+  {
+    const col = document.createElement("col");
+    col.style.width = "100px";
+    colgroup.appendChild(col);
+  }
+  {
+    const col = document.createElement("col");
+    col.style.width = "800px";
+    colgroup.appendChild(col);
+  }
 
-  const fy = d3
-    .scaleBand()
-    .domain(tests)
-    .rangeRound([marginTop, height - marginBottom])
-    .paddingInner(0.1);
+  table.appendChild(colgroup);
+  const tbody = document.createElement("tbody");
+  table.appendChild(tbody);
 
-  const y = d3
-    .scaleBand()
-    .domain(frameworks)
-    .rangeRound([0, fy.bandwidth()])
-    .padding(0.05);
+  // prettier-ignore
+  const schemeSpectral = [
+    ["fc8d59","ffffbf","99d594"],
+    ["d7191c","fdae61","abdda4","2b83ba"],
+    ["d7191c","fdae61","ffffbf","abdda4","2b83ba"],
+    ["d53e4f","fc8d59","fee08b","e6f598","99d594","3288bd"],
+    ["d53e4f","fc8d59","fee08b","ffffbf","e6f598","99d594","3288bd"],
+    ["d53e4f","f46d43","fdae61","fee08b","e6f598","abdda4","66c2a5","3288bd"],
+    ["d53e4f","f46d43","fdae61","fee08b","ffffbf","e6f598","abdda4","66c2a5","3288bd"],
+    ["9e0142","d53e4f","f46d43","fdae61","fee08b","e6f598","abdda4","66c2a5","3288bd","5e4fa2"],
+    ["9e0142","d53e4f","f46d43","fdae61","fee08b","ffffbf","e6f598","abdda4","66c2a5","3288bd","5e4fa2"]
+  ]
+  const colors = schemeSpectral[Math.max(frameworks.length, 3) - 3];
+  console.log(colors);
 
-  const color = d3
-    .scaleOrdinal<string>()
-    .domain(frameworks)
-    .range(d3.schemeSpectral[Math.max(frameworks.size, 3)])
-    .unknown("#ccc");
+  const maxTime = Math.max(...data.map((x) => x.time));
 
-  const x = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, (d) => d.time)!])
-    .nice()
-    .rangeRound([marginLeft, width - marginRight]);
+  const groupedData: {
+    [key: string]: {
+      [key: string]: number;
+    };
+  } = {};
+  for (const row of data) {
+    if (!groupedData[row.test]) {
+      groupedData[row.test] = {};
+    }
+    groupedData[row.test][row.framework] = row.time;
+  }
+  for (const test of tests) {
+    let first = true;
+    for (const frameworkIndex in frameworks) {
+      const framework = frameworks[frameworkIndex];
+      const tr = document.createElement("tr");
+      if (first) {
+        const td = document.createElement("td");
+        td.rowSpan = frameworks.length;
+        td.innerText = test;
+        tr.appendChild(td);
+        first = false;
+      }
+      {
+        const td = document.createElement("td");
+        td.innerText = framework;
+        tr.appendChild(td);
+      }
+      {
+        const td = document.createElement("td");
+        const div = document.createElement("div");
+        const row = groupedData[test][framework] ?? 0;
+        div.style.width = Math.floor((800 * row) / maxTime) + "px";
+        div.style.height = "20px";
+        div.style.backgroundColor = `#${colors[frameworkIndex]}`;
+        td.appendChild(div);
+        tr.appendChild(td);
+      }
 
-  const svg = d3
-    .create("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("style", "max-width: 100%; height: auto;");
-
-  svg
-    .selectAll()
-    .data(d3.group(data, (d) => d.test))
-    .join("g")
-    .attr("transform", ([test]) => `translate(0,${fy(test)})`)
-    .selectAll()
-    .data(([, d]) => d)
-    .join("rect")
-    .attr("x", x(0)!)
-    .attr("y", (d) => y(d.framework)!)
-    .attr("width", (d) => x(d.time)! - x(0)!)
-    .attr("height", y.bandwidth())
-    .attr("fill", (d) => color(d.framework));
-
-  svg
-    .append("g")
-    .attr("transform", `translate(0,${height - marginBottom})`)
-    .call(d3.axisBottom(x).ticks(width / 80, "s"))
-    .call((g) => g.select(".domain").remove());
-
-  svg
-    .append("g")
-    .attr("transform", `translate(${marginLeft},0)`)
-    .call(d3.axisLeft(fy).tickSizeOuter(0))
-    .call((g) => g.selectAll(".domain").remove())
-    .call((g) => {
-      g.selectAll(".tick text").each(function (this) {
-        const text = d3.select(this);
-        const label = text.text();
-
-        // Add foreignObject to wrap the text
-        const fo = d3
-          .select((this as SVGTextElement).parentNode as SVGGElement)
-          .append("foreignObject")
-          .attr("x", -110)
-          .attr("y", -testGroupHeight / 2)
-          .attr("width", 100)
-          .attr("height", testGroupHeight);
-
-        fo.append("xhtml:div")
-          .style("font-size", "10px")
-          .style("font-family", "sans-serif")
-          .style("text-align", "right")
-          .style("word-wrap", "break-word")
-          .style("height", "100%")
-          .style("display", "flex")
-          .style("align-items", "center")
-          .style("justify-content", "end")
-          .text(label);
-
-        text.remove();
-      });
-    });
-
-  const legend = svg
-    .append("g")
-    .attr("transform", `translate(${marginLeft}, ${rawMargin})`);
-
-  legend
-    .selectAll()
-    .data(frameworks)
-    .join("g")
-    .attr("transform", (d, i) => `translate(0, ${i * 20})`)
-    .attr("font-size", 10)
-    .attr("font-family", "sans-serif")
-    .call((g) =>
-      g.append("rect").attr("width", 18).attr("height", 18).attr("fill", color),
-    )
-    .call((g) =>
-      g
-        .append("text")
-        .attr("x", 24)
-        .attr("y", 9)
-        .attr("dy", "0.35em")
-        .text((d) => d),
-    );
-
-  pre.after(svg.node()!);
+      tbody.appendChild(tr);
+    }
+  }
+  pre.after(table);
 }
 
 async function main() {
