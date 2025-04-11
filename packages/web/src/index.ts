@@ -81,6 +81,15 @@ function graph() {
     }
     groupedData[row.test][row.framework] = row.time;
   }
+  {
+    // github markdown allows scrolling tables if we have a long string of text with no wrapping
+    // so we just create a bunch of 0s in a row
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    tr.innerText = "0".repeat(120);
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
   for (const test of tests) {
     let first = true;
     for (const frameworkIndex in frameworks) {
