@@ -19,7 +19,6 @@ import { tc39SignalsFramework } from "./frameworks/tc39signals";
 export const frameworkInfo: FrameworkInfo[] = [
   { framework: alienFramework, testPullCounts: true },
   { framework: angularFramework2, testPullCounts: true },
-  { framework: molWireFramework, testPullCounts: true },
   { framework: preactSignalFramework, testPullCounts: true },
   { framework: reactivelyFramework, testPullCounts: true },
   { framework: solidFramework }, // solid can't testPullCounts because batch executes all leaf nodes even if unread
