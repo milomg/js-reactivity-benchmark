@@ -68,7 +68,7 @@ export async function sbench(
         createSignals(scount, sources);
         return fn(n / 100, sources);
       });
-      framework.withBatch(warmupUpdate);
+      warmupUpdate();
     }
     sources = null;
     framework.cleanup();
@@ -92,7 +92,7 @@ export async function sbench(
       return fn(n, sources);
     });
 
-    framework.withBatch(update);
+    update();
     sources = null;
     framework.cleanup();
     end = performance.now();
@@ -232,7 +232,9 @@ export async function sbench(
     framework.effect(() => get1());
     return () => {
       for (let i = 0; i < n; i++) {
-        set1(i);
+        framework.withBatch(() => {
+          set1(i);
+        });
       }
     };
   }
@@ -243,7 +245,9 @@ export async function sbench(
     framework.effect(() => get1() + get2());
     return () => {
       for (let i = 0; i < n; i++) {
-        set1(i);
+        framework.withBatch(() => {
+          set1(i);
+        });
       }
     };
   }
@@ -256,7 +260,9 @@ export async function sbench(
     framework.effect(() => get1() + get2() + get3() + get4());
     return () => {
       for (let i = 0; i < n; i++) {
-        set1(i);
+        framework.withBatch(() => {
+          set1(i);
+        });
       }
     };
   }
@@ -272,7 +278,9 @@ export async function sbench(
     });
     return () => {
       for (let i = 0; i < n; i++) {
-        set1(i);
+        framework.withBatch(() => {
+          set1(i);
+        });
       }
     };
   }
@@ -283,7 +291,9 @@ export async function sbench(
     framework.effect(() => get1());
     return () => {
       for (let i = 0; i < n; i++) {
-        set1(i);
+        framework.withBatch(() => {
+          set1(i);
+        });
       }
     };
   }
@@ -296,7 +306,9 @@ export async function sbench(
     framework.effect(() => get1());
     return () => {
       for (let i = 0; i < n; i++) {
-        set1(i);
+        framework.withBatch(() => {
+          set1(i);
+        });
       }
     };
   }
@@ -308,7 +320,9 @@ export async function sbench(
     }
     return () => {
       for (let i = 0; i < n / 10; i++) {
-        set1(i);
+        framework.withBatch(() => {
+          set1(i);
+        });
       }
     };
   }

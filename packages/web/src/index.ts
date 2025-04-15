@@ -1,10 +1,10 @@
 import {
-  frameworkInfo,
   formatPerfResult,
   formatPerfResultStrings,
   PerfResult,
   perfResultHeaders,
   runTests,
+  frameworkInfo,
 } from "js-reactivity-benchmark/src/index";
 
 let data: PerfResult[] = [];
@@ -53,20 +53,25 @@ function graph() {
   const tbody = document.createElement("tbody");
   table.appendChild(tbody);
 
-  // prettier-ignore
-  const schemeSpectral = [
-    ["fc8d59","ffffbf","99d594"],
-    ["d7191c","fdae61","abdda4","2b83ba"],
-    ["d7191c","fdae61","ffffbf","abdda4","2b83ba"],
-    ["d53e4f","fc8d59","fee08b","e6f598","99d594","3288bd"],
-    ["d53e4f","fc8d59","fee08b","ffffbf","e6f598","99d594","3288bd"],
-    ["d53e4f","f46d43","fdae61","fee08b","e6f598","abdda4","66c2a5","3288bd"],
-    ["d53e4f","f46d43","fdae61","fee08b","ffffbf","e6f598","abdda4","66c2a5","3288bd"],
-    ["9e0142","d53e4f","f46d43","fdae61","fee08b","e6f598","abdda4","66c2a5","3288bd","5e4fa2"],
-    ["9e0142","d53e4f","f46d43","fdae61","fee08b","ffffbf","e6f598","abdda4","66c2a5","3288bd","5e4fa2"]
-  ]
-  const colors = schemeSpectral[Math.max(frameworks.length, 3) - 3];
-  console.log(colors);
+  const colors = [
+    "fb2c36", // red-500
+    "ff6900", // orange-500
+    "fd9a00", // amber-500
+    "efb100", // yellow-500
+    "7ccf00", // lime-500
+    "00c951", // green-500
+    "00bc7d", // emerald-500
+    "00bba7", // teal-500
+    "00b8db", // cyan-500
+    "00a6f4", // sky-500
+    "2b7fff", // blue-500
+    "615fff", // indigo-500
+    "8e51ff", // violet-500
+    "ad46ff", // purple-500
+    "e12afb", // fuchsia-500
+    "f6339a", // pink-500
+    "ff2056", // rose-500
+  ];
 
   const maxTime = Math.max(...data.map((x) => x.time));
 

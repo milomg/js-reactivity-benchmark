@@ -2,7 +2,6 @@ import { ReactiveFramework } from "../util/reactiveFramework";
 import { Signal } from "signal-polyfill";
 
 let toCleanup: (() => void)[] = [];
-
 export const tc39SignalsFramework: ReactiveFramework = {
   name: "TC39 Signals",
   signal: (initialValue) => {
@@ -18,7 +17,14 @@ export const tc39SignalsFramework: ReactiveFramework = {
       read: () => c.get(),
     };
   },
-  effect: (fn) => effect(fn),
+  effect: (callback: any) => {
+    const computed = new Signal.Computed(() => callback());
+  
+    w.watch(computed);
+    computed.get();
+  
+    toCleanup.push(() => w.unwatch(computed));
+  },
   withBatch: (fn) => {
     fn();
     processPending();
@@ -37,11 +43,6 @@ let needsEnqueue = false;
 const w = new Signal.subtle.Watcher(() => {
   if (needsEnqueue) {
     needsEnqueue = false;
-    (async () => {
-      await Promise.resolve();
-      // next micro queue
-      processPending();
-    })();
   }
 });
 
@@ -53,13 +54,4 @@ function processPending() {
   }
 
   w.watch();
-}
-
-export function effect(callback: any) {
-  const computed = new Signal.Computed(() => callback());
-
-  w.watch(computed);
-  computed.get();
-
-  toCleanup.push(() => w.unwatch(computed));
 }
