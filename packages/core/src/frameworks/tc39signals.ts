@@ -19,10 +19,10 @@ export const tc39SignalsFramework: ReactiveFramework = {
   },
   effect: (callback: any) => {
     const computed = new Signal.Computed(() => callback());
-  
+
     w.watch(computed);
     computed.get();
-  
+
     toCleanup.push(() => w.unwatch(computed));
   },
   withBatch: (fn) => {

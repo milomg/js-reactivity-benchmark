@@ -7,7 +7,6 @@ import {
   ɵChangeDetectionScheduler,
   ɵEffectScheduler,
   untracked,
-  EffectRef,
 } from "@angular/core";
 
 interface SchedulableEffect {
@@ -17,7 +16,11 @@ export class ArrayEffectScheduler implements ɵEffectScheduler {
   private queue = new Set<SchedulableEffect>();
 
   schedule(handle: SchedulableEffect): void {
-    this.enqueue(handle);
+    this.queue.add(handle);
+  }
+
+  add(e: SchedulableEffect): void {
+    this.queue.add(e);
   }
 
   remove(handle: SchedulableEffect): void {
@@ -28,32 +31,26 @@ export class ArrayEffectScheduler implements ɵEffectScheduler {
     this.queue.delete(handle);
   }
 
-  private enqueue(handle: SchedulableEffect): void {
-    if (this.queue.has(handle)) {
-      return;
-    }
-    this.queue.add(handle);
-  }
-
   flush(): void {
     for (const handle of this.queue) {
-      this.queue.delete(handle);
-
       handle.run();
     }
+    this.queue.clear();
   }
 }
 
 const scheduler = new ArrayEffectScheduler();
-const injector = Injector.create({
-  providers: [
-    { provide: ɵChangeDetectionScheduler, useValue: { notify() {} } },
-    { provide: ɵEffectScheduler, useValue: scheduler },
-  ],
+
+const createInjector = () => ({
+  injector: Injector.create({
+    providers: [
+      { provide: ɵChangeDetectionScheduler, useValue: { notify() {} } },
+      { provide: ɵEffectScheduler, useValue: scheduler },
+    ],
+  }),
 });
 
-const injectorObj = { injector };
-let toCleanup: EffectRef[] = [];
+let injectorObj = createInjector();
 
 export const angularFramework: ReactiveFramework = {
   name: "Angular Signals",
@@ -71,7 +68,7 @@ export const angularFramework: ReactiveFramework = {
     };
   },
   effect: (fn) => {
-    toCleanup.push(effect(fn, injectorObj));
+    effect(fn, injectorObj);
   },
   withBatch: (fn) => {
     fn();
@@ -86,9 +83,7 @@ export const angularFramework: ReactiveFramework = {
     return res!;
   },
   cleanup: () => {
-    for (const cleanup of toCleanup) {
-      cleanup.destroy();
-    }
-    toCleanup = [];
+    injectorObj.injector.destroy();
+    injectorObj = createInjector();
   },
 };

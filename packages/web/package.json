@@ -11,8 +11,5 @@
     "js-reactivity-benchmark": "workspace:*",
     "vite": "^6.2.6"
   },
-  "packageManager": "pnpm@10.8.1",
-  "devDependencies": {
-    "@types/d3": "^7.4.3"
-  }
+  "packageManager": "pnpm@10.8.1"
 }

@@ -4,7 +4,6 @@
     "target": "ESNext",
     "moduleResolution": "bundler",
     "lib": ["ESNext", "DOM"],
-    "types": ["@types/node"],
     "noEmit": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,

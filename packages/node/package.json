@@ -6,6 +6,7 @@
     "run": "node dist/index.js"
   },
   "dependencies": {
+    "@types/node": "^22.14.1",
     "esbuild": "^0.25.2",
     "js-reactivity-benchmark": "workspace:*"
   },
