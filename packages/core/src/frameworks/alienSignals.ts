@@ -4,10 +4,11 @@ import {
   endBatch,
   signal,
   startBatch,
+  effectScope
 } from "alien-signals/esm";
 import { ReactiveFramework } from "../util/reactiveFramework";
 
-let toCleanup: (() => void)[] = [];
+let scope: (() => void) | null = null;
 
 export const alienFramework: ReactiveFramework = {
   name: "Alien Signals",
@@ -24,17 +25,21 @@ export const alienFramework: ReactiveFramework = {
       read: () => c(),
     };
   },
-  effect: (fn) => toCleanup.push(effect(fn)),
+  effect: (fn) => effect(fn),
   withBatch: (fn) => {
     startBatch();
     fn();
     endBatch();
   },
-  withBuild: (fn) => fn(),
+  withBuild: <T>(fn: () => T) => {
+    let out!: T;
+    scope = effectScope(() => {
+      out = fn();
+    });
+    return out;
+  },
   cleanup: () => {
-    for (const cleanup of toCleanup) {
-      cleanup();
-    }
-    toCleanup = [];
+    scope!();
+    scope = null;
   },
 };

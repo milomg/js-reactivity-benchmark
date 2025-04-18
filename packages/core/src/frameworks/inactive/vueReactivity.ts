@@ -1,12 +1,12 @@
-import { computed, ref, effect, ReactiveEffect } from "@vue/reactivity";
+import { computed, effect, EffectScope, effectScope, ReactiveEffect, shallowRef } from "@vue/reactivity";
 import { ReactiveFramework } from "../../util/reactiveFramework";
 
 let scheduled = [] as ReactiveEffect[];
-let toCleanup: ReactiveEffect<unknown>[] = [];
+let scope: EffectScope | null = null;
 export const vueReactivityFramework: ReactiveFramework = {
   name: "Vue",
   signal: (initial) => {
-    const data = ref(initial);
+    const data = shallowRef(initial);
     return {
       read: () => data.value as any,
       write: (v) => (data.value = v as any),
@@ -24,18 +24,18 @@ export const vueReactivityFramework: ReactiveFramework = {
         scheduled.push(t.effect);
       },
     });
-    toCleanup.push(t.effect);
   },
   withBatch: (fn) => {
     fn();
     flushEffects();
   },
-  withBuild: (fn) => fn(),
+  withBuild: (fn) => {
+    scope = effectScope();
+    return scope.run(fn)!;
+  },
   cleanup: () => {
-    for (const cleanup of toCleanup) {
-      cleanup.stop();
-    }
-    toCleanup = [];
+    scope!.stop();
+    scope = null;
   },
 };
 
