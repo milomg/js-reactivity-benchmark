@@ -31,4 +31,3 @@ export const potaFramework: ReactiveFramework = {
     }),
   cleanup: () => {},
 };
-

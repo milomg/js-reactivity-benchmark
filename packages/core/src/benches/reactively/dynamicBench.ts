@@ -21,41 +21,43 @@ export function makeTitle(config: TestConfig): string {
  * The test is run multiple times and the fastest result is logged to the console.
  */
 export async function dynamicBench(
-  frameworkTest: FrameworkInfo,
+  frameworkInfo: FrameworkInfo[],
   logPerfResult: PerfResultCallback,
   testRepeats = 5,
 ): Promise<void> {
-  const { framework } = frameworkTest;
   for (const config of perfTests) {
-    const { iterations, readFraction } = config;
+    for (const frameworkTest of frameworkInfo) {
+      const { framework } = frameworkTest;
+      const { iterations, readFraction } = config;
 
-    const { graph, counter } = makeGraph(framework, readFraction, config);
+      const { graph, counter } = makeGraph(framework, readFraction, config);
 
-    function runOnce(): number {
-      return runGraph(graph, iterations, framework);
+      function runOnce(): number {
+        return runGraph(graph, iterations, framework);
+      }
+
+      // warm up
+      runOnce();
+      runOnce();
+
+      await nextTick();
+      runOnce();
+
+      const timedResult = await fastestTest(testRepeats, () => {
+        counter.count = 0;
+        const sum = runOnce();
+        return { sum, count: counter.count };
+      });
+
+      framework.cleanup();
+      if (globalThis.gc) gc!(), gc!();
+
+      logPerfResult({
+        framework: framework.name,
+        test: makeTitle(config) + (config.name ? ` (${config.name})` : ""),
+        time: timedResult.time,
+      });
+      verifyBenchResult(frameworkTest, config, timedResult);
     }
-
-    // warm up
-    runOnce();
-    runOnce();
-
-    await nextTick();
-    runOnce();
-
-    const timedResult = await fastestTest(testRepeats, () => {
-      counter.count = 0;
-      const sum = runOnce();
-      return { sum, count: counter.count };
-    });
-
-    framework.cleanup();
-    if (globalThis.gc) gc!(), gc!();
-
-    logPerfResult({
-      framework: framework.name,
-      test: makeTitle(config) + (config.name ? ` (${config.name})` : ""),
-      time: timedResult.timing.time,
-    });
-    verifyBenchResult(frameworkTest, config, timedResult);
   }
 }

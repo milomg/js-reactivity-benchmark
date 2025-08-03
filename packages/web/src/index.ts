@@ -1,6 +1,5 @@
 import {
   formatPerfResult,
-  formatPerfResultStrings,
   PerfResult,
   perfResultHeaders,
   runTests,
@@ -16,7 +15,13 @@ function logLine(line: string): void {
 
 function logPerfResult(result: PerfResult): void {
   data.push(result);
-  logLine(formatPerfResult(result));
+  logLine(
+    formatPerfResult({
+      framework: result.framework,
+      test: result.test,
+      time: result.time.toString(),
+    }),
+  );
 }
 
 function graph() {
@@ -132,7 +137,7 @@ function graph() {
 }
 
 async function main() {
-  logLine(formatPerfResultStrings(perfResultHeaders()));
+  logLine(formatPerfResult(perfResultHeaders()));
   await runTests(frameworkInfo, logPerfResult);
 }
 

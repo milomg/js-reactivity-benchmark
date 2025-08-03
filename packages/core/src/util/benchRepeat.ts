@@ -9,12 +9,10 @@ export async function fastestTest<T>(
   const results: TimingResult<T>[] = [];
   for (let i = 0; i < times; i++) {
     await nextTick();
-    const run = await runTracked(fn);
+    const run = runTimed(fn);
     results.push(run);
   }
-  const fastest = results.reduce((a, b) =>
-    a.timing.time < b.timing.time ? a : b,
-  );
+  const fastest = results.reduce((a, b) => (a.time < b.time ? a : b));
 
   return fastest;
 }
@@ -30,12 +28,4 @@ export function runTimed<T>(fn: () => T): TimedResult<T> {
   const result = fn();
   const time = performance.now() - start;
   return { result, time };
-}
-
-/** run a function, reporting the wall clock time and garbage collection time. */
-async function runTracked<T>(fn: () => T): Promise<TimingResult<T>> {
-  if (globalThis.gc) gc!(), gc!();
-  let out = runTimed(fn);
-  const { result, time } = out;
-  return { result, timing: { time } };
 }

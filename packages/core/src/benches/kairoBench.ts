@@ -8,8 +8,9 @@ import { triangle } from "./kairo/triangle";
 import { unstable } from "./kairo/unstable";
 import { nextTick } from "../util/asyncUtil";
 import { fastestTest } from "../util/benchRepeat";
-import { ReactiveFramework } from "../util/reactiveFramework";
 import { PerfResultCallback } from "../util/perfLogging";
+import { FrameworkInfo } from "../util/frameworkTypes";
+import { mol } from "./kairo/molBench";
 
 const cases = [
   { name: "avoidablePropagation", fn: avoidablePropagation },
@@ -20,37 +21,60 @@ const cases = [
   { name: "repeatedObservers", fn: repeatedObservers },
   { name: "triangle", fn: triangle },
   { name: "unstable", fn: unstable },
+  { name: "molBench", fn: mol },
 ];
 
 export async function kairoBench(
-  framework: ReactiveFramework,
+  frameworkInfo: FrameworkInfo[],
   logPerfResult: PerfResultCallback,
 ) {
+  // warmup
   for (const c of cases) {
-    const iter = framework.withBuild(() => {
-      const iter = c.fn(framework);
-      return iter;
-    });
+    for (const { framework } of frameworkInfo) {
+      const iter = framework.withBuild(() => c.fn(framework));
 
-    iter();
-    iter();
+      iter();
+      iter();
 
-    await nextTick();
-    iter();
+      await nextTick();
+      iter();
 
-    const { timing } = await fastestTest(5, () => {
-      for (let i = 0; i < 1000; i++) {
-        iter();
-      }
-    });
+      framework.cleanup();
+    }
+  }
 
-    framework.cleanup();
-    if (globalThis.gc) gc!(), gc!();
+  if (globalThis.gc) globalThis.gc!(), globalThis.gc!();
+  await nextTick();
 
-    logPerfResult({
-      framework: framework.name,
-      test: c.name,
-      time: timing.time,
-    });
+  // actual benchmark
+  for (const c of cases) {
+    for (const { framework } of frameworkInfo) {
+      const iter = framework.withBuild(() => {
+        const iter = c.fn(framework);
+        return iter;
+      });
+
+      iter();
+      iter();
+      await nextTick();
+
+      iter();
+      await nextTick();
+
+      const { time } = await fastestTest(10, () => {
+        for (let i = 0; i < 500; i++) {
+          iter();
+        }
+      });
+
+      framework.cleanup();
+      if (globalThis.gc) gc!(), gc!();
+
+      logPerfResult({
+        framework: framework.name,
+        test: c.name,
+        time,
+      });
+    }
   }
 }

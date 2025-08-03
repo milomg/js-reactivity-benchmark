@@ -1,6 +1,7 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
 
 import { nextTick } from "../util/asyncUtil";
+import { fastestTest } from "../util/benchRepeat";
 import { PerfResultCallback } from "../util/perfLogging";
 import { Computed, ReactiveFramework, Signal } from "../util/reactiveFramework";
 
@@ -55,10 +56,6 @@ export async function sbench(
     n: number,
     scount: number,
   ) {
-    // prep n * arity sources
-    let start = 0;
-    let end = 0;
-
     let sources: Signal<number>[] | null;
     if (globalThis.gc) gc!(), gc!();
     for (let i = 0; i < 3; i++) {
@@ -73,34 +70,42 @@ export async function sbench(
     sources = null;
     framework.cleanup();
 
+    // start GC clean
+    if (globalThis.gc) gc!(), gc!();
     await nextTick();
 
-    let update = framework.withBuild(() => {
-      sources = [];
-      createSignals(scount, sources);
-      for (let i = 0; i < scount; i++) {
-        sources[i].read();
-        sources[i].read();
-        sources[i].read();
-      }
+    let fastestTime = Infinity;
+    for (let i = 0; i < 10; i++) {
+      let start = 0;
+      let end = 0;
+      let update = framework.withBuild(() => {
+        sources = [];
+        createSignals(scount, sources);
+        for (let i = 0; i < scount; i++) {
+          sources[i].read();
+          sources[i].read();
+          sources[i].read();
+        }
 
-      // start GC clean
+        start = performance.now();
+
+        return fn(n, sources);
+      });
+
+      update();
+      sources = null;
+      framework.cleanup();
+      end = performance.now();
+
+      // end GC clean
       if (globalThis.gc) gc!(), gc!();
 
-      start = performance.now();
-
-      return fn(n, sources);
-    });
-
-    update();
-    sources = null;
-    framework.cleanup();
-    end = performance.now();
-
-    // end GC clean
-    if (globalThis.gc) gc!(), gc!();
-
-    return end - start;
+      let time = end - start;
+      if (time < fastestTime) {
+        fastestTime = time;
+      }
+    }
+    return fastestTime;
   }
 
   function createSignals(n: number, sources: Computed<number>[]) {

@@ -1,7 +1,6 @@
 import {
   frameworkInfo,
   formatPerfResult,
-  formatPerfResultStrings,
   PerfResult,
   perfResultHeaders,
   runTests,
@@ -12,11 +11,17 @@ function logLine(line: string): void {
 }
 
 function logPerfResult(result: PerfResult): void {
-  logLine(formatPerfResult(result));
+  logLine(
+    formatPerfResult({
+      framework: result.framework,
+      test: result.test,
+      time: result.time.toFixed(2),
+    }),
+  );
 }
 
 async function main() {
-  logLine(formatPerfResultStrings(perfResultHeaders()));
+  logLine(formatPerfResult(perfResultHeaders()));
   await runTests(frameworkInfo, logPerfResult);
 }
 

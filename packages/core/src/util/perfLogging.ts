@@ -36,14 +36,6 @@ function trimColumns(row: PerfResultStrings): PerfResultStrings {
   return trimmed;
 }
 
-export function formatPerfResultStrings(row: PerfResultStrings): string {
+export function formatPerfResult(row: PerfResultStrings): string {
   return Object.values(trimColumns(row)).join(" , ");
-}
-
-export function formatPerfResult(row: PerfResult): string {
-  return formatPerfResultStrings({
-    framework: row.framework,
-    test: row.test,
-    time: row.time.toFixed(2),
-  });
 }

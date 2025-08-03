@@ -4,7 +4,7 @@ import {
   endBatch,
   signal,
   startBatch,
-  effectScope
+  effectScope,
 } from "alien-signals/esm";
 import { ReactiveFramework } from "../util/reactiveFramework";
 

@@ -1,4 +1,11 @@
-import { computed, effect, EffectScope, effectScope, ReactiveEffect, shallowRef } from "@vue/reactivity";
+import {
+  computed,
+  effect,
+  EffectScope,
+  effectScope,
+  ReactiveEffect,
+  shallowRef,
+} from "@vue/reactivity";
 import { ReactiveFramework } from "../../util/reactiveFramework";
 
 let scheduled = [] as ReactiveEffect[];

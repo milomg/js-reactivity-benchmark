@@ -1,5 +1,6 @@
 // The following is an implementation of the cellx benchmark https://github.com/Riim/cellx/blob/master/perf/perf.html
 import { nextTick } from "../util/asyncUtil";
+import { FrameworkInfo } from "../util/frameworkTypes";
 import { PerfResultCallback } from "../util/perfLogging";
 import { Computed, ReactiveFramework } from "../util/reactiveFramework";
 
@@ -93,7 +94,7 @@ type BenchmarkResults = [
 ];
 
 export const cellxbench = async (
-  framework: ReactiveFramework,
+  frameworkInfo: FrameworkInfo[],
   logPerfResult: PerfResultCallback,
 ) => {
   const expected: Record<number, BenchmarkResults> = {
@@ -111,39 +112,59 @@ export const cellxbench = async (
     // ],
   };
 
-  const results: Record<number, BenchmarkResults> = {};
+  // warmup with all frameworks first
+  for (const { framework } of frameworkInfo) {
+    const layers = 1000;
+    const [before, after] = expected[layers];
+    const [_, b, a] = cellx(framework, Number(layers));
 
-  for (const layers in expected) {
-    let total = 0;
-    for (let i = 0; i < 10; i++) {
-      await nextTick();
+    console.assert(
+      arraysEqual(b, before),
+      `Expected first layer ${before}, found first layer ${b}`,
+    );
 
-      const [elapsed, before, after] = cellx(framework, Number(layers));
-
-      results[layers] = [before, after];
-
-      total += elapsed;
-    }
-
-    logPerfResult({
-      framework: framework.name,
-      test: `cellx${layers}`,
-      time: total,
-    });
+    console.assert(
+      arraysEqual(a, after),
+      `Expected last layer ${after}, found last layer ${a}`,
+    );
   }
 
-  for (const layers in expected) {
-    const [before, after] = results[layers];
-    const [expectedBefore, expectedAfter] = expected[layers];
+  // actual benchmark
+  for (const { framework } of frameworkInfo) {
+    const results: Record<number, BenchmarkResults> = {};
 
-    console.assert(
-      arraysEqual(before, expectedBefore),
-      `Expected first layer ${expectedBefore}, found first layer ${before}`,
-    );
+    for (const layers in expected) {
+      let total = 0;
+      for (let i = 0; i < 10; i++) {
+        await nextTick();
 
-    console.assert(
-      arraysEqual(after, expectedAfter),
-      `Expected last layer ${expectedAfter}, found last layer ${after}`,
-    );
+        const [elapsed, before, after] = cellx(framework, Number(layers));
+
+        results[layers] = [before, after];
+
+        total += elapsed;
+      }
+
+      logPerfResult({
+        framework: framework.name,
+        test: `cellx${layers}`,
+        time: total,
+      });
+    }
+
+    for (const layers in expected) {
+      const [before, after] = results[layers];
+      const [expectedBefore, expectedAfter] = expected[layers];
+
+      console.assert(
+        arraysEqual(before, expectedBefore),
+        `Expected first layer ${expectedBefore}, found first layer ${before}`,
+      );
+
+      console.assert(
+        arraysEqual(after, expectedAfter),
+        `Expected last layer ${expectedAfter}, found last layer ${after}`,
+      );
+    }
   }
 };

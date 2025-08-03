@@ -7,12 +7,7 @@ export interface TestResult {
 
 export interface TimingResult<T> {
   result: T;
-  timing: TestTiming;
-}
-
-export interface TestTiming {
   time: number;
-  memory?: number;
 }
 
 export function verifyBenchResult(
