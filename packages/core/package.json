@@ -16,25 +16,25 @@
   "devDependencies": {
     "@amadeus-it-group/tansu": "^2.0.0",
     "@angular/core": "20.0.0-next.6",
-    "@preact/signals": "^2.0.3",
+    "@preact/signals": "^2.0.4",
     "@reactively/core": "^0.0.8",
-    "@solidjs/signals": "^0.2.5",
+    "@solidjs/signals": "^0.3.2",
     "@vue/reactivity": "^3.5.13",
-    "alien-signals": "^1.0.13",
+    "alien-signals": "^2.0.1",
     "compostate": "^0.5.1",
-    "esbuild": "^0.25.2",
+    "esbuild": "^0.25.3",
     "mobx": "^6.13.7",
-    "mol_wire_lib": "^1.0.1371",
+    "mol_wire_lib": "^1.0.1387",
     "oby": "15.1.2",
     "pota": "^0.17.179",
     "preact": "^10.26.5",
     "s-js": "^0.4.9",
     "signal-polyfill": "^0.2.2",
     "solid-js": "^1.9.5",
-    "svelte": "^5.27.0",
+    "svelte": "^5.28.2",
     "typescript": "^5.8.3",
     "usignal": "^0.9.0",
     "vitest": "^3.1.1"
   },
-  "packageManager": "pnpm@10.8.1"
+  "packageManager": "pnpm@10.10.0"
 }
