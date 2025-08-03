@@ -4,6 +4,7 @@ import { FrameworkInfo, TestConfig } from "../../util/frameworkTypes";
 import { perfTests } from "../../config";
 import { fastestTest } from "../../util/benchRepeat";
 import { PerfResultCallback } from "../../util/perfLogging";
+import { nextTick } from "../../util/asyncUtil";
 
 function percent(n: number): string {
   return Math.round(n * 100) + "%";
@@ -37,6 +38,8 @@ export async function dynamicBench(
     // warm up
     runOnce();
     runOnce();
+
+    await nextTick();
     runOnce();
 
     const timedResult = await fastestTest(testRepeats, () => {
