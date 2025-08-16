@@ -1,6 +1,6 @@
 import { ReactiveFramework } from "../util/reactiveFramework";
 import {
-  flushSync,
+  flush,
   createEffect,
   createMemo,
   createRoot,
@@ -25,7 +25,7 @@ export const xReactivityFramework: ReactiveFramework = {
   effect: (fn) => createEffect(fn, () => {}),
   withBatch: (fn) => {
     fn();
-    flushSync();
+    flush();
   },
   withBuild: (fn) =>
     createRoot((dispose) => {

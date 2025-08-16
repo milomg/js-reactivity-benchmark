@@ -50,7 +50,7 @@ export async function dynamicBench(
       });
 
       framework.cleanup();
-      if (globalThis.gc) gc!(), gc!();
+      if (globalThis.gc) (gc!(), gc!());
 
       logPerfResult({
         framework: framework.name,

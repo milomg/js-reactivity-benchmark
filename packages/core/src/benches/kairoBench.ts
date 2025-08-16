@@ -43,7 +43,7 @@ export async function kairoBench(
     }
   }
 
-  if (globalThis.gc) globalThis.gc!(), globalThis.gc!();
+  if (globalThis.gc) (globalThis.gc!(), globalThis.gc!());
   await nextTick();
 
   // actual benchmark
@@ -68,7 +68,7 @@ export async function kairoBench(
       });
 
       framework.cleanup();
-      if (globalThis.gc) gc!(), gc!();
+      if (globalThis.gc) (gc!(), gc!());
 
       logPerfResult({
         framework: framework.name,

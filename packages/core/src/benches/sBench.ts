@@ -57,7 +57,7 @@ export async function sbench(
     scount: number,
   ) {
     let sources: Signal<number>[] | null;
-    if (globalThis.gc) gc!(), gc!();
+    if (globalThis.gc) (gc!(), gc!());
     for (let i = 0; i < 3; i++) {
       let warmupUpdate = framework.withBuild(() => {
         // run 3 times to warm up
@@ -71,7 +71,7 @@ export async function sbench(
     framework.cleanup();
 
     // start GC clean
-    if (globalThis.gc) gc!(), gc!();
+    if (globalThis.gc) (gc!(), gc!());
     await nextTick();
 
     let fastestTime = Infinity;
@@ -98,7 +98,7 @@ export async function sbench(
       end = performance.now();
 
       // end GC clean
-      if (globalThis.gc) gc!(), gc!();
+      if (globalThis.gc) (gc!(), gc!());
 
       let time = end - start;
       if (time < fastestTime) {

@@ -73,7 +73,7 @@ const cellx = (framework: ReactiveFramework, layers: number) => {
   let result = iter();
 
   framework.cleanup();
-  if (globalThis.gc) gc!(), gc!();
+  if (globalThis.gc) (gc!(), gc!());
 
   return result;
 };

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "js-reactivity-benchmark": "workspace:*",
-    "vite": "^7.0.6"
+    "vite": "^7.1.2"
   },
   "packageManager": "pnpm@10.14.0"
 }

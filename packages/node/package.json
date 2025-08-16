@@ -6,8 +6,8 @@
     "run": "node dist/index.js"
   },
   "dependencies": {
-    "@types/node": "^24.1.0",
-    "esbuild": "^0.25.8",
+    "@types/node": "^24.3.0",
+    "esbuild": "^0.25.9",
     "js-reactivity-benchmark": "workspace:*"
   },
   "packageManager": "pnpm@10.14.0"
