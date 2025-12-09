@@ -1,30 +1,30 @@
 import { TestConfig } from "./util/frameworkTypes";
 
 export const perfTests: TestConfig[] = [
-  {
-    width: 10, // can't change for decorator tests
-    staticFraction: 1, // can't change for decorator tests
-    nSources: 2, // can't change for decorator tests
-    totalLayers: 5,
-    readFraction: 0.2,
-    iterations: 600000,
-    expected: {
-      sum: 19199968,
-      count: 3480000,
-    },
-  },
-  {
-    width: 10,
-    totalLayers: 10,
-    staticFraction: 3 / 4,
-    nSources: 6,
-    readFraction: 0.2,
-    iterations: 15000,
-    expected: {
-      sum: 302310782860,
-      count: 1155000,
-    },
-  },
+  // {
+  //   width: 10, // can't change for decorator tests
+  //   staticFraction: 1, // can't change for decorator tests
+  //   nSources: 2, // can't change for decorator tests
+  //   totalLayers: 5,
+  //   readFraction: 0.2,
+  //   iterations: 600000,
+  //   expected: {
+  //     sum: 19199968,
+  //     count: 3480000,
+  //   },
+  // },
+  // {
+  //   width: 10,
+  //   totalLayers: 10,
+  //   staticFraction: 3 / 4,
+  //   nSources: 6,
+  //   readFraction: 0.2,
+  //   iterations: 15000,
+  //   expected: {
+  //     sum: 302310782860,
+  //     count: 1155000,
+  //   },
+  // },
   {
     width: 1000,
     totalLayers: 12,

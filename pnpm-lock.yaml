@@ -13,6 +13,25 @@ importers:
         version: 3.8.1
 
   packages/core:
+    dependencies:
+      '@preact/signals-core':
+        specifier: ^1.14.0
+        version: 1.14.0
+      '@vue/shared':
+        specifier: ^3.5.30
+        version: 3.5.30
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      esm-env:
+        specifier: ^1.2.2
+        version: 1.2.2
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
     devDependencies:
       '@amadeus-it-group/tansu':
         specifier: ^2.0.0
@@ -56,6 +75,12 @@ importers:
       preact:
         specifier: ^10.28.3
         version: 10.28.3
+      r3:
+        specifier: link:../../../r3
+        version: link:../../../r3
+      r3-fallback:
+        specifier: link:../../../r3-fallback
+        version: link:../../../r3-fallback
       s-js:
         specifier: ^0.4.9
         version: 0.4.9
@@ -548,8 +573,8 @@ packages:
   '@oxc-project/types@0.113.0':
     resolution: {integrity: sha512-Tp3XmgxwNQ9pEN9vxgJBAqdRamHibi76iowQ38O2I4PMpcvNRQNVsU2n1x1nv9yh0XoTrGFzf7cZSGxmixxrhA==}
 
-  '@preact/signals-core@1.13.0':
-    resolution: {integrity: sha512-slT6XeTCAbdql61GVLlGU4x7XHI7kCZV5Um5uhE4zLX4ApgiiXc0UYFvVOKq06xcovzp7p+61l68oPi563ARKg==}
+  '@preact/signals-core@1.14.0':
+    resolution: {integrity: sha512-AowtCcCU/33lFlh1zRFf/u+12rfrhtNakj7UpaGEsmMwUKpKWMVvcktOGcwBBNiB4lWrZWc01LhiyyzVklJyaQ==}
 
   '@preact/signals@2.8.0':
     resolution: {integrity: sha512-lcILM82mei8s/53n2M6uZlrDHLlgLld8Squ0PVSUL5Ae1M45uEstWfHm+wcDqp2U5I/ZYrBvCY65udFyTo5OZw==}
@@ -844,6 +869,9 @@ packages:
 
   '@vue/shared@3.5.28':
     resolution: {integrity: sha512-cfWa1fCGBxrvaHRhvV3Is0MgmrbSCxYTXCSCau2I0a1Xw1N1pHAvkWCiXPRAqjvToILvguNyEwjevUqAuBQWvQ==}
+
+  '@vue/shared@3.5.30':
+    resolution: {integrity: sha512-YXgQ7JjaO18NeK2K9VTbDHaFy62WrObMa6XERNfNOkAhD1F1oDSf3ZJ7K6GqabZ0BvSDHajp8qfS5Sa2I9n8uQ==}
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -1691,11 +1719,11 @@ snapshots:
 
   '@oxc-project/types@0.113.0': {}
 
-  '@preact/signals-core@1.13.0': {}
+  '@preact/signals-core@1.14.0': {}
 
   '@preact/signals@2.8.0(preact@10.28.3)':
     dependencies:
-      '@preact/signals-core': 1.13.0
+      '@preact/signals-core': 1.14.0
       preact: 10.28.3
 
   '@reactively/core@0.0.8': {}
@@ -1890,6 +1918,8 @@ snapshots:
       '@vue/shared': 3.5.28
 
   '@vue/shared@3.5.28': {}
+
+  '@vue/shared@3.5.30': {}
 
   acorn@8.15.0: {}
 

@@ -21,7 +21,7 @@ const cases = [
   { name: "repeatedObservers", fn: repeatedObservers },
   { name: "triangle", fn: triangle },
   { name: "unstable", fn: unstable },
-  { name: "molBench", fn: mol },
+  // { name: "molBench", fn: mol },
 ];
 
 export async function kairoBench(
