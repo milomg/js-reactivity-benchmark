@@ -2,7 +2,7 @@ import { makeGraph, runGraph } from "./dependencyGraph";
 import { verifyBenchResult } from "../../util/perfTests";
 import { FrameworkInfo, TestConfig } from "../../util/frameworkTypes";
 import { perfTests } from "../../config";
-import { fastestTest } from "../../util/benchRepeat";
+import { benchmarkWithMemory } from "../../util/benchRepeat";
 import { PerfResultCallback } from "../../util/perfLogging";
 import { nextTick } from "../../util/asyncUtil";
 
@@ -43,7 +43,7 @@ export async function dynamicBench(
       await nextTick();
       runOnce();
 
-      const timedResult = await fastestTest(testRepeats, () => {
+      const timedResult = await benchmarkWithMemory(testRepeats, () => {
         counter.count = 0;
         const sum = runOnce();
         return { sum, count: counter.count };
@@ -56,6 +56,9 @@ export async function dynamicBench(
         framework: framework.name,
         test: makeTitle(config) + (config.name ? ` (${config.name})` : ""),
         time: timedResult.time,
+        memoryUsed: timedResult.memory?.memoryUsed,
+        heapUsed: timedResult.memory?.heapUsed,
+        gcTime: timedResult.memory?.gcTime,
       });
       verifyBenchResult(frameworkTest, config, timedResult);
     }

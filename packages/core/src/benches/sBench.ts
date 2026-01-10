@@ -1,7 +1,7 @@
 // Inspired by https://github.com/solidjs/solid/blob/main/packages/solid/bench/bench.cjs
 
 import { nextTick } from "../util/asyncUtil";
-import { fastestTest } from "../util/benchRepeat";
+// import { fastestTest } from "../util/benchRepeat";
 import { PerfResultCallback } from "../util/perfLogging";
 import { Computed, ReactiveFramework, Signal } from "../util/reactiveFramework";
 

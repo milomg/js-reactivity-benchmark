@@ -1,7 +1,7 @@
 # JS Reactivity Benchmark
 
 ```
-$ pnpm bench
+$ pnpm run run
 ```
 
 ## Features
