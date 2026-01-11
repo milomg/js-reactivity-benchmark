@@ -1,77 +1,168 @@
 import type { ReactiveFramework } from "../util/reactiveFramework";
 
+/**
+ * Based on @reactively/core
+ *
+ * @see https://github.com/milomg/reactively/tree/main
+ * @license MIT
+ *
+ * Copyright (c) 2023 modderme123
+ */
+
+/* === Types === */
+
 // biome-ignore lint/suspicious/noExplicitAny: explicitly allow any Signal
 type UnknownSignal = Signal<any>;
 
+/**
+ * Public API types.
+ *
+ * These are compile-time contracts used by the framework layer:
+ * - `State<T>` exposes `get()` and `set()`
+ * - `Computed<T>` exposes only `get()`
+ * - `Effect` exposes `get()` (run) and `dispose()` (stop)
+ *
+ * Runtime-wise, all of them are instances of the single `Signal` class.
+ */
+type Effect = Pick<UnknownSignal, "get" | "dispose">;
+
 type MemoCallback<T> = (oldValue: T) => T;
-// type TaskCallback<T> = (oldValue: T, signal: AbortSignal) => Promise<T>;
+
+type Disposer = () => void;
+
+export type Scope = {
+  /**
+   * Run a function within this scope (similar to a framework's `withBuild`).
+   *
+   * Effects created while running in this scope will be registered and kept alive
+   * until the scope is disposed.
+   */
+  run<T>(fn: () => T): T;
+  /**
+   * Dispose this scope, disposing all effects created within it.
+   */
+  dispose(): void;
+};
+
+/**
+ * Effect callback.
+ *
+ * It may optionally return a cleanup function. Cleanup functions are executed:
+ * - before the next re-run of the same effect, and
+ * - when the effect is disposed.
+ */
+// biome-ignore lint/suspicious/noConfusingVoidType: optional dispose function
+type EffectCallback = () => (() => void) | void;
+
+type CacheFlag = typeof CACHE_CLEAN | typeof CACHE_CHECK | typeof CACHE_DIRTY;
+type CacheStale = typeof CACHE_CHECK | typeof CACHE_DIRTY;
+
+type EffectStatus =
+  | typeof EFFECT_NONE
+  | typeof EFFECT_READY
+  | typeof EFFECT_QUEUED
+  | typeof EFFECT_DISPOSED;
+
+/* === Constants === */
+
+const TYPE_STATE = "State";
+const TYPE_COMPUTED = "Computed";
+const TYPE_EFFECT = "Effect";
+
+const CACHE_CLEAN = 0; // Signal value is valid, no need to recompute
+const CACHE_CHECK = 1; // Signal value might be stale, check parent nodes to decide whether to recompute
+const CACHE_DIRTY = 2; // Signal value is invalid, parents have changed, value needs to be recomputed
+
+/**
+ * Effect status state machine:
+ * - NONE: not an effect
+ * - READY: effect exists and may be queued
+ * - QUEUED: effect is already queued in `pendingEffects`
+ * - DISPOSED: effect disposed; must never be queued or run again
+ */
+const EFFECT_NONE = 0;
+const EFFECT_DISPOSED = 1;
+const EFFECT_READY = 2;
+const EFFECT_QUEUED = 3;
+
+/* === Internal === */
 
 let activeWatcher: UnknownSignal | undefined;
-let currentSources: UnknownSignal[] | null = null;
-let currentIndex = 0;
+let capturedSources: UnknownSignal[] | null = null;
+let sourceCursor = 0;
+
+// Effect scope stack. If a scope is active, effects created will register their disposer here.
+let activeScope: Disposer[] | null = null;
+
+// A list of queued effect nodes that will be executed when flush() is called
+const pendingEffects: UnknownSignal[] = [];
+
+// Function to call if there are queued effect nodes
+let onEffectQueued: ((effect: Effect) => void) | undefined;
 
 // WeakMap to store cleanup functions for each signal (better encapsulation than public property)
 const signalCleanups = new WeakMap<UnknownSignal, Array<() => void>>();
 
+let batchDepth = 0;
+
+/* === Class === */
+
 /**
- * Register a cleanup function to be called when the current reactive context is disposed.
- * Must be called within a computed or effect context.
+ * Base `Signal` class.
+ *
+ * This library uses a *single* runtime class for:
+ * - **State**: holds a mutable value (`get()` + `set(value)`)
+ * - **Computed**: derives a value from other signals (`get()` only)
+ * - **Effect**: runs side effects and is scheduled via the effect queue (`get()` + `dispose()`)
+ *
+ * The framework layer enforces the public API via the `State`, `Computed`, and `Effect` TypeScript types.
+ *
+ * Notes:
+ * - Calling `get()` outside of a reactive context is always valid and returns the latest value.
+ * - `dispose()` is meaningful for effects. It exists on the class for implementation reasons, and the
+ *   framework/type layer should ensure only effects are disposed by user code.
+ *
+ * @since 0.17.4
+ * @param {MemoCallback<T> | T} fnOrValue - Function or value to initialize the signal.
+ * @param {boolean} effect - Whether this signal is an effect.
  */
-export function onCleanup(fn: () => void): void {
-  if (!activeWatcher) {
-    throw new Error("onCleanup must be called within a reactive context");
-  }
-  let cleanups = signalCleanups.get(activeWatcher);
-  if (!cleanups) {
-    cleanups = [];
-    signalCleanups.set(activeWatcher, cleanups);
-  }
-  cleanups.push(fn);
-}
-
-// A list of non-clean effect nodes that will be updated when flush() is called
-const pendingEffects: UnknownSignal[] = [];
-
-let effectToRun: ((effect: UnknownSignal) => void) | undefined; // Function to call if there are dirty effect nodes
-
-export const CACHE_CLEAN = 0; // Signal value is valid, no need to recompute
-export const CACHE_CHECK = 1; // Signal value might be stale, check parent nodes to decide whether to recompute
-export const CACHE_DIRTY = 2; // Signal value is invalid, parents have changed, value needs to be recomputed
-
-export type CacheFlag =
-  | typeof CACHE_CLEAN
-  | typeof CACHE_CHECK
-  | typeof CACHE_DIRTY;
-type CacheNonClean = typeof CACHE_CHECK | typeof CACHE_DIRTY;
-
-export class Signal<T extends {}> {
+class Signal<T extends {}> {
   protected value: T;
-  protected effect: boolean;
   protected callback?: MemoCallback<T>;
   protected equals = (a: T, b: T) => a === b;
 
   protected flag: CacheFlag;
-  protected watchers: UnknownSignal[] = []; // Nodes that have us as sources (down links)
+  protected effect: EffectStatus = EFFECT_NONE;
+  protected watchers: UnknownSignal[] | null = null; // Nodes that have us as sources (down links)
   protected sources: UnknownSignal[] | null = null; // Sources in reference order, not deduplicated (up links)
-  protected disposed: boolean = false;
 
   constructor(fnOrValue: MemoCallback<T> | T, effect?: boolean) {
     if (typeof fnOrValue === "function") {
       this.callback = fnOrValue as MemoCallback<T>;
       // biome-ignore lint/suspicious/noExplicitAny: temporarily undefined
       this.value = undefined as any;
-      this.effect = effect || false;
       this.flag = CACHE_DIRTY;
       if (effect) {
+        this.effect = EFFECT_QUEUED;
         pendingEffects.push(this);
-        effectToRun?.(this);
+        onEffectQueued?.(this as unknown as Effect);
       }
     } else {
       this.callback = undefined;
       this.value = fnOrValue;
       this.flag = CACHE_CLEAN;
-      this.effect = false;
     }
+  }
+
+  /**
+   * Get the type of signal as a string tag.
+   */
+  get [Symbol.toStringTag](): string {
+    return this.effect
+      ? TYPE_EFFECT
+      : this.callback
+        ? TYPE_COMPUTED
+        : TYPE_STATE;
   }
 
   /**
@@ -81,11 +172,13 @@ export class Signal<T extends {}> {
    */
   get(): T {
     if (activeWatcher) {
-      if (!currentSources && activeWatcher.sources?.[currentIndex] === this) {
-        currentIndex++;
+      // If we're re-reading the same dependency sequence, just advance cursor
+      if (!capturedSources && activeWatcher.sources?.[sourceCursor] === this) {
+        sourceCursor++;
       } else {
-        if (!currentSources) currentSources = [this];
-        else currentSources.push(this);
+        // Otherwise capture into a new list
+        if (!capturedSources) capturedSources = [this];
+        else capturedSources.push(this);
       }
     }
     if (this.callback) this.updateIfNeeded();
@@ -106,91 +199,111 @@ export class Signal<T extends {}> {
       }
     } else {
       if (this.callback) {
-        this.unlinkSources(0);
+        this.unlinkSourcesFrom(0);
         this.sources = null;
         this.callback = undefined;
       }
       const value = fnOrValue as T;
       if (!this.equals(this.value, value)) {
         this.value = value;
-        for (let i = 0; i < this.watchers.length; i++)
-          this.watchers[i].markStale(CACHE_DIRTY);
+        if (this.watchers?.length) {
+          for (let i = 0; i < this.watchers.length; i++)
+            this.watchers[i].markStale(CACHE_DIRTY);
+        }
       }
     }
   }
 
   /**
-   * Dispose this signal and clean up all dependencies.
-   * Removes all watchers and sources links to prevent memory leaks.
+   * Dispose an effect.
+   *
+   * This stops the effect from being scheduled again and runs any registered cleanups.
+   *
+   * Although this method exists on the base class (single-class runtime), it is only
+   * intended to be called for **effects**. The framework/type layer should prevent
+   * calling `dispose()` on state/computed signals.
    */
   dispose(): void {
-    if (this.disposed) return;
-    this.disposed = true;
+    // `dispose()` is only meaningful for effects.
+    // For state/computed signals this is a no-op by contract (framework/type layer should prevent it).
+    if (this.effect < EFFECT_READY) return;
 
-    // Run cleanup functions from WeakMap
+    // Mark as disposed (no future queueing/runs)
+    this.effect = EFFECT_DISPOSED;
+
+    // Run cleanup functions
     const cleanups = signalCleanups.get(this);
-    if (cleanups) {
+    if (cleanups?.length) {
       for (let i = cleanups.length - 1; i >= 0; i--) cleanups[i]();
       signalCleanups.delete(this);
     }
 
-    // Unlink from all sources
+    // Detach from all sources so this effect doesn't keep the graph alive
     if (this.sources) {
-      this.unlinkSources(0);
+      this.unlinkSourcesFrom(0);
       this.sources = null;
     }
 
-    // Clear all watchers (they should unlink themselves, but be safe)
-    this.watchers.length = 0;
+    // Clear watchers (downlinks) to release references; watchers should re-evaluate if needed
+    if (this.watchers) this.watchers.length = 0;
 
     // Clear callback to allow GC
     this.callback = undefined;
   }
 
   /**
-   * Get cleanup function.
+   * Transition a queued effect back to READY before running.
+   * This allows the effect to re-queue itself during execution if needed.
    *
-   * @returns {() => void} Cleanup function.
+   * Internal: used by `flush()` to avoid writing to the protected `effect` field directly.
    */
-  get cleanup(): () => void {
-    return () => this.dispose();
+  dequeue(): boolean {
+    const queued = this.effect === EFFECT_QUEUED;
+    if (queued) this.effect = EFFECT_READY;
+    return queued;
   }
 
   /**
-   * Push stale state to watchers (direction downstream in signal graph).
+   * Push stale flag to watchers (direction downstream in signal graph).
    *
-   * @param state - The cache state to mark watching nodes.
+   * @param {CacheStale} flag - The cache flag to mark watching nodes.
    */
-  protected markStale(state: CacheNonClean): void {
-    if (this.flag < state) {
-      // If we were previously clean, then we know that we may need to update to get the new value
-      if (this.flag === CACHE_CLEAN && this.effect) {
+  protected markStale(flag: CacheStale): void {
+    if (this.flag < flag) {
+      // If we were previously clean, queue this effect once.
+      if (this.flag === CACHE_CLEAN && this.effect === EFFECT_READY) {
+        this.effect = EFFECT_QUEUED;
         pendingEffects.push(this);
-        effectToRun?.(this);
+        onEffectQueued?.(this as unknown as Effect);
       }
 
-      this.flag = state;
-      for (let i = 0; i < this.watchers.length; i++)
-        this.watchers[i].markStale(CACHE_CHECK);
+      this.flag = flag;
+      if (this.watchers?.length) {
+        for (let i = 0; i < this.watchers.length; i++)
+          this.watchers[i].markStale(CACHE_CHECK);
+      }
     }
   }
 
   /**
-   * Remove all old sources' .watchers links to us (direction upstream in signal graph).
+   * Remove all old sources' `.watchers` links to us (direction upstream in signal graph).
+   *
+   * While unlinking, if any source becomes unobserved (its watcher list becomes empty),
+   * it will auto-detach from its own sources to avoid keeping upstream nodes alive.
    *
    * @param {number} index - The index of the source to invalidate.
    * @returns {void}
    */
-  protected unlinkSources(index: number): void {
+  protected unlinkSourcesFrom(index: number): void {
     if (!this.sources) return;
     for (let i = index; i < this.sources.length; i++) {
-      // We don't actually delete sources here because we're replacing the entire array soon
-      const watchers: UnknownSignal[] = this.sources[i].watchers;
-      const watcherIndex = watchers.indexOf(this);
-      if (watcherIndex !== -1) {
-        watchers[watcherIndex] = watchers[watchers.length - 1];
-        watchers.pop();
-      }
+      // Remove from watchers array, swap with last element and pop
+      const watchers: UnknownSignal[] | null = this.sources[i].watchers;
+      if (!watchers) continue;
+      const swap = watchers.findIndex((v: UnknownSignal) => v === this);
+      if (swap === -1) continue;
+      watchers[swap] = watchers[watchers.length - 1];
+      watchers.pop();
     }
   }
 
@@ -203,54 +316,58 @@ export class Signal<T extends {}> {
     const oldValue = this.value;
 
     // Evalute the reactive function body, dynamically capturing any other signals used
-    const prevReaction = activeWatcher;
-    const prevGets = currentSources;
-    const prevIndex = currentIndex;
+    const prevWatcher = activeWatcher;
+    const prevSources = capturedSources;
+    const prevCursor = sourceCursor;
 
     activeWatcher = this;
     // biome-ignore lint/suspicious/noExplicitAny: temporarily null
-    currentSources = null as any; // prevent TS from thinking CurrentGets is null below
-    currentIndex = 0;
+    capturedSources = null as any; // prevent TS from thinking capturedSources is null below
+    sourceCursor = 0;
 
     try {
-      // Run and clear cleanup functions from WeakMap
+      // 1) Run and clear cleanup functions from WeakMap
       const cleanups = signalCleanups.get(this);
       if (cleanups?.length) {
         for (let i = cleanups.length - 1; i >= 0; i--) cleanups[i]();
         cleanups.length = 0;
       }
 
+      // 2) Execute under dependency tracking
       this.value = this.callback(this.value);
 
-      // Update source & watcher links after a change in this node (both directions).
-      if (currentSources) {
+      // 3) Reconcile sources/watchers
+      if (capturedSources) {
         // Remove all old sources' .watchers links to us
-        this.unlinkSources(currentIndex);
+        this.unlinkSourcesFrom(sourceCursor);
         // Update source up links
-        if (currentIndex && this.sources) {
-          this.sources.length = currentIndex + currentSources.length;
-          for (let i = 0; i < currentSources.length; i++)
-            this.sources[currentIndex + i] = currentSources[i];
+        if (sourceCursor && this.sources) {
+          this.sources.length = sourceCursor + capturedSources.length;
+          for (let i = 0; i < capturedSources.length; i++)
+            this.sources[sourceCursor + i] = capturedSources[i];
         } else {
-          this.sources = currentSources;
+          this.sources = capturedSources;
         }
 
-        // Add ourselves to the end of the parent .watchers array
-        for (let i = currentIndex; i < this.sources.length; i++)
-          this.sources[i].watchers.push(this);
-      } else if (this.sources && currentIndex < this.sources.length) {
+        // Add ourselves to the end of the parent .watchers array (lazy init)
+        for (let i = sourceCursor; i < this.sources.length; i++) {
+          const source = this.sources[i];
+          if (source.watchers) source.watchers.push(this);
+          else source.watchers = [this];
+        }
+      } else if (this.sources && sourceCursor < this.sources.length) {
         // Remove all old sources' .watchers links to us
-        this.unlinkSources(currentIndex);
-        this.sources.length = currentIndex;
+        this.unlinkSourcesFrom(sourceCursor);
+        this.sources.length = sourceCursor;
       }
     } finally {
-      currentSources = prevGets;
-      activeWatcher = prevReaction;
-      currentIndex = prevIndex;
+      capturedSources = prevSources;
+      activeWatcher = prevWatcher;
+      sourceCursor = prevCursor;
     }
 
-    // Handles diamond dependencies if we're the parent of a diamond
-    if (!this.equals(oldValue, this.value)) {
+    // 4) Diamond: if value changed, force children DIRTY
+    if (this.watchers?.length && !this.equals(oldValue, this.value)) {
       // We've changed value, so mark our children as dirty so they'll reevaluate
       for (let i = 0; i < this.watchers.length; i++)
         this.watchers[i].flag = CACHE_DIRTY;
@@ -264,7 +381,7 @@ export class Signal<T extends {}> {
    */
   protected updateIfNeeded(): void {
     // If we are potentially dirty, see if we have a parent who has actually changed value
-    if (this.flag === CACHE_CHECK && this.sources) {
+    if (this.flag === CACHE_CHECK && this.sources?.length) {
       for (let i = 0; i < this.sources.length; i++) {
         this.sources[i].updateIfNeeded(); // updateIfNeeded() can change this.state
         if ((this.flag as CacheFlag) === CACHE_DIRTY) break;
@@ -279,52 +396,134 @@ export class Signal<T extends {}> {
   }
 }
 
-// Run all pending effect nodes
-export const flush = (): void => {
-  for (let i = 0; i < pendingEffects.length; i++) pendingEffects[i].get();
+/* === Functions === */
+
+/**
+ * Flush pending effects.
+ *
+ * Runs each queued effect at most once per flush. Disposed effects are skipped.
+ */
+const flush = (): void => {
+  for (let i = 0; i < pendingEffects.length; i++) {
+    const effect = pendingEffects[i];
+    if (effect.dequeue()) effect.get();
+  }
   pendingEffects.length = 0;
 };
 
 /**
- * Create an effect that runs immediately and re-runs when dependencies change.
- * Returns a dispose function to stop the effect.
+ * Create a scope that collects effect disposers.
+ *
+ * Any effects created while `run()` is executing are kept alive by this scope
+ * until `dispose()` is called.
  */
-export const createEffect = (fn: () => void): (() => void) => {
+const createScope = /*#__PURE__*/ (): Scope => {
+  let disposed = false;
+  const scope = [] as Disposer[];
+
+  const dispose = (): void => {
+    if (disposed) return;
+    disposed = true;
+    for (let i = scope.length - 1; i >= 0; i--) scope[i]();
+    scope.length = 0;
+  };
+
+  const run = <T>(fn: () => T): T => {
+    if (disposed) return fn();
+    const prev = activeScope;
+    activeScope = scope;
+    try {
+      const result = fn();
+      // Ensure initial runs of effects created during build happen before returning.
+      flush();
+      return result;
+    } finally {
+      activeScope = prev;
+    }
+  };
+
+  return { run, dispose };
+};
+
+/**
+ * Batch multiple updates.
+ *
+ * @param {() => void} fn - Function to execute within the batch.
+ */
+const batch = (fn: () => void): void => {
+  batchDepth++;
+  try {
+    fn();
+  } finally {
+    batchDepth--;
+    if (batchDepth === 0) flush();
+  }
+};
+
+/**
+ * Create an effect.
+ *
+ * The callback runs immediately (via the effect queue) and re-runs whenever any of its
+ * tracked dependencies change.
+ *
+ * The callback may return a cleanup function. Cleanup functions are executed:
+ * - before the next re-run of the same effect, and
+ * - when the effect is disposed.
+ *
+ * @since 0.1.0
+ * @param {EffectCallback} fn - Effect callback.
+ * @returns {() => void} - Dispose function for the effect.
+ */
+const createEffect = /*#__PURE__*/ (fn: EffectCallback): (() => void) => {
   const effect = new Signal(fn, true);
-  return () => effect.dispose();
+  const dispose = () => effect.dispose();
+  activeScope?.push(dispose);
+  return dispose;
 };
 
 /* === Test Framework === */
 
-const cleanups: (() => void)[] = [];
+const cleanups = new Set<() => void>();
+let currentScope: ReturnType<typeof createScope> | null = null;
+
 export const cfxFramework: ReactiveFramework = {
   name: "cfx",
   // @ts-expect-error ReactiveFramework doesn't have non-nullable signals
   signal: <T extends {}>(initialValue: T) => {
     const s = new Signal(initialValue);
     return {
+      // biome-ignore lint/suspicious/noExplicitAny: we suport updater functions in .set()
       write: (v) => s.set(v as any),
       read: () => s.get(),
     };
   },
   // @ts-expect-error ReactiveFramework doesn't have non-nullable signals
   computed: <T extends {}>(fn: () => T) => {
-    const c = new Signal(fn);
+    const c = new Signal<T>((_old: T) => fn());
     return {
       read: () => c.get(),
     };
   },
   effect: (fn) => {
-    const e = new Signal(fn, true);
-    cleanups.push(() => e.dispose());
+    // biome-ignore lint/suspicious/noExplicitAny: we support returning a disposer
+    const dispose = createEffect(fn as any);
+    if (!currentScope) cleanups.add(dispose);
   },
-  withBatch: (fn) => {
-    fn();
-    flush();
+  withBatch: (fn) => batch(fn),
+  withBuild: (fn) => {
+    const scope = createScope();
+    const prevScope = currentScope;
+    currentScope = scope;
+    try {
+      const result = scope.run(fn);
+      cleanups.add(() => scope.dispose());
+      return result;
+    } finally {
+      currentScope = prevScope;
+    }
   },
-  withBuild: (fn) => fn(),
   cleanup: () => {
-    for (let i = 0; i < cleanups.length; i++) cleanups[i]();
-    cleanups.length = 0;
+    for (const dispose of cleanups) dispose();
+    cleanups.clear();
   },
 };
